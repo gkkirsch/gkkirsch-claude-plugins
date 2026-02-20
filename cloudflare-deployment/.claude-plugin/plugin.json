@@ -1,0 +1,10 @@
+{
+  "name": "cloudflare-deployment",
+  "version": "1.0.0",
+  "description": "Cloudflare deployment skill for web apps and APIs. Covers Pages (static sites, SSR), Workers (serverless compute), data services (D1, KV, R2), wrangler CLI setup, configuration, custom domains, monitoring, troubleshooting, and Heroku migration patterns.",
+  "author": {
+    "name": "Supercharge"
+  },
+  "keywords": ["cloudflare", "deployment", "deploy", "hosting", "workers", "pages", "d1", "kv", "r2", "serverless", "edge", "wrangler", "pack:deployment"],
+  "skills": ["./skills/cloudflare-deployment"]
+}
