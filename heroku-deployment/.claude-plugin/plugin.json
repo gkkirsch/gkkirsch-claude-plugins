@@ -1,0 +1,10 @@
+{
+  "name": "heroku-deployment",
+  "version": "1.0.0",
+  "description": "Heroku deployment skill for Node.js apps. Covers app creation, Procfile patterns, environment config, Postgres + Prisma setup, deployment, monitoring, rollbacks, and troubleshooting.",
+  "author": {
+    "name": "Supercharge"
+  },
+  "keywords": ["heroku", "deployment", "deploy", "hosting", "postgres", "prisma", "node", "pack:deployment"],
+  "skills": ["./skills/heroku-deployment"]
+}
