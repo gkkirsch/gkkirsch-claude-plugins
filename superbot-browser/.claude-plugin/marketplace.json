@@ -1,0 +1,24 @@
+{
+  "name": "superbot-browser",
+  "owner": {
+    "name": "superbot2"
+  },
+  "metadata": {
+    "description": "Browser automation via CDP using the user's authenticated Chrome session",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "superbot-browser",
+      "description": "Browser automation via CDP using the user's authenticated Chrome session. Connect to running Chrome, automate with existing cookies and logins.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/superbot-browser"],
+      "version": "1.0.0",
+      "author": {
+        "name": "superbot2"
+      },
+      "license": "MIT"
+    }
+  ]
+}
