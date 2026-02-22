@@ -6,14 +6,6 @@
     "name": "superbot2",
     "email": "superbot2@superchargeclaudecode.com"
   },
-  "credentials": [
-    {
-      "key": "GEMINI_API_KEY",
-      "label": "Gemini API Key",
-      "description": "Get your key at ai.google.dev",
-      "required": true
-    }
-  ],
   "keywords": ["image", "generation", "gemini", "editing"],
   "skills": ["./skills/nano-banana-pro"]
 }
