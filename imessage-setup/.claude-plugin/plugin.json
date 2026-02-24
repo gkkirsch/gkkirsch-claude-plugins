@@ -1,0 +1,11 @@
+{
+  "name": "imessage-setup",
+  "version": "1.0.0",
+  "description": "Set up and manage the superbot2 iMessage bridge. Walks through Apple ID creation, Messages.app configuration, Full Disk Access, and end-to-end testing so you can communicate with superbot2 from your phone.",
+  "author": {
+    "name": "superbot2",
+    "email": "superbot2@superchargeclaudecode.com"
+  },
+  "keywords": ["imessage", "messaging", "superbot2", "automation", "macos"],
+  "skills": ["./skills/imessage-setup"]
+}
