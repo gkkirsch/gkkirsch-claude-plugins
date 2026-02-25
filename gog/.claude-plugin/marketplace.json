@@ -1,0 +1,24 @@
+{
+  "name": "gog",
+  "owner": {
+    "name": "superbot2"
+  },
+  "metadata": {
+    "description": "Google Workspace CLI — Gmail, Calendar, Drive, Docs, Sheets, Contacts via the gog command",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "gog",
+      "description": "Google Workspace CLI — Gmail, Calendar, Drive, Docs, Sheets, Contacts via the gog command",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/gog"],
+      "version": "1.0.0",
+      "author": {
+        "name": "superbot2"
+      },
+      "license": "MIT"
+    }
+  ]
+}

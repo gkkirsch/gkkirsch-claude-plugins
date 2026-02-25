@@ -1,0 +1,11 @@
+{
+  "name": "gog",
+  "description": "Google Workspace CLI — Gmail, Calendar, Drive, Docs, Sheets, Contacts via the gog command",
+  "version": "1.0.0",
+  "author": {
+    "name": "superbot2",
+    "email": "superbot2@superchargeclaudecode.com"
+  },
+  "keywords": ["google", "gmail", "calendar", "drive", "docs", "sheets", "contacts", "gog", "workspace"],
+  "skills": ["./skills/gog"]
+}
