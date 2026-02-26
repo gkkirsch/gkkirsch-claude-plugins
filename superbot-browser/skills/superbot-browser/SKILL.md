@@ -140,20 +140,16 @@ JSON.stringify(Array.from(document.querySelectorAll("a")).map(a => a.href))
 EOF
 ```
 
-## Headed vs Headless
+## Always Run Headed
 
-By default, agent-browser runs **headless** (no visible browser window). Use `--headed` when you need to:
-
-- Log into accounts for the first time
-- Debug automation visually
-- Handle CAPTCHAs or 2FA prompts
+**Always use `--headed`** so the browser window is visible. This makes automation easier to debug, handles CAPTCHAs and 2FA prompts, and lets you see exactly what's happening.
 
 ```bash
-# Headless (default) — fast, no UI
-agent-browser open "https://example.com"
-
-# Headed — see the browser window
+# Correct — always headed
 agent-browser --headed open "https://example.com"
+
+# Wrong — headless hides the browser, harder to debug
+agent-browser open "https://example.com"
 ```
 
 ## Gotchas
