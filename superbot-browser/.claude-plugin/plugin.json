@@ -1,11 +1,11 @@
 {
   "name": "superbot-browser",
   "version": "1.0.0",
-  "description": "Browser automation via CDP using the user's authenticated Chrome session. Connect to running Chrome, automate with existing cookies and logins.",
+  "description": "Browser automation using agent-browser CLI with a persistent profile. Navigate, click, fill forms, take screenshots, and extract data with persisted sessions.",
   "author": {
     "name": "superbot2",
     "email": "superbot2@superchargeclaudecode.com"
   },
-  "keywords": ["browser", "automation", "cdp", "chrome", "pack:developer"],
+  "keywords": ["browser", "automation", "agent-browser", "web", "pack:developer"],
   "skills": ["./skills/superbot-browser"]
 }
