@@ -1,32 +1,47 @@
 ---
 name: superbot-browser
 description: >
-  Browser automation using the user's authenticated Chrome session via CDP (Chrome DevTools Protocol).
-  Use when you need to interact with websites that require the user's login session — Google Cloud Console,
-  Anthropic Console, GitHub, or any site where the user is already authenticated in Chrome.
+  Browser automation via CDP (Chrome DevTools Protocol).
+  Connects to the superbot2 Chrome profile on port 9222, or auto-launches it as fallback.
+  Use when you need to automate web interactions — navigate sites, fill forms, click buttons,
+  take screenshots, extract data, or interact with authenticated sessions.
   Triggers: "automate browser", "use my Chrome", "navigate to", "fill out form on", "click button on",
-  "extract data from website", "take screenshot of page", "use CDP", "connect to Chrome".
-  NOT for: launching a fresh browser, Playwright direct mode, headless scraping without auth.
+  "extract data from website", "take screenshot of page", "use CDP", "connect to Chrome", "browser".
+  NOT for: Playwright direct mode, headless scraping without auth.
 allowed-tools: Bash(npx agent-browser:*), Bash(agent-browser:*), Bash(curl:*), Bash(lsof:*)
 ---
 
 # Browser Automation via CDP (Chrome DevTools Protocol)
 
-Connect to the user's running Chrome browser and automate it with their existing cookies, sessions, and logins intact.
+Superbot2 connects to Chrome via CDP on port 9222 using the **superbot2 Chrome profile**. This is a dedicated Chrome profile with its own logins, cookies, and sessions for automation.
 
 ## Prerequisites
 
-Chrome must be running with remote debugging enabled on port 9222.
+**Always check port 9222 first.** Only launch the superbot2 profile if nothing is already listening.
 
 ```bash
-# Check if Chrome is listening
-lsof -i :9222
+# Check if Chrome is already listening on CDP port
+if lsof -i :9222 > /dev/null 2>&1; then
+  echo "Using existing Chrome on port 9222"
+else
+  # No Chrome on 9222 — launch superbot2 profile with CDP
+  echo "Launching superbot2 Chrome profile..."
+  open -a "Google Chrome" --args \
+    --profile-directory="superbot2" \
+    --remote-debugging-port=9222 \
+    --disable-infobars &
+  sleep 3
+fi
 
-# If not listening, launch Chrome with debugging enabled
-open -a "Google Chrome" --args --remote-debugging-port=9222
+# Verify it's running
+curl -s http://localhost:9222/json/version | python3 -c "import json,sys; d=json.load(sys.stdin); print(f'Chrome {d[\"Browser\"]}')"
 ```
 
-**Warning**: If Chrome is already running without the flag, you may need to quit and relaunch it. The `--remote-debugging-port` flag only takes effect at launch.
+**Key points:**
+- The superbot2 Chrome profile has its own authenticated sessions (Facebook, Instagram, etc.)
+- If Chrome is already on port 9222, connect to it directly
+- If not, the superbot2 profile launches automatically with CDP enabled
+- The profile persists logins, cookies, and sessions across restarts
 
 ## Core Workflow
 
@@ -44,14 +59,16 @@ Every browser automation follows this pattern:
 ### Step-by-Step
 
 ```bash
-# 1. Verify Chrome is listening on CDP port
+# 1. Ensure Chrome is available on CDP port (use existing or launch superbot2 profile)
 if ! lsof -i :9222 > /dev/null 2>&1; then
-  echo "Chrome not listening on port 9222."
-  echo "Launch with: open -a 'Google Chrome' --args --remote-debugging-port=9222"
-  exit 1
+  open -a "Google Chrome" --args \
+    --profile-directory="superbot2" \
+    --remote-debugging-port=9222 \
+    --disable-infobars &
+  sleep 3
 fi
 
-# 2. Create a new tab in the user's Chrome (MUST use PUT, not GET)
+# 2. Create a new tab (MUST use PUT, not GET)
 TAB_INFO=$(curl -s -X PUT "http://localhost:9222/json/new?https://YOUR_TARGET_URL")
 TAB_ID=$(echo "$TAB_INFO" | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])")
 echo "Created tab: $TAB_ID"
@@ -132,8 +149,8 @@ Chrome's CDP endpoint only lists extension service workers, not page tabs. You M
 ### 2. PUT not GET for /json/new
 The `/json/new` endpoint rejects GET requests. Always use `-X PUT`.
 
-### 3. `--user-data-dir` does NOT work
-Playwright can't share Chrome's locked profile directory. Don't try to point `--user-data-dir` at Chrome's profile. Use CDP instead.
+### 3. Superbot2 Chrome profile
+The skill expects the superbot2 Chrome profile to be running on port 9222. If nothing is on port 9222, it auto-launches the superbot2 profile with CDP enabled. The superbot2 profile has its own logins, cookies, and sessions for automation.
 
 ### 4. `--auto-connect` and `connect` fail
 These fail because no page targets exist until you create one via the HTTP API.
@@ -145,7 +162,7 @@ After clicking a button that navigates, opens a modal, or loads new content, all
 Google Cloud Console and similar SPAs have continuous background requests. Use `wait 3000` or `wait 5000` instead of `wait --load networkidle`.
 
 ### 7. Don't close the last tab
-`tab close` fails if it's the last tab in the user's Chrome. Leave it open or let the user close it.
+`tab close` fails if it's the last tab in Chrome. Leave it open or let the user close it.
 
 ### 8. Overlays block clicks
 Notification toasts, cookie banners, and modal overlays can block clicks on underlying elements. Dismiss them first, or navigate directly via URL as a workaround:
