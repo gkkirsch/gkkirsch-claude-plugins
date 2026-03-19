@@ -1,0 +1,8 @@
+{
+  "name": "Vue.js & Angular Suite",
+  "description": "Comprehensive Claude Code plugin for Vue.js 3, Angular 17+, Nuxt 3 development with agents, patterns, and project scaffolding.",
+  "version": "1.0.0",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/frontend-project-setup"]
+}
