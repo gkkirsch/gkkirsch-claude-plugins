@@ -607,3 +607,307 @@ predictions = pipeline.predict(new_data)
 | Logistic Regression | C | 1.0 | 0.001-100 |
 | SVM | C | 1.0 | 0.01-100 |
 | KNN | n_neighbors | 5 | 3-15 |
+
+---
+
+## Anomaly Detection Recipes
+
+### Isolation Forest
+
+```python
+from sklearn.ensemble import IsolationForest
+
+iso_forest = IsolationForest(
+    n_estimators=200,
+    contamination=0.05,  # Expected fraction of outliers
+    max_samples="auto",
+    random_state=42,
+    n_jobs=-1,
+)
+
+# Fit and predict: -1 = anomaly, 1 = normal
+labels = iso_forest.fit_predict(X_scaled)
+scores = iso_forest.decision_function(X_scaled)  # Lower = more anomalous
+
+# Find anomalies
+anomaly_mask = labels == -1
+anomalies = X[anomaly_mask]
+print(f"Found {anomaly_mask.sum()} anomalies ({anomaly_mask.mean():.1%})")
+```
+
+### Local Outlier Factor (LOF)
+
+```python
+from sklearn.neighbors import LocalOutlierFactor
+
+lof = LocalOutlierFactor(
+    n_neighbors=20,
+    contamination=0.05,
+    novelty=False,  # True for unseen data detection
+    n_jobs=-1,
+)
+
+labels = lof.fit_predict(X_scaled)
+scores = lof.negative_outlier_factor_  # More negative = more anomalous
+
+# For novelty detection (predict on new data)
+lof_novelty = LocalOutlierFactor(n_neighbors=20, novelty=True)
+lof_novelty.fit(X_train_scaled)
+new_labels = lof_novelty.predict(X_test_scaled)
+```
+
+### One-Class SVM
+
+```python
+from sklearn.svm import OneClassSVM
+
+ocsvm = OneClassSVM(kernel="rbf", gamma="scale", nu=0.05)
+ocsvm.fit(X_train_scaled)
+
+labels = ocsvm.predict(X_test_scaled)  # -1 = anomaly
+scores = ocsvm.decision_function(X_test_scaled)
+```
+
+### Autoencoder-based Detection
+
+```python
+from sklearn.neural_network import MLPRegressor
+import numpy as np
+
+# Train autoencoder on normal data only
+normal_data = X_train[y_train == 0]
+
+autoencoder = MLPRegressor(
+    hidden_layer_sizes=(64, 32, 16, 32, 64),
+    activation="relu",
+    max_iter=500,
+    random_state=42,
+)
+autoencoder.fit(normal_data, normal_data)
+
+# Reconstruction error as anomaly score
+reconstructed = autoencoder.predict(X_test)
+reconstruction_error = np.mean((X_test - reconstructed) ** 2, axis=1)
+
+# Threshold based on training data
+train_errors = np.mean((normal_data - autoencoder.predict(normal_data)) ** 2, axis=1)
+threshold = np.percentile(train_errors, 95)
+
+anomalies = reconstruction_error > threshold
+```
+
+---
+
+## Time Series Recipes
+
+### Lag Features
+
+```python
+def create_lag_features(df, target_col, lags=[1, 7, 14, 30]):
+    """Create lag features for time series."""
+    for lag in lags:
+        df[f"{target_col}_lag_{lag}"] = df[target_col].shift(lag)
+    return df
+
+
+def create_rolling_features(df, target_col, windows=[7, 14, 30]):
+    """Create rolling statistics."""
+    for window in windows:
+        df[f"{target_col}_roll_mean_{window}"] = df[target_col].rolling(window).mean()
+        df[f"{target_col}_roll_std_{window}"] = df[target_col].rolling(window).std()
+        df[f"{target_col}_roll_min_{window}"] = df[target_col].rolling(window).min()
+        df[f"{target_col}_roll_max_{window}"] = df[target_col].rolling(window).max()
+    return df
+
+
+def create_date_features(df, date_col):
+    """Extract temporal features from datetime."""
+    dt = pd.to_datetime(df[date_col])
+    df["year"] = dt.dt.year
+    df["month"] = dt.dt.month
+    df["day"] = dt.dt.day
+    df["dayofweek"] = dt.dt.dayofweek
+    df["dayofyear"] = dt.dt.dayofyear
+    df["weekofyear"] = dt.dt.isocalendar().week.astype(int)
+    df["quarter"] = dt.dt.quarter
+    df["is_weekend"] = (dt.dt.dayofweek >= 5).astype(int)
+    df["is_month_start"] = dt.dt.is_month_start.astype(int)
+    df["is_month_end"] = dt.dt.is_month_end.astype(int)
+    return df
+```
+
+### Time Series Cross-Validation
+
+```python
+from sklearn.model_selection import TimeSeriesSplit
+
+tscv = TimeSeriesSplit(n_splits=5, gap=7)
+
+scores = []
+for fold, (train_idx, test_idx) in enumerate(tscv.split(X)):
+    X_tr, X_te = X.iloc[train_idx], X.iloc[test_idx]
+    y_tr, y_te = y.iloc[train_idx], y.iloc[test_idx]
+
+    model.fit(X_tr, y_tr)
+    score = model.score(X_te, y_te)
+    scores.append(score)
+    print(f"Fold {fold}: {score:.4f}")
+
+print(f"Mean: {np.mean(scores):.4f} (+/- {np.std(scores):.4f})")
+```
+
+---
+
+## Dimensionality Reduction Recipes
+
+### PCA
+
+```python
+from sklearn.decomposition import PCA
+
+# Find optimal components
+pca = PCA(random_state=42)
+pca.fit(X_scaled)
+
+cumvar = np.cumsum(pca.explained_variance_ratio_)
+n_components = np.argmax(cumvar >= 0.95) + 1
+print(f"Components for 95% variance: {n_components}")
+
+# Transform
+pca = PCA(n_components=n_components, random_state=42)
+X_pca = pca.fit_transform(X_scaled)
+```
+
+### t-SNE for Visualization
+
+```python
+from sklearn.manifold import TSNE
+
+tsne = TSNE(
+    n_components=2,
+    perplexity=30,
+    learning_rate="auto",
+    n_iter=1000,
+    random_state=42,
+)
+X_tsne = tsne.fit_transform(X_scaled)
+
+# Plot
+import matplotlib.pyplot as plt
+plt.scatter(X_tsne[:, 0], X_tsne[:, 1], c=y, cmap="tab10", s=5, alpha=0.6)
+plt.colorbar()
+plt.title("t-SNE Visualization")
+```
+
+### UMAP
+
+```python
+import umap
+
+reducer = umap.UMAP(
+    n_components=2,
+    n_neighbors=15,
+    min_dist=0.1,
+    metric="euclidean",
+    random_state=42,
+)
+X_umap = reducer.fit_transform(X_scaled)
+```
+
+---
+
+## Calibration Recipes
+
+### Probability Calibration
+
+```python
+from sklearn.calibration import CalibratedClassifierCV, calibration_curve
+
+# Calibrate model predictions
+calibrated = CalibratedClassifierCV(
+    estimator=model,
+    method="isotonic",  # or "sigmoid"
+    cv=5,
+)
+calibrated.fit(X_train, y_train)
+
+# Calibration curve
+prob_true, prob_pred = calibration_curve(y_test, y_proba, n_bins=10)
+
+# Brier score (lower is better)
+from sklearn.metrics import brier_score_loss
+brier = brier_score_loss(y_test, y_proba)
+brier_cal = brier_score_loss(y_test, calibrated.predict_proba(X_test)[:, 1])
+print(f"Brier before: {brier:.4f}, after: {brier_cal:.4f}")
+```
+
+---
+
+## Data Preprocessing Recipes
+
+### Missing Value Strategies
+
+```python
+from sklearn.impute import SimpleImputer, KNNImputer, IterativeImputer
+
+# Simple strategies
+median_imp = SimpleImputer(strategy="median")     # Numeric
+mode_imp = SimpleImputer(strategy="most_frequent") # Categorical
+const_imp = SimpleImputer(strategy="constant", fill_value=-999)
+
+# KNN imputation (considers feature relationships)
+knn_imp = KNNImputer(n_neighbors=5, weights="distance")
+
+# Iterative (MICE) imputation
+from sklearn.experimental import enable_iterative_imputer
+iter_imp = IterativeImputer(max_iter=10, random_state=42)
+```
+
+### Encoding Strategies
+
+```python
+from sklearn.preprocessing import (
+    OneHotEncoder, OrdinalEncoder, LabelEncoder,
+    TargetEncoder,
+)
+
+# One-hot for low cardinality (< 15 categories)
+ohe = OneHotEncoder(handle_unknown="ignore", sparse_output=False, min_frequency=5)
+
+# Ordinal for ordered categories
+ord_enc = OrdinalEncoder(categories=[["low", "medium", "high"]])
+
+# Target encoding for high cardinality
+target_enc = TargetEncoder(smooth="auto")
+
+# When to use which:
+# < 15 categories → OneHotEncoder
+# Ordered categories → OrdinalEncoder
+# > 15 categories → TargetEncoder
+# Binary → OrdinalEncoder or map directly
+```
+
+### Scaling Strategies
+
+```python
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, PowerTransformer
+
+# StandardScaler: when features are ~normally distributed
+standard = StandardScaler()
+
+# MinMaxScaler: when you need [0, 1] range (neural networks, KNN)
+minmax = MinMaxScaler(feature_range=(0, 1))
+
+# RobustScaler: when data has outliers
+robust = RobustScaler(quantile_range=(25.0, 75.0))
+
+# PowerTransformer: make features more Gaussian
+power = PowerTransformer(method="yeo-johnson")  # Handles negative values
+
+# When to use which:
+# Tree-based models → No scaling needed
+# Linear models → StandardScaler or PowerTransformer
+# KNN, SVM → StandardScaler or MinMaxScaler
+# Neural networks → MinMaxScaler or StandardScaler
+# Outlier-heavy data → RobustScaler
+```

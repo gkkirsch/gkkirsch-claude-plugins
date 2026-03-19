@@ -730,3 +730,359 @@ def batch_predict(model, dataset, batch_size=256, device="cuda"):
 | Attention | MHA, GQA, MQA | MHA general, GQA/MQA for efficient LLMs |
 | Position Encoding | Sinusoidal, Learned, RoPE, ALiBi | RoPE for modern LLMs, learned for ViT |
 | Dropout | Standard, DropPath, DropBlock | DropPath for residual nets, DropBlock for CNNs |
+
+---
+
+## Generative Model Patterns
+
+### VAE (Variational Autoencoder)
+
+```python
+class VAE(nn.Module):
+    def __init__(self, input_dim, hidden_dim=256, latent_dim=32):
+        super().__init__()
+        # Encoder
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+        )
+        self.fc_mu = nn.Linear(hidden_dim, latent_dim)
+        self.fc_logvar = nn.Linear(hidden_dim, latent_dim)
+
+        # Decoder
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, input_dim),
+            nn.Sigmoid(),
+        )
+
+    def encode(self, x):
+        h = self.encoder(x)
+        return self.fc_mu(h), self.fc_logvar(h)
+
+    def reparameterize(self, mu, logvar):
+        std = torch.exp(0.5 * logvar)
+        eps = torch.randn_like(std)
+        return mu + eps * std
+
+    def forward(self, x):
+        mu, logvar = self.encode(x)
+        z = self.reparameterize(mu, logvar)
+        recon = self.decoder(z)
+        return recon, mu, logvar
+
+
+def vae_loss(recon_x, x, mu, logvar):
+    recon_loss = F.binary_cross_entropy(recon_x, x, reduction="sum")
+    kl_loss = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+    return recon_loss + kl_loss
+```
+
+### GAN (Generative Adversarial Network)
+
+```python
+class Generator(nn.Module):
+    def __init__(self, latent_dim=100, img_channels=3, feature_dim=64):
+        super().__init__()
+        self.net = nn.Sequential(
+            self._block(latent_dim, feature_dim * 16, 4, 1, 0),
+            self._block(feature_dim * 16, feature_dim * 8, 4, 2, 1),
+            self._block(feature_dim * 8, feature_dim * 4, 4, 2, 1),
+            self._block(feature_dim * 4, feature_dim * 2, 4, 2, 1),
+            nn.ConvTranspose2d(feature_dim * 2, img_channels, 4, 2, 1),
+            nn.Tanh(),
+        )
+
+    def _block(self, in_ch, out_ch, kernel, stride, padding):
+        return nn.Sequential(
+            nn.ConvTranspose2d(in_ch, out_ch, kernel, stride, padding, bias=False),
+            nn.BatchNorm2d(out_ch),
+            nn.ReLU(True),
+        )
+
+    def forward(self, z):
+        return self.net(z.view(z.size(0), -1, 1, 1))
+
+
+class Discriminator(nn.Module):
+    def __init__(self, img_channels=3, feature_dim=64):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv2d(img_channels, feature_dim, 4, 2, 1),
+            nn.LeakyReLU(0.2, True),
+            self._block(feature_dim, feature_dim * 2, 4, 2, 1),
+            self._block(feature_dim * 2, feature_dim * 4, 4, 2, 1),
+            self._block(feature_dim * 4, feature_dim * 8, 4, 2, 1),
+            nn.Conv2d(feature_dim * 8, 1, 4, 1, 0),
+        )
+
+    def _block(self, in_ch, out_ch, kernel, stride, padding):
+        return nn.Sequential(
+            nn.Conv2d(in_ch, out_ch, kernel, stride, padding, bias=False),
+            nn.BatchNorm2d(out_ch),
+            nn.LeakyReLU(0.2, True),
+        )
+
+    def forward(self, x):
+        return self.net(x).view(-1)
+
+
+# WGAN-GP loss
+def gradient_penalty(discriminator, real, fake, device):
+    alpha = torch.rand(real.size(0), 1, 1, 1, device=device)
+    interpolated = (alpha * real + (1 - alpha) * fake).requires_grad_(True)
+    mixed_scores = discriminator(interpolated)
+    gradient = torch.autograd.grad(
+        outputs=mixed_scores,
+        inputs=interpolated,
+        grad_outputs=torch.ones_like(mixed_scores),
+        create_graph=True,
+        retain_graph=True,
+    )[0]
+    gradient = gradient.view(gradient.size(0), -1)
+    penalty = ((gradient.norm(2, dim=1) - 1) ** 2).mean()
+    return penalty
+```
+
+### Diffusion Model (Simplified DDPM)
+
+```python
+class SimpleDiffusion(nn.Module):
+    """Simplified Denoising Diffusion Probabilistic Model."""
+
+    def __init__(self, model, timesteps=1000, beta_start=1e-4, beta_end=0.02):
+        super().__init__()
+        self.model = model
+        self.timesteps = timesteps
+
+        betas = torch.linspace(beta_start, beta_end, timesteps)
+        alphas = 1.0 - betas
+        alphas_cumprod = torch.cumprod(alphas, dim=0)
+
+        self.register_buffer("betas", betas)
+        self.register_buffer("sqrt_alphas_cumprod", torch.sqrt(alphas_cumprod))
+        self.register_buffer("sqrt_one_minus_alphas_cumprod", torch.sqrt(1 - alphas_cumprod))
+        self.register_buffer("sqrt_recip_alphas", torch.sqrt(1.0 / alphas))
+        self.register_buffer("posterior_variance", betas * (1 - alphas_cumprod.roll(1)) / (1 - alphas_cumprod))
+
+    def forward_diffusion(self, x_0, t, noise=None):
+        """Add noise to data at timestep t."""
+        if noise is None:
+            noise = torch.randn_like(x_0)
+        sqrt_alpha = self.sqrt_alphas_cumprod[t].view(-1, 1, 1, 1)
+        sqrt_one_minus = self.sqrt_one_minus_alphas_cumprod[t].view(-1, 1, 1, 1)
+        return sqrt_alpha * x_0 + sqrt_one_minus * noise, noise
+
+    def loss(self, x_0):
+        """Training loss: predict the noise."""
+        t = torch.randint(0, self.timesteps, (x_0.size(0),), device=x_0.device)
+        x_noisy, noise = self.forward_diffusion(x_0, t)
+        noise_pred = self.model(x_noisy, t)
+        return F.mse_loss(noise_pred, noise)
+
+    @torch.no_grad()
+    def sample(self, shape, device):
+        """Generate samples via reverse diffusion."""
+        x = torch.randn(shape, device=device)
+        for t in reversed(range(self.timesteps)):
+            t_batch = torch.full((shape[0],), t, device=device, dtype=torch.long)
+            noise_pred = self.model(x, t_batch)
+            alpha = 1 - self.betas[t]
+            x = self.sqrt_recip_alphas[t] * (
+                x - self.betas[t] / self.sqrt_one_minus_alphas_cumprod[t] * noise_pred
+            )
+            if t > 0:
+                noise = torch.randn_like(x)
+                x += torch.sqrt(self.posterior_variance[t]) * noise
+        return x
+```
+
+---
+
+## LoRA (Low-Rank Adaptation) Pattern
+
+```python
+class LoRALinear(nn.Module):
+    """Low-Rank Adaptation for efficient fine-tuning."""
+
+    def __init__(self, original_linear: nn.Linear, rank: int = 8, alpha: float = 16.0):
+        super().__init__()
+        self.original = original_linear
+        self.original.weight.requires_grad_(False)
+        if self.original.bias is not None:
+            self.original.bias.requires_grad_(False)
+
+        in_features = original_linear.in_features
+        out_features = original_linear.out_features
+
+        self.lora_A = nn.Parameter(torch.randn(in_features, rank) * 0.01)
+        self.lora_B = nn.Parameter(torch.zeros(rank, out_features))
+        self.scaling = alpha / rank
+
+    def forward(self, x):
+        original_out = self.original(x)
+        lora_out = (x @ self.lora_A @ self.lora_B) * self.scaling
+        return original_out + lora_out
+
+
+def apply_lora(model, target_modules=["q_proj", "v_proj"], rank=8, alpha=16.0):
+    """Apply LoRA to specific modules in a model."""
+    for name, module in model.named_modules():
+        if any(target in name for target in target_modules):
+            if isinstance(module, nn.Linear):
+                parent_name = ".".join(name.split(".")[:-1])
+                child_name = name.split(".")[-1]
+                parent = dict(model.named_modules())[parent_name]
+                setattr(parent, child_name, LoRALinear(module, rank=rank, alpha=alpha))
+
+    # Only train LoRA parameters
+    for name, param in model.named_parameters():
+        if "lora_" not in name:
+            param.requires_grad_(False)
+
+    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    total = sum(p.numel() for p in model.parameters())
+    print(f"LoRA trainable: {trainable:,} / {total:,} ({trainable/total:.2%})")
+```
+
+---
+
+## Distributed Communication Patterns
+
+### All-Reduce and All-Gather
+
+```python
+import torch.distributed as dist
+
+# All-reduce: average tensor across all processes
+def all_reduce_mean(tensor):
+    dist.all_reduce(tensor, op=dist.ReduceOp.SUM)
+    tensor /= dist.get_world_size()
+    return tensor
+
+# All-gather: collect tensors from all processes
+def all_gather_tensors(tensor):
+    world_size = dist.get_world_size()
+    gathered = [torch.zeros_like(tensor) for _ in range(world_size)]
+    dist.all_gather(gathered, tensor)
+    return torch.cat(gathered, dim=0)
+
+# Broadcast: send tensor from rank 0 to all
+def broadcast_from_rank0(tensor, src=0):
+    dist.broadcast(tensor, src=src)
+    return tensor
+```
+
+### Learning Rate Warmup Implementations
+
+```python
+import math
+
+class WarmupCosineScheduler:
+    def __init__(self, optimizer, warmup_steps, total_steps, min_lr=1e-6):
+        self.optimizer = optimizer
+        self.warmup_steps = warmup_steps
+        self.total_steps = total_steps
+        self.min_lr = min_lr
+        self.base_lrs = [pg["lr"] for pg in optimizer.param_groups]
+        self.step_count = 0
+
+    def step(self):
+        self.step_count += 1
+        for pg, base_lr in zip(self.optimizer.param_groups, self.base_lrs):
+            if self.step_count < self.warmup_steps:
+                lr = base_lr * self.step_count / self.warmup_steps
+            else:
+                progress = (self.step_count - self.warmup_steps) / (
+                    self.total_steps - self.warmup_steps
+                )
+                lr = self.min_lr + (base_lr - self.min_lr) * 0.5 * (
+                    1 + math.cos(math.pi * progress)
+                )
+            pg["lr"] = lr
+
+    def get_lr(self):
+        return [pg["lr"] for pg in self.optimizer.param_groups]
+```
+
+---
+
+## Debugging Recipes
+
+### Gradient Flow Check
+
+```python
+def check_gradient_flow(named_parameters):
+    """Check for vanishing/exploding gradients."""
+    for name, param in named_parameters:
+        if param.grad is not None:
+            grad_norm = param.grad.norm().item()
+            if grad_norm == 0:
+                print(f"ZERO gradient: {name}")
+            elif grad_norm > 100:
+                print(f"LARGE gradient: {name} = {grad_norm:.2f}")
+            elif math.isnan(grad_norm):
+                print(f"NaN gradient: {name}")
+```
+
+### Model Summary
+
+```python
+def model_summary(model, input_size):
+    """Print model summary with parameter counts."""
+    total_params = 0
+    trainable_params = 0
+
+    print(f"{'Layer':50s} {'Output Shape':20s} {'Params':>10s}")
+    print("-" * 82)
+
+    for name, module in model.named_modules():
+        if len(list(module.children())) == 0:
+            params = sum(p.numel() for p in module.parameters())
+            trainable = sum(p.numel() for p in module.parameters() if p.requires_grad)
+            total_params += params
+            trainable_params += trainable
+            if params > 0:
+                print(f"{name:50s} {'':20s} {params:>10,d}")
+
+    print("-" * 82)
+    print(f"Total params: {total_params:,}")
+    print(f"Trainable params: {trainable_params:,}")
+    print(f"Non-trainable params: {total_params - trainable_params:,}")
+    print(f"Model size: {total_params * 4 / 1024 / 1024:.1f} MB (float32)")
+```
+
+### Reproducibility Setup
+
+```python
+def set_seed(seed=42):
+    """Set all random seeds for reproducibility."""
+    import random
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+# For DataLoader reproducibility
+def seed_worker(worker_id):
+    import numpy as np
+    worker_seed = torch.initial_seed() % 2**32
+    np.random.seed(worker_seed)
+
+g = torch.Generator()
+g.manual_seed(42)
+
+dataloader = DataLoader(
+    dataset,
+    batch_size=32,
+    worker_init_fn=seed_worker,
+    generator=g,
+)
+```
