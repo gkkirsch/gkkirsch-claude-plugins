@@ -1,0 +1,11 @@
+{
+  "name": "content-strategy-suite",
+  "version": "1.0.0",
+  "description": "AI-powered content creation and SEO optimization suite — blog posts, newsletters, SEO analysis, and multi-platform content repurposing",
+  "skills": [
+    "skills/content-strategy"
+  ],
+  "commands": [
+    "commands/create-content.md"
+  ]
+}
