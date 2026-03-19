@@ -1,0 +1,6 @@
+{
+  "name": "Accessibility & WCAG Suite",
+  "description": "Complete web accessibility toolkit — WCAG 2.2 auditing, ARIA patterns, keyboard navigation, color contrast optimization, screen reader testing, and automated a11y fixes for React, Vue, and vanilla HTML.",
+  "version": "1.0.0",
+  "author": "gkkirsch"
+}
