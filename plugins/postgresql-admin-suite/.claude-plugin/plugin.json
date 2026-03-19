@@ -1,0 +1,21 @@
+{
+  "name": "postgresql-admin-suite",
+  "version": "1.0.0",
+  "description": "Production-grade PostgreSQL database administration: performance tuning with EXPLAIN ANALYZE, index strategies (B-tree, GIN, GiST, BRIN), partitioning, vacuum optimization, streaming and logical replication, connection pooling (pgBouncer, PgCat), backup/recovery with PITR and pgBackRest, schema architecture with zero-downtime migrations, and security hardening with row-level security.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/db-admin"],
+  "commands": ["./commands/db-admin.md"],
+  "agents": [
+    "./agents/postgres-dba.md",
+    "./agents/schema-architect.md",
+    "./agents/replication-expert.md",
+    "./agents/backup-recovery-expert.md"
+  ],
+  "hooks": ["./hooks/hooks.json"],
+  "references": [
+    "./references/query-optimization.md",
+    "./references/index-strategies.md",
+    "./references/security-hardening.md"
+  ]
+}
