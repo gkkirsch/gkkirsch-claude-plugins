@@ -1,0 +1,9 @@
+{
+  "name": "Python Web Framework Suite",
+  "description": "Comprehensive Claude Code plugin for Django, Flask, and FastAPI development with agents, patterns, and project scaffolding.",
+  "version": "1.0.0",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/python-web-setup"],
+  "commands": []
+}
