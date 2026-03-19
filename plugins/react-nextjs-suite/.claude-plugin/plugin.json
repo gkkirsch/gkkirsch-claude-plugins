@@ -1,0 +1,9 @@
+{
+  "name": "react-nextjs-suite",
+  "version": "1.0.0",
+  "description": "Expert React & Next.js development suite with 4 specialized agents for component architecture, Next.js App Router, testing, and UI design systems. Includes comprehensive references for React patterns, App Router, and state management.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/react-nextjs-suite"],
+  "commands": ["./commands/react-nextjs-suite.md"]
+}
