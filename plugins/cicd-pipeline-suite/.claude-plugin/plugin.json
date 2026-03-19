@@ -1,0 +1,8 @@
+{
+  "name": "CI/CD & DevOps Pipeline Suite",
+  "description": "Expert CI/CD pipelines — GitHub Actions, deployment strategies, release automation, and observability mastery",
+  "version": "1.0.0",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/pipeline-setup"]
+}
