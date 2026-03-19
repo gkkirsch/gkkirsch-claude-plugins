@@ -1,0 +1,7 @@
+{
+  "name": "Python Data Science & ML Suite",
+  "description": "Comprehensive data science toolkit — data pipeline engineering with Pandas/Polars, ML model building with scikit-learn/XGBoost, data visualization with Matplotlib/Plotly, and MLOps with MLflow. Expert-level agents for data-pipeline-engineer, ml-model-builder, visualization-expert, and mlops-engineer.",
+  "version": "1.0.0",
+  "skills": ["./skills/data-science"],
+  "commands": ["./commands/data-science.md"]
+}
