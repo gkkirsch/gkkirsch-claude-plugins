@@ -1,0 +1,39 @@
+{
+  "hooks": [
+    {
+      "event": "on_tool_call",
+      "tool": "Bash",
+      "pattern": "aws\\s+iam\\s+create-user|aws\\s+iam\\s+attach.*policy|aws\\s+iam\\s+put-user-policy",
+      "action": "warn",
+      "message": "IAM modification detected. Verify you're targeting the correct AWS account and using least-privilege permissions."
+    },
+    {
+      "event": "on_tool_call",
+      "tool": "Bash",
+      "pattern": "aws\\s+s3\\s+rb|aws\\s+s3api\\s+delete-bucket|aws\\s+ec2\\s+terminate-instances|aws\\s+rds\\s+delete-db",
+      "action": "warn",
+      "message": "Destructive AWS operation detected. Double-check resource identifiers and confirm this targets the intended environment."
+    },
+    {
+      "event": "on_tool_call",
+      "tool": "Bash",
+      "pattern": "cdk\\s+destroy|terraform\\s+destroy|sam\\s+delete",
+      "action": "warn",
+      "message": "Infrastructure teardown command detected. Confirm you want to destroy these resources — this may be irreversible."
+    },
+    {
+      "event": "on_tool_call",
+      "tool": "Bash",
+      "pattern": "aws\\s+.*--region(?!\\s+us-east-1|\\s+us-west-2|\\s+eu-west-1)",
+      "action": "info",
+      "message": "Non-default region detected. Verify this is the intended deployment region for cost and latency considerations."
+    },
+    {
+      "event": "on_tool_call",
+      "tool": "Write",
+      "pattern": ".*\\.env.*|.*credentials.*|.*secret.*",
+      "action": "warn",
+      "message": "Writing to a file that may contain secrets. Never hardcode AWS access keys, secret keys, or session tokens. Use IAM roles, SSO, or AWS Secrets Manager instead."
+    }
+  ]
+}
