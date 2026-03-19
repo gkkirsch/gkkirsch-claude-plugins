@@ -1,0 +1,6 @@
+{
+  "name": "E-commerce & Payments Suite",
+  "description": "Complete e-commerce toolkit — Stripe integration, checkout flows, subscription billing, inventory management, payment processing patterns, webhook handling, and PCI compliance for Node.js, React, and Next.js applications.",
+  "version": "1.0.0",
+  "author": "gkkirsch"
+}
