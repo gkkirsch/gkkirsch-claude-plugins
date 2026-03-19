@@ -1,0 +1,5 @@
+{
+  "name": "data-engineering-suite",
+  "description": "Comprehensive Data Engineering Suite covering Apache Spark, Kafka, Airflow, dbt, and data warehousing. Build production-grade data pipelines, streaming systems, and dimensional models with expert guidance.",
+  "version": "1.0.0"
+}
