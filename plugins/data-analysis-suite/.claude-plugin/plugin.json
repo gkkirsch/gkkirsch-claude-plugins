@@ -1,0 +1,7 @@
+{
+  "name": "data-analysis-suite",
+  "version": "1.0.0",
+  "description": "AI-powered data analysis & visualization toolkit — exploratory data analysis, chart generation, SQL optimization, and data pipeline architecture for any dataset or database",
+  "skills": ["./skills/data-analysis"],
+  "commands": ["./commands/analyze-data.md"]
+}
