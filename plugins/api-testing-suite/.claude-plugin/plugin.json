@@ -1,0 +1,7 @@
+{
+  "name": "api-testing-suite",
+  "version": "1.0.0",
+  "description": "AI-powered API testing & documentation toolkit — HTTP testing, OpenAPI docs, load testing, and security auditing for any API",
+  "skills": ["./skills/api-testing"],
+  "commands": ["./commands/test-api.md"]
+}
