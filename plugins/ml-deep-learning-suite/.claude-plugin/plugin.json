@@ -1,0 +1,6 @@
+{
+  "name": "Machine Learning & Deep Learning Suite",
+  "description": "Comprehensive Claude Code plugin for PyTorch, TensorFlow, scikit-learn, and MLOps with agents, patterns, and project scaffolding.",
+  "version": "1.0.0",
+  "skills": ["./skills/ml-project-setup"]
+}
