@@ -1,0 +1,6 @@
+{
+  "name": "Real-time & WebSockets Suite",
+  "description": "Build real-time applications with WebSockets, Socket.io, Server-Sent Events, and collaborative editing. Covers chat systems, live notifications, presence indicators, real-time dashboards, multiplayer patterns, conflict resolution (CRDTs), and scaling WebSocket connections with Redis pub/sub.",
+  "version": "1.0.0",
+  "author": "gkkirsch"
+}
