@@ -1,0 +1,11 @@
+{
+  "name": "customer-success-suite",
+  "version": "1.0.0",
+  "description": "AI-powered sales email sequences, customer onboarding design, churn analysis, and case study creation for SaaS teams",
+  "skills": [
+    "skills/customer-success"
+  ],
+  "commands": [
+    "commands/sales-pipeline.md"
+  ]
+}
