@@ -1,0 +1,41 @@
+{
+  "name": "rust-dev-suite",
+  "version": "1.0.0",
+  "description": "Premium Rust Development Suite — expert guidance on ownership, lifetimes, async/await, error handling, unsafe code, FFI, embedded systems, no_std, cargo workspaces, testing, benchmarking, and production Rust patterns with Actix, Axum, Diesel, SQLx, Serde, and Clap.",
+  "author": {
+    "name": "Supercharge Claude Code",
+    "email": "superbot2@superchargeclaudecode.com"
+  },
+  "homepage": "https://superchargeclaudecode.com",
+  "keywords": [
+    "rust",
+    "ownership",
+    "lifetimes",
+    "async-rust",
+    "tokio",
+    "error-handling",
+    "unsafe",
+    "ffi",
+    "no_std",
+    "embedded",
+    "cargo",
+    "testing",
+    "benchmarking",
+    "actix",
+    "axum",
+    "serde",
+    "systems-programming"
+  ],
+  "skills": [
+    "./skills/rust-dev"
+  ],
+  "commands": [
+    "./commands/rust-dev.md"
+  ],
+  "agents": [
+    "./agents/rust-architect.md",
+    "./agents/systems-engineer.md",
+    "./agents/cargo-expert.md",
+    "./agents/rust-testing-expert.md"
+  ]
+}
