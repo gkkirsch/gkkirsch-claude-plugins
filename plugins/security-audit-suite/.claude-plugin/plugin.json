@@ -1,0 +1,9 @@
+{
+  "name": "security-audit-suite",
+  "version": "1.0.0",
+  "description": "Comprehensive security analysis, vulnerability detection, dependency auditing, and compliance checking for any codebase.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/security-audit"],
+  "commands": ["./commands/security-audit.md"]
+}
