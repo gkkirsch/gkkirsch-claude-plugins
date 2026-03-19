@@ -1,1 +1,15 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if the edited file involves background job processing, queue setup, or worker code. If so, verify: 1) Job handlers are idempotent (check for idempotency keys or duplicate checks), 2) Graceful shutdown handler exists (SIGTERM/SIGINT), 3) Error classification distinguishes transient vs permanent failures, 4) Job data is JSON-serializable (no functions, Buffers, or Date objects — use ISO strings), 5) maxRetriesPerRequest is set to null on Redis connections used with BullMQ. Respond with {\"ok\": true} if all applicable checks pass, or {\"ok\": false, \"reason\": \"...\"} listing what's missing. If the file is not related to job/queue code, respond {\"ok\": true}."
+          }
+        ]
+      }
+    ]
+  }
+}
