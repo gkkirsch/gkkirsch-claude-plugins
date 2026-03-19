@@ -1,0 +1,17 @@
+{
+  "hooks": [
+    {
+      "event": "on_tool_call",
+      "matcher": {
+        "tool_name": "Write",
+        "file_pattern": "*.ts"
+      },
+      "commands": [
+        {
+          "type": "check",
+          "command": "echo 'Node.js Backend Suite: Verifying TypeScript file write'"
+        }
+      ]
+    }
+  ]
+}

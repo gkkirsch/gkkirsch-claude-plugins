@@ -1,0 +1,9 @@
+{
+  "name": "nodejs-backend-suite",
+  "version": "1.0.0",
+  "description": "Expert Node.js backend development suite with 4 specialized agents for Express/Fastify architecture, performance optimization, API security, and database integration. Includes comprehensive references for Express patterns, Node.js internals, and backend testing.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/nodejs-backend"],
+  "commands": ["./commands/nodejs-backend.md"]
+}
