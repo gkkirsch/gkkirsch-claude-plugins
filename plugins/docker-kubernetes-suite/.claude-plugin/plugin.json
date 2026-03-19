@@ -1,0 +1,9 @@
+{
+  "name": "docker-kubernetes-suite",
+  "version": "1.0.0",
+  "description": "Expert Docker & Kubernetes development suite with 4 specialized agents for Dockerfile optimization, Kubernetes architecture, Helm chart engineering, and container security. Includes comprehensive references for Kubernetes patterns, Docker best practices, and CI/CD container pipelines.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/docker-k8s"],
+  "commands": ["./commands/docker-k8s.md"]
+}
