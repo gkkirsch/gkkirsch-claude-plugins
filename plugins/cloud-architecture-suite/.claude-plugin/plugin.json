@@ -1,0 +1,7 @@
+{
+  "name": "Cloud Architecture & Infrastructure Suite",
+  "description": "Comprehensive cloud infrastructure — architecture design for AWS/GCP/Azure, Terraform/OpenTofu IaC engineering, cloud cost optimization, and container orchestration with Docker/Kubernetes. Expert-level agents for cloud-architect, terraform-engineer, cost-optimizer, and container-orchestrator.",
+  "version": "1.0.0",
+  "skills": ["./skills/cloud-design"],
+  "commands": ["./commands/cloud-design.md"]
+}
