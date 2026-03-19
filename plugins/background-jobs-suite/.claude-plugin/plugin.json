@@ -1,0 +1,5 @@
+{
+  "name": "Background Jobs & Task Queues Suite",
+  "version": "1.0.0",
+  "description": "Complete toolkit for background job processing with BullMQ, cron scheduling, worker patterns, retry strategies, and queue monitoring. Covers email queues, image processing pipelines, webhook delivery, and distributed task management."
+}
