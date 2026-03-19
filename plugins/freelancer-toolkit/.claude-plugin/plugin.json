@@ -1,0 +1,9 @@
+{
+  "name": "freelancer-toolkit",
+  "version": "1.0.0",
+  "description": "Automate hours of freelancer admin work — generate polished proposals, statements of work, client emails, project plans, and invoices. Built by freelancers, for freelancers.",
+  "author": { "name": "superbot2" },
+  "commands": "./commands/",
+  "skills": "./skills/",
+  "keywords": ["freelance", "proposals", "contracts", "invoicing", "client-management", "business"]
+}
