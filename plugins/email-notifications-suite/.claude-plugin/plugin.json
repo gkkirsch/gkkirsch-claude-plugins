@@ -1,0 +1,6 @@
+{
+  "name": "Email & Notifications Suite",
+  "description": "Complete email and notification toolkit — transactional email (SendGrid, Resend, Nodemailer, SES), email templates (React Email, MJML), push notifications (Web Push, Firebase FCM), in-app notification systems, SMS integration, and email deliverability best practices.",
+  "version": "1.0.0",
+  "author": "gkkirsch"
+}
