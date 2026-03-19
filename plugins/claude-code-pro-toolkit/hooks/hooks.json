@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE_PATH=$(jq -r '.tool_input.file_path // empty'); if [ -n \"$FILE_PATH\" ]; then case \"$FILE_PATH\" in *.ts|*.tsx|*.js|*.jsx) npx eslint --fix \"$FILE_PATH\" 2>/dev/null || true ;; *.py) python -m ruff check --fix \"$FILE_PATH\" 2>/dev/null || python -m black \"$FILE_PATH\" 2>/dev/null || true ;; *.go) gofmt -w \"$FILE_PATH\" 2>/dev/null || true ;; esac; fi; exit 0",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "TaskCompleted": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -f package.json ]; then TEST_SCRIPT=$(jq -r '.scripts.test // empty' package.json); if [ -n \"$TEST_SCRIPT\" ] && [ \"$TEST_SCRIPT\" != 'null' ]; then npm test 2>&1; if [ $? -ne 0 ]; then echo 'Tests are failing. Fix tests before completing the task.' >&2; exit 2; fi; fi; elif [ -f pyproject.toml ] || [ -f setup.py ]; then if command -v pytest >/dev/null 2>&1; then pytest --tb=short 2>&1; if [ $? -ne 0 ]; then echo 'Tests are failing. Fix tests before completing the task.' >&2; exit 2; fi; fi; elif [ -f go.mod ]; then go test ./... 2>&1; if [ $? -ne 0 ]; then echo 'Tests are failing. Fix tests before completing the task.' >&2; exit 2; fi; fi; exit 0",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}
