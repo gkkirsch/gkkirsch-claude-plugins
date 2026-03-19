@@ -1,0 +1,7 @@
+{
+  "name": "Microservices Architecture Suite",
+  "description": "Comprehensive microservices toolkit — service decomposition with DDD and bounded contexts, API gateway design with Kong/Envoy, event-driven architecture with Kafka/RabbitMQ, and service mesh operations with Istio/Linkerd. Expert-level agents for service-architect, api-gateway-designer, event-driven-engineer, and service-mesh-operator.",
+  "version": "1.0.0",
+  "skills": ["./skills/microservice-design"],
+  "commands": ["./commands/microservice-design.md"]
+}
