@@ -1,0 +1,7 @@
+{
+  "name": "Git & Version Control Mastery Suite",
+  "description": "Comprehensive git mastery — branching strategies and PR workflows, monorepo architecture with Nx/Turborepo, advanced git operations and recovery, and CI/CD git integration. Expert-level agents for git-workflow-expert, monorepo-architect, git-operations-specialist, and ci-git-integrator.",
+  "version": "1.0.0",
+  "skills": ["./skills/git-mastery"],
+  "commands": ["./commands/git-mastery.md"]
+}
