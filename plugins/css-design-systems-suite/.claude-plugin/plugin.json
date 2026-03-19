@@ -1,0 +1,9 @@
+{
+  "name": "css-design-systems-suite",
+  "version": "1.0.0",
+  "description": "Expert CSS & Design Systems suite with 4 specialized agents for modern CSS architecture, design system construction, Tailwind CSS v4, and advanced animations. Includes comprehensive references for modern CSS features, design token patterns, and CSS performance optimization.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/css-design"],
+  "commands": ["./commands/css-design.md"]
+}
