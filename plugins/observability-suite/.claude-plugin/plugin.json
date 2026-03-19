@@ -1,0 +1,7 @@
+{
+  "name": "Monitoring & Observability Suite",
+  "description": "Comprehensive observability toolkit — structured logging with ELK/Loki, metrics with Prometheus/Grafana, distributed tracing with OpenTelemetry/Jaeger, and alerting with PagerDuty integration. Expert-level agents for logging-architect, metrics-engineer, tracing-specialist, and alerting-designer.",
+  "version": "1.0.0",
+  "skills": ["./skills/observability"],
+  "commands": ["./commands/write-observability.md"]
+}
