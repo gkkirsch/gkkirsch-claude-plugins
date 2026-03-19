@@ -1,0 +1,6 @@
+{
+  "name": "Java & Spring Boot Suite",
+  "description": "Expert Java development — Spring Boot architecture, JVM performance, security, and modern Java mastery",
+  "version": "1.0.0",
+  "skills": ["./skills/spring-project-setup"]
+}
