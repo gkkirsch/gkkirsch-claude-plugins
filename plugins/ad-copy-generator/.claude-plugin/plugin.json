@@ -1,0 +1,24 @@
+{
+  "name": "ad-copy-generator",
+  "version": "1.0.0",
+  "description": "Premium ad copy and sales page generator powered by proven direct response frameworks. Generate high-converting ad copy for Facebook, Google, Instagram, X, and email. Build complete landing page copy structures. Includes AIDA, PAS, BAB, 4Ps, Triple Hook, and Star-Story-Solution frameworks with platform-specific optimization.",
+  "author": {
+    "name": "Supercharge Claude Code",
+    "email": "superbot2@superchargeclaudecode.com"
+  },
+  "keywords": [
+    "ad-copy",
+    "copywriting",
+    "sales-page",
+    "landing-page",
+    "marketing",
+    "direct-response",
+    "conversion",
+    "advertising",
+    "facebook-ads",
+    "google-ads"
+  ],
+  "skills": [
+    "./skills/ad-copy"
+  ]
+}
