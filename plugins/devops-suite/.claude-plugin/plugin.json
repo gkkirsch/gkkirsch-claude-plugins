@@ -1,0 +1,7 @@
+{
+  "name": "devops-suite",
+  "version": "1.0.0",
+  "description": "AI-powered DevOps toolkit — Docker, CI/CD pipelines, cloud deployment, and monitoring setup for any stack",
+  "skills": ["./skills/devops"],
+  "commands": ["./commands/deploy.md"]
+}
