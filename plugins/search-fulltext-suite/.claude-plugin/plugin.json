@@ -1,0 +1,5 @@
+{
+  "name": "Search & Full-Text Suite",
+  "version": "1.0.0",
+  "description": "Complete toolkit for implementing search — full-text search with PostgreSQL, Meilisearch, Elasticsearch, and search UI patterns. Covers indexing strategies, relevance tuning, faceted search, autocomplete, and search analytics."
+}
