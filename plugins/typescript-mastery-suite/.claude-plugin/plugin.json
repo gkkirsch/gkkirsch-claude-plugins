@@ -1,0 +1,9 @@
+{
+  "name": "typescript-mastery-suite",
+  "version": "1.0.0",
+  "description": "Expert TypeScript development suite with 4 specialized agents for advanced type system mastery, type safety engineering, JS-to-TS migration, and compilation performance. Includes references for advanced types, tsconfig, and declaration files.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/typescript-mastery-suite"],
+  "commands": ["./commands/typescript-mastery-suite.md"]
+}
