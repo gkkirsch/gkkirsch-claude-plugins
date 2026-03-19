@@ -1,0 +1,8 @@
+{
+  "name": "ai-llm-suite",
+  "version": "1.0.0",
+  "description": "Expert AI & LLM application development suite with 4 specialized agents for LLM architecture, AI agent building, ML operations, and prompt engineering. Includes references for RAG systems, LLM API patterns, and agent architectures.",
+  "author": "Supercharge Claude Code",
+  "skills": ["./skills/ai-llm-suite"],
+  "commands": ["./commands/ai-llm-suite.md"]
+}
