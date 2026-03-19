@@ -1,0 +1,5 @@
+{
+  "name": "redis-mongodb-suite",
+  "description": "Complete Redis & MongoDB Suite for building high-performance NoSQL applications. Covers Redis data structures, caching patterns, pub/sub, Lua scripting, MongoDB aggregation pipelines, schema design, indexing, sharding, and production operations.",
+  "version": "1.0.0"
+}
