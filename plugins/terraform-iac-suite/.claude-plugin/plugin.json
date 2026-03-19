@@ -1,0 +1,5 @@
+{
+  "name": "Terraform & Infrastructure as Code Suite",
+  "description": "Comprehensive Claude Code plugin for Terraform, infrastructure planning, IaC security, and cloud resource management.",
+  "version": "1.0.0"
+}
