@@ -1,0 +1,6 @@
+{
+  "name": "Go Development Suite",
+  "description": "Expert Go development — concurrency, performance, idiomatic patterns, and testing mastery",
+  "version": "1.0.0",
+  "skills": ["./skills/go-project-setup"]
+}
