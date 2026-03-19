@@ -1,0 +1,7 @@
+{
+  "name": "GraphQL & API Design Suite",
+  "description": "Comprehensive API design toolkit — GraphQL schema architecture with resolvers and subscriptions, REST API design with HATEOAS and versioning, query optimization with DataLoader and caching, and API versioning with migration strategies. Expert-level agents for graphql-architect, rest-api-designer, schema-optimizer, and api-versioning-expert.",
+  "version": "1.0.0",
+  "skills": ["./skills/api-design"],
+  "commands": ["./commands/api-design.md"]
+}
