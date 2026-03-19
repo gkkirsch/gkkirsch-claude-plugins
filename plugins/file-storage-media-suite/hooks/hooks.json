@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if the edited file involves file upload, storage, or image processing code. If so, verify: 1) File type validation exists (check both MIME type and magic bytes, not just extension), 2) File size limits are enforced, 3) Storage keys use random/UUID names (not user-provided filenames), 4) Presigned URLs have short expiry times, 5) Error handling exists for upload failures. Respond with {\"ok\": true} if all applicable checks pass, or {\"ok\": false, \"reason\": \"...\"} listing what's missing. If the file is not related to file/storage code, respond {\"ok\": true}."
+          }
+        ]
+      }
+    ]
+  }
+}

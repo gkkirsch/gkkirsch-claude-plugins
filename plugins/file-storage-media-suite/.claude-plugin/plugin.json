@@ -1,0 +1,5 @@
+{
+  "name": "File Storage & Media Processing Suite",
+  "version": "1.0.0",
+  "description": "Complete toolkit for file uploads, cloud storage (S3, Cloudinary, R2), image processing (Sharp, Cloudinary transforms), video handling, and media optimization. Covers presigned URLs, multipart uploads, CDN delivery, and responsive images."
+}
