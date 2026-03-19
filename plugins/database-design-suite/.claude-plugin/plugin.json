@@ -1,0 +1,9 @@
+{
+  "name": "database-design-suite",
+  "version": "1.0.0",
+  "description": "Expert database schema design, query optimization, migration planning, and performance tuning across PostgreSQL, MySQL, MongoDB, Redis, and SQLite.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/database-design"],
+  "commands": ["./commands/db-design.md"]
+}
