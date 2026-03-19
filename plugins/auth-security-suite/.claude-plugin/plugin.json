@@ -1,0 +1,9 @@
+{
+  "name": "Authentication & Authorization Suite",
+  "description": "Comprehensive auth security — OAuth2/OIDC implementation, RBAC/ABAC permission systems, API security hardening, and identity management. Expert-level agents for auth-architect, rbac-designer, api-security-engineer, and identity-manager.",
+  "version": "1.0.0",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/auth-design"],
+  "commands": ["./commands/auth-design.md"]
+}
