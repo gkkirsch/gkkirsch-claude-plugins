@@ -1,0 +1,7 @@
+{
+  "name": "Documentation & Technical Writing Suite",
+  "description": "Comprehensive documentation toolkit — API documentation with OpenAPI/Swagger, README architecture and project docs, Architecture Decision Records and design docs, and changelog/release note management. Expert-level agents for api-doc-writer, readme-architect, adr-specialist, and changelog-manager.",
+  "version": "1.0.0",
+  "skills": ["./skills/write-docs"],
+  "commands": ["./commands/write-docs.md"]
+}
