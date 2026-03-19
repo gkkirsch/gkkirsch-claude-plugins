@@ -1,0 +1,9 @@
+{
+  "name": "mobile-dev-suite",
+  "version": "1.0.0",
+  "description": "Expert mobile development suite with 4 specialized agents for React Native architecture, Expo workflow, mobile UI/UX, and mobile testing. Includes references for React Native patterns, Expo guide, and mobile performance optimization.",
+  "author": "Supercharge Claude Code",
+  "homepage": "https://superchargeclaudecode.com",
+  "skills": ["./skills/mobile-dev-suite"],
+  "commands": ["./commands/mobile-dev-suite.md"]
+}
