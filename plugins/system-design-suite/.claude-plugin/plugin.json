@@ -1,0 +1,8 @@
+{
+  "name": "system-design-suite",
+  "version": "1.0.0",
+  "description": "Expert system design and architecture suite with 4 specialized agents for distributed systems, scalability, reliability, and API design. Includes references for distributed patterns, caching, and messaging systems.",
+  "author": "Supercharge Claude Code",
+  "skills": ["./skills/system-design-suite"],
+  "commands": ["./commands/system-design-suite.md"]
+}
