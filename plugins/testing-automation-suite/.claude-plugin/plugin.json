@@ -1,0 +1,5 @@
+{
+  "name": "Testing Automation & Quality Assurance Suite",
+  "description": "Comprehensive testing automation — test architecture and TDD/BDD workflows, Playwright/Cypress E2E testing, unit testing with Jest/Vitest/pytest, and CI/CD pipeline configuration. Expert-level agents for test-architect, e2e-test-engineer, unit-test-specialist, and ci-pipeline-builder.",
+  "version": "1.0.0"
+}
