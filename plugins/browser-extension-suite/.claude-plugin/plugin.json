@@ -1,0 +1,5 @@
+{
+  "name": "Browser Extension Suite",
+  "description": "Chrome and Firefox browser extension development — Manifest V3 architecture, service workers, content scripts, popup/sidepanel UIs, message passing, storage APIs, permissions, cross-browser compatibility, and Chrome Web Store publishing. Covers React-based extensions, TypeScript patterns, and debugging.",
+  "version": "1.0.0"
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Data Visualization Suite",
+  "description": "Production data visualization — Recharts for React-native charts with composable components, D3.js for custom SVG visualizations with scales, axes, and transitions. Covers responsive charts, real-time updates, accessibility, animation, theming, and performance optimization for large datasets.",
+  "version": "1.0.0"
+}

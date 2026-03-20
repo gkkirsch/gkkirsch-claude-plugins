@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for data visualization issues. Check for:\n1. Missing responsive container — charts without ResponsiveContainer (Recharts) or viewBox (D3) won't resize properly\n2. No key prop on dynamic chart elements — causes unnecessary re-renders and broken animations\n3. Large dataset without virtualization — rendering 10K+ data points directly kills performance\n4. Missing accessibility — no aria-labels, no alt text, no keyboard navigation on interactive charts\n5. Hardcoded dimensions — pixel values instead of percentage/viewBox for responsive charts\n6. Direct DOM manipulation in React — using D3 selections inside React components instead of D3 for math + React for rendering\n7. Missing null/undefined data handling — charts crash on missing data points\n8. No loading or empty state — chart area blank while data loads\n9. Color-only encoding — relying solely on color to distinguish data (colorblind inaccessible)\n10. Animation on large datasets — transitions on 1000+ elements cause jank\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

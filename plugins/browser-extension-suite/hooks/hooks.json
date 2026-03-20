@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for browser extension issues. Check for:\n1. Using Manifest V2 APIs — chrome.browserAction (use chrome.action), background scripts (use service workers), chrome.tabs.executeScript (use chrome.scripting.executeScript)\n2. Missing permissions in manifest.json — using APIs without declaring required permissions\n3. Service worker using DOM APIs — service workers have no DOM (no document, window, localStorage). Use chrome.storage instead\n4. Content script accessing chrome.* APIs directly — content scripts have limited chrome API access. Use message passing for most APIs\n5. Missing error handling on async chrome APIs — all Manifest V3 chrome APIs return Promises and can reject\n6. Hardcoded extension IDs — use chrome.runtime.id instead\n7. Using eval() or inline scripts — violates Content Security Policy in extensions\n8. Missing host_permissions for content scripts — content scripts need matching host_permissions in manifest\n9. Not handling extension context invalidated errors — extension updates invalidate existing content script connections\n10. Synchronous localStorage in service worker — must use chrome.storage.local (async) instead\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
