@@ -1,0 +1,5 @@
+{
+  "name": "Database Patterns Suite",
+  "description": "Complete database toolkit — SQL query patterns, indexing strategies, Redis caching, database schema design, normalization, query optimization, connection pooling, and data modeling for PostgreSQL.",
+  "version": "1.0.0"
+}

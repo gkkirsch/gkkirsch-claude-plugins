@@ -1,0 +1,5 @@
+{
+  "name": "DevOps & CI/CD Suite",
+  "description": "Complete DevOps toolkit — GitHub Actions workflows, deployment strategies (blue-green, canary, rolling), monitoring and observability (metrics, logging, alerting), infrastructure patterns, and production readiness.",
+  "version": "1.0.0"
+}

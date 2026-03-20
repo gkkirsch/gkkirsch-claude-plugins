@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for DevOps and CI/CD issues. Check for:\n1. Unpinned action versions in GitHub Actions (using @main or @latest instead of @v4)\n2. Missing timeout-minutes on GitHub Actions jobs (runaway jobs waste money)\n3. Using npm install instead of npm ci in CI/CD pipelines\n4. Secrets or credentials hardcoded in workflow files, Dockerfiles, or config\n5. Docker containers running as root (missing USER directive)\n6. Missing .dockerignore file or node_modules not excluded from Docker build context\n7. Missing health check endpoints or HEALTHCHECK in Dockerfile\n8. Overly broad GitHub Actions permissions (missing permissions: block)\n9. Missing concurrency control on deployment workflows (parallel deploys can conflict)\n10. Environment variables with sensitive values logged or exposed in build output\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for database and caching issues. Check for:\n1. N+1 query patterns — loops that execute individual queries instead of batching with IN or JOIN\n2. Missing indexes on columns used in WHERE, JOIN, or ORDER BY clauses\n3. SELECT * instead of selecting only needed columns\n4. Missing LIMIT on queries that could return unbounded results\n5. Hardcoded connection strings or database credentials in source code\n6. Missing transaction boundaries around multi-step database operations that should be atomic\n7. Redis keys without TTL — cached data that could grow unbounded\n8. Using redis.keys() in production code instead of SCAN\n9. Missing error handling on database connections (no try/catch, no connection release in finally)\n10. Raw SQL with string interpolation instead of parameterized queries (SQL injection risk)\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
