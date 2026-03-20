@@ -1,0 +1,5 @@
+{
+  "name": "Vite & Build Tools Suite",
+  "description": "Vite configuration, plugins, optimization, and build tooling — dev server, HMR, library mode, SSR, environment variables, proxy, code splitting, tree shaking, bundle analysis, and production optimization.",
+  "version": "1.0.0"
+}
