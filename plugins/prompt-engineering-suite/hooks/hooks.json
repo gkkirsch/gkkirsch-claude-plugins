@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the LLM prompt or AI integration code change for issues. Check for: 1) Prompt injection vulnerability (user input concatenated directly into system prompt without sanitization), 2) Missing output validation (LLM response used directly without parsing/validating against expected schema), 3) Hardcoded model name instead of configuration variable (makes model switching painful), 4) Missing temperature parameter (defaulting to model default instead of explicit setting for reproducibility), 5) No error handling for API failures (missing retry logic, timeout, or fallback for rate limits/503s), 6) Unbounded token usage (no max_tokens set, risking cost explosion on long outputs), 7) Sensitive data in prompts (PII, API keys, or credentials included in prompt text sent to external API), 8) Missing structured output schema (using free-form text when JSON schema would ensure parseable responses), 9) Prompt that instructs the model to 'always' or 'never' do something without escape hatch (brittle, fails on edge cases), 10) Chain of thought requested but response parsed without extracting the final answer (parsing the reasoning instead of the conclusion). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

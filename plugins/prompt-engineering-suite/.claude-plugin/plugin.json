@@ -1,0 +1,5 @@
+{
+  "name": "Prompt Engineering & LLM Patterns Suite",
+  "description": "Advanced prompt engineering techniques — chain of thought, few-shot learning, structured output, system prompt design, evaluation frameworks, prompt chaining, tool use patterns, token optimization, and production LLM application architecture.",
+  "version": "1.0.0"
+}

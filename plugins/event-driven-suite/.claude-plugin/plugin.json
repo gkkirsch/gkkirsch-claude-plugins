@@ -1,0 +1,5 @@
+{
+  "name": "Event-Driven Architecture Suite",
+  "description": "Event-driven system design — event sourcing, CQRS, domain events, event buses, saga/process managers, eventual consistency patterns, idempotency, dead letter queues, and production event-driven microservices with TypeScript examples.",
+  "version": "1.0.0"
+}

@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the event-driven architecture code change for issues. Check for: 1) Event handler that mutates state AND publishes events in the same transaction (dual-write problem — use outbox pattern or event store), 2) Missing idempotency key on event handlers (duplicate event delivery will corrupt state), 3) Event schema without version field (breaking changes will crash downstream consumers), 4) Synchronous event publishing in a request handler (blocks the response, defeats the purpose of async), 5) Missing dead letter queue configuration (failed events silently dropped), 6) Event handler that calls external APIs without retry/circuit breaker (transient failures cause permanent data loss), 7) Saga/process manager without compensation logic (partial failures leave inconsistent state), 8) Read model updated in the same transaction as command handling (CQRS violation — projections should be eventually consistent), 9) Event payload containing entire entity instead of just changed fields (bloated events, tight coupling), 10) Missing correlation ID propagation across event chain (impossible to trace distributed workflows). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
