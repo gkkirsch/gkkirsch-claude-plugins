@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for API design issues. Check for:\n1. Verbs in URL paths — endpoints like '/getUsers' or '/createPost' instead of RESTful nouns ('/users', '/posts')\n2. Wrong HTTP status codes — returning 200 for creation (should be 201), 200 for deletion (should be 204), or 200 for errors\n3. Inconsistent error response format — errors returned as plain strings or varying JSON shapes instead of a consistent error envelope\n4. Missing pagination on list endpoints — findMany() or SELECT * without limit/offset that could return unbounded results\n5. N+1 query pattern — looping over results and making individual database queries inside the loop instead of batching\n6. Exposing internal details in error responses — stack traces, SQL errors, or file paths returned to the client in production\n7. Missing input validation — request body or query params used directly without schema validation (Zod, Joi, etc.)\n8. Singular resource names — '/user/:id' instead of '/users/:id', or mixed singular/plural across routes\n\nFor each issue found, explain the API design problem and suggest the RESTful alternative. Only flag real issues. Respond with {\"ok\": true} if no issues found.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

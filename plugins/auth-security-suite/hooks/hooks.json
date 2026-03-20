@@ -1,1 +1,16 @@
-{"hooks":{}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for security issues. Check for:\n1. Hardcoded secrets, API keys, or passwords in source code (not .env files)\n2. SQL injection — raw string concatenation in database queries instead of parameterized queries or ORM methods\n3. Missing input validation — user input used directly without Zod or similar validation\n4. JWT stored in localStorage instead of HttpOnly cookies\n5. Missing authentication middleware on API routes that access user data\n6. Password logged or included in API responses (check for console.log with user objects, or response.json with password fields)\n7. CORS configured with origin: '*' and credentials: true simultaneously\n8. Missing rate limiting on authentication endpoints (login, register, forgot-password)\n9. Using Math.random() for security tokens instead of crypto.randomBytes()\n10. Missing error sanitization — stack traces or internal details exposed in production error responses\n\nFor each issue found, explain the security risk and suggest the secure alternative. Only flag real issues, not false positives. Respond with {\"ok\": true} if no issues found.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
