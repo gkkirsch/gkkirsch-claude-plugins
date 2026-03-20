@@ -1,1 +1,15 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check the edited code for PostgreSQL best practices. Flag if you see ANY of these issues:\n1. Using VARCHAR(n) instead of TEXT (no performance benefit in PostgreSQL)\n2. Using TIMESTAMP instead of TIMESTAMPTZ (always store with timezone)\n3. Using FLOAT/REAL for money (use NUMERIC)\n4. Using JSON instead of JSONB (JSONB is faster and indexable)\n5. String concatenation in SQL queries instead of parameterized queries ($1, $2)\n6. CREATE INDEX without CONCURRENTLY (blocks writes on large tables)\n7. Using sequential/integer IDs in public APIs (use UUID for public-facing)\n8. Missing indexes on foreign key columns\n9. Using ENUM types (hard to modify — use CHECK constraints or lookup tables)\n10. VACUUM FULL in production code (blocks all access — use regular VACUUM)\n11. work_mem set too high globally (it's per-sort, not per-query)\n12. Missing ON DELETE clause on foreign keys (default RESTRICT may not be intended)\n\nOnly flag clear violations. Respond with {\"ok\": true} if the code looks fine, or {\"ok\": false, \"reason\": \"specific issue\"} if there's a problem."
+          }
+        ]
+      }
+    ]
+  }
+}
