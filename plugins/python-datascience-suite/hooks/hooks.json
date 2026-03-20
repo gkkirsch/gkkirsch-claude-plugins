@@ -1,1 +1,16 @@
-{"hooks":{}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for Python data science issues. Check for: 1) using iterrows() instead of vectorized operations (apply, map, or numpy), 2) loading entire CSV without specifying dtypes or usecols (memory waste on large files), 3) chained indexing (df['col'][mask]) instead of .loc/.iloc (SettingWithCopyWarning), 4) missing .copy() when creating DataFrame subsets that will be modified, 5) string operations without .str accessor or using Python loops on Series, 6) plotting without setting figure size, labels, or title (matplotlib defaults are presentation-unfriendly), 7) using pd.append() or DataFrame concatenation in a loop (quadratic performance), 8) hardcoded column names that should be parameterized, 9) missing null handling before aggregation or merge operations, 10) Jupyter-specific code in .py files (display(), magic commands, global variables without main guard). Return {\"ok\": true} if clean or {\"ok\": false, \"reason\": \"specific issue found\"} if any issue is detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

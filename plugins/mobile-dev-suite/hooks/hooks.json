@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for mobile development issues. Check for: 1) inline styles instead of StyleSheet.create (performance penalty on every render), 2) missing keyboard handling (KeyboardAvoidingView, keyboard dismiss on scroll), 3) platform-specific code without Platform.select or .ios/.android file extensions, 4) hardcoded pixel values instead of responsive units (Dimensions, useWindowDimensions, or scaled values), 5) missing accessibility props (accessibilityLabel, accessibilityRole, accessibilityHint), 6) storing sensitive data in AsyncStorage instead of SecureStore/Keychain, 7) missing loading and error states for async operations, 8) using setTimeout/setInterval without cleanup in useEffect return, 9) large images without resizing or caching (use expo-image or FastImage), 10) navigation params not typed or validated. Return {\"ok\": true} if clean or {\"ok\": false, \"reason\": \"specific issue found\"} if any issue is detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the documentation change for quality issues. Check for: 1) code examples without language tag on fenced code blocks, 2) placeholder text left in templates (TODO, TBD, FIXME, lorem ipsum, example.com in non-example contexts), 3) broken markdown links or image references, 4) missing or inconsistent heading hierarchy (skipping levels like h2 to h4), 5) code examples that won't run as written (missing imports, undefined variables, syntax errors), 6) API documentation missing required fields (method, path, request body, response format, error codes), 7) instructions using second person inconsistently (mixing you/we/one), 8) version-specific claims without specifying the version, 9) screenshots or diagrams referenced but not included, 10) missing table of contents for documents longer than 5 sections. Return {\"ok\": true} if clean or {\"ok\": false, \"reason\": \"specific issue found\"} if any issue is detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }
