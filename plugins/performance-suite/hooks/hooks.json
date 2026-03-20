@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if the edited file is a web application file (JS, TS, JSX, TSX, HTML, CSS). If it is, review for these performance issues and report any found:\n\n1. **Missing dimensions on media elements** — <img>, <video>, or <iframe> without explicit width and height attributes. This causes Cumulative Layout Shift (CLS).\n\n2. **Lazy-loaded LCP candidate** — a hero image or primary above-fold image with `loading=\"lazy\"`. The LCP image should use `loading=\"eager\"` and `fetchpriority=\"high\"`.\n\n3. **Synchronous script without defer/async** — `<script src=\"...\">` without `defer` or `async` attribute blocks HTML parsing and delays First Contentful Paint.\n\n4. **Importing entire utility library** — `import _ from 'lodash'` or `import * as _ from 'lodash'` instead of `import debounce from 'lodash/debounce'`. This pulls the entire library into the bundle.\n\n5. **Inline object/array props in JSX** — passing `style={{}}`, `options={[]}`, or `config={{}}` directly in JSX creates new references every render, defeating React.memo. Suggest extracting to useMemo or a constant.\n\n6. **Missing React.memo on list item components** — a component rendered inside `.map()` without React.memo, especially if the parent re-renders frequently.\n\n7. **useEffect with missing or overly broad dependencies** — useEffect with `[]` that references external variables (stale closure), or useEffect without a dependency array (runs every render).\n\n8. **Large synchronous computation in render** — filtering, sorting, or transforming large arrays directly in the component body without useMemo. Suggest wrapping in useMemo with proper dependencies.\n\n9. **No-store or no-cache confusion** — using `Cache-Control: no-cache` when the intent is to never cache (should be `no-store`). `no-cache` still caches but revalidates every time.\n\n10. **Render-blocking CSS import** — `@import url(...)` in CSS files creates a blocking waterfall. Suggest using `<link rel=\"stylesheet\">` in HTML or bundling the CSS.\n\nIf the file doesn't appear to be a web application file, respond with {\"ok\": true}. If issues are found, respond with {\"ok\": true} and list the issues as suggestions (don't block)."
+          }
+        ]
+      }
+    ]
+  }
+}

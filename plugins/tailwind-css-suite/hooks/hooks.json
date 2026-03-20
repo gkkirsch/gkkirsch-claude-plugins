@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if the edited file contains JSX/TSX or HTML with Tailwind CSS classes. If it does, review for these issues and report any found:\n\n1. **Inline styles mixed with Tailwind** — using `style={{}}` alongside Tailwind classes. Use Tailwind utilities instead (arbitrary values like `w-[327px]` if needed).\n\n2. **Missing responsive considerations** — layout classes without any responsive prefixes. If the component has a grid or multi-column layout, ensure it stacks on mobile (e.g., `flex-col sm:flex-row`, `grid-cols-1 md:grid-cols-3`).\n\n3. **Hardcoded colors instead of theme tokens** — using arbitrary hex colors like `bg-[#3b82f6]` when a Tailwind color exists (`bg-blue-500`). Arbitrary colors bypass the design system.\n\n4. **Missing dark mode variants** — components with `bg-white` or `text-gray-900` but no `dark:` counterparts. If the project uses dark mode, every background and text color needs a dark variant.\n\n5. **Conflicting Tailwind classes** — classes that override each other without tailwind-merge, like `px-4 px-6` or `text-sm text-lg`. The first class wins in plain CSS — use `cn()` with tailwind-merge for dynamic class merging.\n\n6. **Missing dimensions on images** — `<img>` tags without `width` and `height` attributes or Tailwind size classes. This causes layout shift (CLS).\n\n7. **Overusing arbitrary values** — multiple arbitrary values like `w-[247px] h-[183px] mt-[23px]` instead of extending the theme. If you need a custom value more than once, add it to the Tailwind config.\n\n8. **Missing hover/focus states on interactive elements** — buttons, links, or clickable elements without `hover:` and `focus:` variants. Interactive elements need visual feedback.\n\nIf the file doesn't contain Tailwind classes, respond with {\"ok\": true}. If issues are found, respond with {\"ok\": true} and list the issues as suggestions (don't block)."
+          }
+        ]
+      }
+    ]
+  }
+}
