@@ -1,0 +1,5 @@
+{
+  "name": "Firebase Suite",
+  "description": "Complete Firebase patterns — Authentication (email, OAuth, phone, multi-factor), Firestore (queries, security rules, data modeling, offline), Cloud Functions (triggers, callable, scheduled, middleware), Hosting, Storage, and Firebase Admin SDK.",
+  "version": "1.0.0"
+}
