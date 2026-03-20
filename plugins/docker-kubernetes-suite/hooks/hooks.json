@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for Docker and Kubernetes issues. Check for:\n1. Dockerfile using COPY before package.json — busts layer cache on every code change\n2. Using :latest tag in production Dockerfiles or Kubernetes manifests\n3. Running container as root user — should use non-root USER directive\n4. Missing .dockerignore — node_modules and .git sent to Docker daemon\n5. Kubernetes deployment without resource requests and limits\n6. Liveness probe that depends on external services (DB, Redis) — should only check process health\n7. Missing readinessProbe — pods receive traffic before they're ready\n8. Secrets stored as plain text in ConfigMaps instead of Kubernetes Secrets\n9. Using npm install instead of npm ci in Dockerfiles\n10. Missing terminationGracePeriodSeconds or preStop hook for graceful shutdown\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

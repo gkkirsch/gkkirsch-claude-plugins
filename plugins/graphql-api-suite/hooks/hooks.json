@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for GraphQL and API issues. Check for:\n1. N+1 queries in GraphQL resolvers — field resolvers that make individual DB calls without DataLoader\n2. Missing input validation on mutation arguments — any user input should be validated before processing\n3. Returning sensitive fields (password, tokens, internal IDs) in GraphQL type definitions\n4. Missing error handling in resolvers — unhandled promise rejections crash the server\n5. Using `any` types in resolvers instead of proper TypeScript generics\n6. Missing authentication/authorization checks in mutation resolvers\n7. Exposing introspection in production — schema introspection should be disabled in prod\n8. GraphQL subscriptions without connection authentication or rate limiting\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for distributed systems and architecture issues. Check for:\n1. Missing retry logic with exponential backoff for external service calls\n2. No circuit breaker pattern around unreliable dependencies\n3. Synchronous calls to external services in the request path that should be async/queued\n4. Missing health check endpoints for load balancer integration\n5. Hardcoded service URLs instead of service discovery or environment variables\n6. No timeout set on HTTP client calls — defaults can hang indefinitely\n7. Cache operations without TTL — unbounded cache growth causes memory issues\n8. Missing graceful shutdown handling (SIGTERM) for container environments\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }
