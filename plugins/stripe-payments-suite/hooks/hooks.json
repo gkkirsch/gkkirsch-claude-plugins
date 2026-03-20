@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check the code that was just written for Stripe integration issues:\n1. Are amounts in cents (not dollars)? All Stripe amounts must use smallest currency unit.\n2. Is the webhook endpoint using express.raw() instead of express.json()? Signature verification requires raw body.\n3. Are API keys coming from environment variables (not hardcoded)?\n4. Is the Stripe API version pinned in the constructor?\n5. Are webhook handlers idempotent (checking for duplicate event.id before processing)?\n6. Is error handling using Stripe error types (StripeCardError, StripeInvalidRequestError, etc.)?\n7. Are Payment Intents / Checkout Sessions using metadata to link to your database records?\n8. For subscriptions: is cancel_at_period_end used instead of immediate cancellation?\nRespond with {\"ok\": true} if the code looks correct, or {\"ok\": false, \"reason\": \"specific issue found\"} if there's a problem."
+          }
+        ]
+      }
+    ]
+  }
+}

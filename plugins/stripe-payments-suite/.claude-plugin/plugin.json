@@ -1,0 +1,5 @@
+{
+  "name": "Stripe Payments & Billing Suite",
+  "version": "1.0.0",
+  "description": "Complete Stripe integration toolkit — Checkout sessions, subscriptions & billing portals, webhook handling, Stripe Connect for marketplaces, metered billing, invoice management, and payment method handling. Production-ready patterns with TypeScript."
+}
