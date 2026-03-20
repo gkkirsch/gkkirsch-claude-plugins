@@ -1,0 +1,5 @@
+{
+  "name": "API Design & REST Suite",
+  "version": "1.0.0",
+  "description": "Design production-quality REST APIs — OpenAPI specifications, versioning strategies, rate limiting, pagination patterns, and structured error handling. Covers Express, Fastify, and framework-agnostic patterns with Zod validation."
+}
