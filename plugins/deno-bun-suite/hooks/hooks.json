@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Deno/Bun code change for issues. Check for: 1) Using require() instead of ESM import (both runtimes are ESM-first), 2) Missing Deno permission flags in deployment config (--allow-net, --allow-read, etc.), 3) Using node:fs without the 'node:' prefix in Deno (bare 'fs' doesn't work), 4) Bun.serve() without error handler (unhandled errors crash the process), 5) Using process.env instead of Deno.env.get() in Deno code, 6) Missing deno.json or bunfig.toml configuration file, 7) Using npm packages that depend on Node.js C++ addons in Bun (native modules may not work), 8) Deno KV operations without proper key design (hierarchical keys for efficient range queries), 9) Missing TypeScript configuration (both support TS natively but may need tsconfig for strict mode), 10) Using setTimeout/setInterval without cleanup in server code (memory leak on hot reload). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Deno & Bun Runtime Suite",
+  "description": "Modern JavaScript runtime development — Deno 2 APIs, permissions, KV store, Deploy, Fresh framework, plus Bun runtime, bundler, test runner, package manager, and migration from Node.js.",
+  "version": "1.0.0"
+}

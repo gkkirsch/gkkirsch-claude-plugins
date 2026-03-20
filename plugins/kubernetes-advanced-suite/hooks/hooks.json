@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Kubernetes manifest or operations code change for issues. Check for: 1) Missing resource requests/limits on containers (causes noisy neighbor problems and OOM kills), 2) Running container as root (missing securityContext.runAsNonRoot: true), 3) Missing readinessProbe (traffic routed to unready pods), 4) Database check in livenessProbe instead of readinessProbe (DB outage cascades pod restarts), 5) Using 'latest' image tag (non-reproducible deploys, can't rollback), 6) Missing PodDisruptionBudget for production workloads (all pods killed during node drain), 7) Secrets in plain text in manifests (use SealedSecrets, External Secrets, or SOPS), 8) Missing NetworkPolicy (all pods can communicate by default), 9) HPA targeting CPU only without custom metrics (CPU is a poor scaling signal for I/O-bound apps), 10) Missing preStop hook for graceful shutdown (in-flight requests dropped during rolling updates). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

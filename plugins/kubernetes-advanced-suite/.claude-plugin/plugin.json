@@ -1,0 +1,5 @@
+{
+  "name": "Kubernetes Advanced Operations Suite",
+  "description": "Production Kubernetes operations — pod lifecycle, resource management, autoscaling (HPA/VPA/KEDA), service mesh, network policies, RBAC, secrets management, troubleshooting, GitOps with ArgoCD/Flux, and SRE patterns.",
+  "version": "1.0.0"
+}
