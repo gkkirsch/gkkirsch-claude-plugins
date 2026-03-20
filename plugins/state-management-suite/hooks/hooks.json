@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for React state management issues. Check for:\n1. Storing derived state — computed values that could be calculated from existing state should not be stored separately\n2. State that belongs in a component but was put in global store — form input values, UI toggles, modal open/close should usually be local state\n3. Missing selector memoization — selecting from store without shallow comparison causes unnecessary re-renders\n4. Mutating state directly instead of using immer/produce patterns\n5. Async logic inside store without proper loading/error state tracking\n6. Store slice too large — monolithic stores should be split by domain\n7. Missing TypeScript types on store state and actions\n8. No devtools middleware configured — essential for debugging\n9. Storing non-serializable values (functions, class instances, Dates) in Redux store\n10. Using useEffect to sync state between stores — indicates state duplication\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

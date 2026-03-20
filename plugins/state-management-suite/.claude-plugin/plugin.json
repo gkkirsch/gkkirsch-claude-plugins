@@ -1,5 +1,5 @@
 {
   "name": "State Management Suite",
-  "version": "1.0.0",
-  "description": "Modern React state management — Zustand for simple global state, Redux Toolkit for complex app state, React Query/TanStack Query for server state, and Jotai for atomic state. Includes patterns for state architecture, data fetching, caching, optimistic updates, and state machine design."
+  "description": "Modern React state management — Zustand for lightweight stores with middleware, Redux Toolkit for complex state with slices, RTK Query, and entity adapters. Covers store design, async patterns, persistence, devtools, testing, and migration strategies.",
+  "version": "1.0.0"
 }
