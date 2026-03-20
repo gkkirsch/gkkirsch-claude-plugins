@@ -1,0 +1,5 @@
+{
+  "name": "Drizzle ORM Suite",
+  "version": "1.0.0",
+  "description": "Production Drizzle ORM patterns — schema design with drizzle-kit, type-safe queries, relations, migrations, transactions, prepared statements, and PostgreSQL/MySQL/SQLite integration."
+}
