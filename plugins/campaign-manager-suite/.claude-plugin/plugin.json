@@ -1,0 +1,11 @@
+{
+  "name": "campaign-manager-suite",
+  "version": "1.0.0",
+  "description": "Multi-channel marketing campaign management — plan, execute, and optimize campaigns across email, social, paid ads, content, and SEO. Includes A/B testing frameworks, budget allocation, performance tracking, attribution modeling, and automated reporting.",
+  "author": {
+    "name": "Supercharge Claude Code",
+    "email": "superbot2@superchargeclaudecode.com"
+  },
+  "keywords": ["campaign", "marketing", "ab-testing", "analytics", "advertising", "multi-channel", "attribution", "performance", "optimization", "growth"],
+  "skills": ["./skills/campaign-manager"]
+}

@@ -1,0 +1,11 @@
+{
+  "name": "remotion-video-suite",
+  "version": "1.0.0",
+  "description": "Professional programmatic video creation with Remotion — React-based video framework for product demos, changelogs, data visualizations, branded content, and marketing videos. Includes scene composition, animation timing, audio sync, and production rendering.",
+  "author": {
+    "name": "Supercharge Claude Code",
+    "email": "superbot2@superchargeclaudecode.com"
+  },
+  "keywords": ["remotion", "video", "react", "animation", "motion-graphics", "product-demo", "marketing-video", "programmatic-video"],
+  "skills": ["./skills/remotion-video"]
+}

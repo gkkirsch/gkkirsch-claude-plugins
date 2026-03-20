@@ -1,0 +1,11 @@
+{
+  "name": "video-production-suite",
+  "version": "1.0.0",
+  "description": "Complete video production toolkit — scripting, storyboarding, screen recording workflows, editing with Descript/CapCut/DaVinci Resolve, AI voiceover with ElevenLabs, music selection, subtitle generation, and multi-platform export for product demos, tutorials, and marketing videos.",
+  "author": {
+    "name": "Supercharge Claude Code",
+    "email": "superbot2@superchargeclaudecode.com"
+  },
+  "keywords": ["video", "production", "editing", "screen-recording", "descript", "elevenlabs", "voiceover", "tutorial", "product-demo", "marketing"],
+  "skills": ["./skills/video-production"]
+}

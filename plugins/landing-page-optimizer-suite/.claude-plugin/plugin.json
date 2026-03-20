@@ -1,0 +1,11 @@
+{
+  "name": "landing-page-optimizer-suite",
+  "version": "1.0.0",
+  "description": "Landing page conversion optimization — audit existing pages, implement proven CRO patterns, write high-converting copy, design A/B tests, and build pages that convert. Includes 50+ conversion patterns, audit checklists, and real-world examples from top-converting pages.",
+  "author": {
+    "name": "Supercharge Claude Code",
+    "email": "superbot2@superchargeclaudecode.com"
+  },
+  "keywords": ["landing-page", "conversion", "cro", "optimization", "ab-testing", "copywriting", "ux", "design", "sales-page", "lead-generation"],
+  "skills": ["./skills/landing-page-optimizer"]
+}
