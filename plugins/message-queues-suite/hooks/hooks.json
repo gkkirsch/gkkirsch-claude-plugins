@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for message queue and background job issues. Check for:\n1. Missing job retry configuration — jobs should have explicit attempts and backoff strategy\n2. No dead letter queue (DLQ) — failed jobs after max retries should go to a DLQ for investigation\n3. Missing idempotency — job handlers must be idempotent since jobs can be retried\n4. Unbounded concurrency — workers should have explicit concurrency limits\n5. No graceful shutdown — workers must drain active jobs before process exit (SIGTERM handler)\n6. Missing job timeout — long-running jobs without timeout block the worker\n7. Storing large payloads in the job data — store a reference (S3 key, DB ID) instead of the full payload\n8. No error handling in job processor — unhandled errors crash the worker\n9. Missing health checks — queue connection health should be monitored\n10. Consumer group not configured for Kafka — messages won't be distributed across instances\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Message Queues & Background Jobs Suite",
+  "description": "Production message queue and background job systems — BullMQ for Redis-backed job queues with retries, scheduling, and rate limiting; Kafka for high-throughput event streaming, consumer groups, and exactly-once semantics. Covers job patterns, dead letter queues, monitoring, and distributed system design.",
+  "version": "1.0.0"
+}
