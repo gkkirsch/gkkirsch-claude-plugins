@@ -1,0 +1,5 @@
+{
+  "name": "Next.js Full-Stack Suite",
+  "version": "1.0.0",
+  "description": "Complete Next.js 15 development toolkit — App Router patterns, Server Components, Server Actions, data fetching strategies, middleware, authentication, caching, deployment to Vercel/Docker/Node, and performance optimization. Covers the full stack from routing to production."
+}

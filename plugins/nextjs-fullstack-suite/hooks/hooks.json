@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check the Next.js code that was just written for common issues:\n1. Is 'use client' only added when the component genuinely needs client-side interactivity (useState, useEffect, event handlers, browser APIs)? Server Components should be the default.\n2. Are params and searchParams being awaited (Next.js 15 requirement)? They are Promises now.\n3. Is data being fetched in Server Components (not useEffect)? Client-side fetching should be rare.\n4. Does the page import and use cookies(), headers(), or searchParams? If so, it's dynamically rendered — is that intentional?\n5. Are images using next/image with width, height, and alt props?\n6. Are fonts loaded via next/font (not manual link tags)?\n7. Is redirect() being used outside a try/catch? It throws internally and should not be caught.\n8. Are Server Actions in a separate file with 'use server' at the top?\nRespond with {\"ok\": true} if the code follows Next.js best practices, or {\"ok\": false, \"reason\": \"specific issue found\"} if there's a problem."
+          }
+        ]
+      }
+    ]
+  }
+}
