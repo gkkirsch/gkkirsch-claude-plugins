@@ -1,0 +1,5 @@
+{
+  "name": "Supabase Suite",
+  "description": "Complete Supabase patterns — authentication, database with Row Level Security, storage, realtime subscriptions, and Edge Functions. Covers email/OAuth/MFA auth, RLS policies, file uploads, presence channels, and server-side usage with Next.js.",
+  "version": "1.0.0"
+}
