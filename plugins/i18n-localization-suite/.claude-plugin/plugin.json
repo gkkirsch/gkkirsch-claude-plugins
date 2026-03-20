@@ -1,0 +1,5 @@
+{
+  "name": "i18n & Localization Suite",
+  "description": "Internationalization and localization for web apps — react-i18next, next-intl, ICU message format, pluralization, date/number formatting, RTL support, and translation workflow management.",
+  "version": "1.0.0"
+}
