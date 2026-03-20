@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the git command that was just executed for safety issues. Check for:\n1. Force push to main/master branch (git push --force origin main) — this rewrites shared history\n2. Hard reset (git reset --hard) without first checking if there are uncommitted changes that would be lost\n3. Amending a commit that has already been pushed — this rewrites published history\n4. Deleting branches without checking if they're merged (git branch -D instead of -d)\n5. Running git clean -f without --dry-run first — this permanently deletes untracked files\n6. Rebasing commits that have been pushed to a shared branch\n7. Using --no-verify to skip pre-commit hooks — this bypasses safety checks\n\nFor each issue found, explain the risk and suggest the safer alternative. Only flag actual dangerous commands, not safe git operations. Respond with {\"ok\": true} if the command is safe.",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

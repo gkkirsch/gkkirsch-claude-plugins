@@ -1,0 +1,5 @@
+{
+  "name": "Git Workflow Suite",
+  "description": "Complete git workflow toolkit — branching strategies (GitFlow, trunk-based, GitHub Flow), conventional commits, interactive rebase, bisect debugging, worktrees, hooks, PR review patterns, and CI/CD integration.",
+  "version": "1.0.0"
+}

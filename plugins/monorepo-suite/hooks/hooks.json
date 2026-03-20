@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for monorepo issues. Check for:\n1. Importing from a workspace package using relative paths ('../../packages/ui') instead of the package name ('@repo/ui')\n2. Adding dependencies to the root package.json that should be in a specific package's package.json\n3. Hardcoded paths that assume a specific monorepo structure instead of using workspace-relative paths\n4. Missing 'workspace:*' protocol for internal dependencies — using version numbers instead\n5. Adding app-specific code to a shared package (check if the file is in packages/ but imports from apps/)\n6. TypeScript config not extending the shared base config (@repo/config-ts)\n7. Missing turbo.json task configuration for new scripts added to package.json\n8. Circular dependency — a package in packages/ importing from another package that already depends on it\n\nFor each issue found, explain the monorepo best practice and suggest the correct approach. Only flag real issues. Respond with {\"ok\": true} if no issues found.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
