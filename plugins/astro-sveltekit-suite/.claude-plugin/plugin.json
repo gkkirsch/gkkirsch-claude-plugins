@@ -1,0 +1,5 @@
+{
+  "name": "Astro & SvelteKit Suite",
+  "description": "Modern meta-framework development — Astro for content sites with island architecture, SvelteKit for full-stack apps. Covers routing, data loading, SSR/SSG/ISR, content collections, middleware, deployment, and framework selection guidance.",
+  "version": "1.0.0"
+}
