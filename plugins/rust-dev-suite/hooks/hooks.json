@@ -1,3 +1,16 @@
 {
-  "hooks": {}
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Rust code change for issues. Check for: 1) unwrap() or expect() in non-test production code (use ? or proper error handling), 2) Holding MutexGuard across .await points (use tokio::sync::Mutex for async), 3) Missing Send + Sync bounds on error types used across threads, 4) Blocking operations in async context (use spawn_blocking), 5) Clone on large types where borrowing would work, 6) Missing lifetime annotations causing unnecessary allocations, 7) Panic-inducing indexing (use .get() instead of direct [i] access), 8) Unused Result (must use or explicitly ignore with let _ =), 9) Box<dyn Error> in library public APIs (use concrete error types with thiserror), 10) Missing error context (bare ? without .context() on fallible operations). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

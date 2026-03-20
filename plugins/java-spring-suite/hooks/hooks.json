@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Java/Spring code change for issues. Check for: 1) @Transactional on private methods (Spring proxy won't intercept), 2) N+1 queries with JPA lazy loading (missing JOIN FETCH or @EntityGraph), 3) Missing @Valid on @RequestBody parameters (validation annotations ignored), 4) Optional.get() without isPresent check (use orElseThrow), 5) Missing exception handling for DataIntegrityViolationException, 6) Exposing entity directly in API response (should use DTO/record), 7) Hardcoded secrets or credentials in source code, 8) Missing @PreAuthorize or role checks on sensitive endpoints, 9) Not using the returned entity from repository.save(), 10) Field injection (@Autowired on fields) instead of constructor injection. Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Go code change for issues. Check for: 1) Goroutine leaks (missing context cancellation or done channel), 2) Missing error checks (unchecked error returns), 3) Data races (shared state without mutex or channels), 4) defer rows.Close() before error check (nil pointer panic), 5) Missing http.Error return statements (handler continues after error response), 6) Context not propagated (using context.Background() instead of request context), 7) sql.DB treated as single connection instead of pool, 8) Blocking operations in HTTP handlers without timeouts, 9) String concatenation in loops instead of strings.Builder, 10) Exported functions missing documentation comments. Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }
