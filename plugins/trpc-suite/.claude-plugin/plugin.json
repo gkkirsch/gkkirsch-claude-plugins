@@ -1,0 +1,5 @@
+{
+  "name": "tRPC Suite",
+  "description": "End-to-end type-safe APIs with tRPC v11 — server routers, client integration, React Query hooks, Next.js App Router, subscriptions, middleware, error handling, and testing patterns.",
+  "version": "1.0.0"
+}
