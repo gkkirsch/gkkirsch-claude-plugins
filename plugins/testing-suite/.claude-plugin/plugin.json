@@ -1,0 +1,5 @@
+{
+  "name": "Testing Suite",
+  "description": "Comprehensive testing patterns for React and Node.js — Vitest unit/integration tests, Playwright E2E tests, testing strategies, mocking patterns, and coverage optimization.",
+  "version": "1.0.0"
+}

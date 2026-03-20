@@ -1,0 +1,5 @@
+{
+  "name": "TypeScript Patterns Suite",
+  "description": "Advanced TypeScript patterns — generics, conditional types, mapped types, template literals, branded types, type-safe patterns for APIs and state management, and refactoring strategies.",
+  "version": "1.0.0"
+}

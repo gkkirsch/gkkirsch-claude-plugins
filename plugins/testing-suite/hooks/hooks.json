@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check if the edited file is a test file (.test.ts, .test.tsx, .spec.ts, .spec.tsx). If it IS a test file, verify these testing best practices:\n\n1. Tests have descriptive names that explain the expected behavior, not just 'it works' or 'test 1'\n2. No hardcoded timeouts like setTimeout(done, 5000) — use proper async/await patterns\n3. Each test focuses on ONE behavior — not testing multiple unrelated things\n4. Using semantic queries (getByRole, getByLabelText) instead of getByTestId for React component tests\n5. No implementation details tested (internal state, private methods, CSS classes) — test behavior and output\n6. Mocks are scoped properly — using mockReturnValueOnce over mockReturnValue when the mock should only apply once\n7. No console.log left in test files — use proper assertions\n8. Async operations use await/waitFor, not arbitrary delays\n9. Test data uses factories or builders, not copy-pasted objects across tests\n10. Cleanup is handled (afterEach, vi.restoreAllMocks) to prevent test pollution\n\nIf it is NOT a test file, respond with {\"ok\": true}.\n\nIf it IS a test file and all checks pass, respond {\"ok\": true}.\nIf any check fails, respond {\"ok\": false, \"reason\": \"Brief description of the testing issue found\"}.\n\n$ARGUMENTS"
+          }
+        ]
+      }
+    ]
+  }
+}

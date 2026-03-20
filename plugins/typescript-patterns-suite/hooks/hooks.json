@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check the edited TypeScript file for these type safety issues:\n\n1. Usage of `any` type — should use `unknown`, generics, or a specific type instead\n2. Type assertions (`as Type`) without a type guard or validation — prefer type narrowing\n3. Non-null assertions (`value!`) without a preceding null check — prefer optional chaining or guard\n4. `// @ts-ignore` or `// @ts-expect-error` without explanation — should document WHY\n5. `Object.keys()` without proper typing — should cast to `Array<keyof typeof obj>` or use a type-safe alternative\n6. Enum usage — prefer `as const` objects with `type Values = typeof obj[keyof typeof obj]`\n7. String literal union without const assertion — `satisfies` or `as const` should be used\n8. Missing return type on exported functions — exported functions should have explicit return types\n9. `Function` type used — should use specific function signature `(args: T) => R`\n10. Empty interface `interface Foo {}` — use `type Foo = Record<string, never>` or remove\n11. `{} ` type used — almost never what you want, use `Record<string, unknown>` or `object`\n12. Index signature `[key: string]: any` — use `Record<string, unknown>` instead\n\nIf NO TypeScript issues found, respond {\"ok\": true}.\nIf issues found, respond {\"ok\": false, \"reason\": \"Brief description of the type safety issue\"}.\n\n$ARGUMENTS"
+          }
+        ]
+      }
+    ]
+  }
+}
