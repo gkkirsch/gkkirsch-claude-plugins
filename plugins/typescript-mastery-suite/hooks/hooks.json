@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for TypeScript anti-patterns. Check for:\n1. Using 'any' type — use 'unknown' with type narrowing instead\n2. Type assertions (as Type) without validation — use type guards or Zod\n3. Non-exhaustive switch on discriminated unions — missing cases silently pass\n4. Using 'enum' keyword — prefer 'as const' objects with derived union types\n5. Optional chaining without handling the undefined case (x?.y used where x is required)\n6. Overusing type assertions to silence errors instead of fixing the actual type\n7. Generic functions without constraints — <T> should be <T extends SomeType>\n8. Using Record<string, any> — too permissive, use a specific interface\n9. Missing return type annotations on exported functions\n10. Catching errors as 'any' — use 'unknown' and narrow with instanceof\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

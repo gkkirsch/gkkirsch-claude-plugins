@@ -1,39 +1,16 @@
 {
-  "hooks": [
-    {
-      "event": "on_tool_call",
-      "tool": "Bash",
-      "pattern": "aws\\s+iam\\s+create-user|aws\\s+iam\\s+attach.*policy|aws\\s+iam\\s+put-user-policy",
-      "action": "warn",
-      "message": "IAM modification detected. Verify you're targeting the correct AWS account and using least-privilege permissions."
-    },
-    {
-      "event": "on_tool_call",
-      "tool": "Bash",
-      "pattern": "aws\\s+s3\\s+rb|aws\\s+s3api\\s+delete-bucket|aws\\s+ec2\\s+terminate-instances|aws\\s+rds\\s+delete-db",
-      "action": "warn",
-      "message": "Destructive AWS operation detected. Double-check resource identifiers and confirm this targets the intended environment."
-    },
-    {
-      "event": "on_tool_call",
-      "tool": "Bash",
-      "pattern": "cdk\\s+destroy|terraform\\s+destroy|sam\\s+delete",
-      "action": "warn",
-      "message": "Infrastructure teardown command detected. Confirm you want to destroy these resources — this may be irreversible."
-    },
-    {
-      "event": "on_tool_call",
-      "tool": "Bash",
-      "pattern": "aws\\s+.*--region(?!\\s+us-east-1|\\s+us-west-2|\\s+eu-west-1)",
-      "action": "info",
-      "message": "Non-default region detected. Verify this is the intended deployment region for cost and latency considerations."
-    },
-    {
-      "event": "on_tool_call",
-      "tool": "Write",
-      "pattern": ".*\\.env.*|.*credentials.*|.*secret.*",
-      "action": "warn",
-      "message": "Writing to a file that may contain secrets. Never hardcode AWS access keys, secret keys, or session tokens. Use IAM roles, SSO, or AWS Secrets Manager instead."
-    }
-  ]
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for AWS and cloud infrastructure issues. Check for:\n1. Hardcoded AWS credentials or access keys — use IAM roles, SSO, or Secrets Manager\n2. Using 'Resource: *' in IAM policies — scope to specific ARNs\n3. Missing encryption (S3 ServerSideEncryption, RDS storageEncrypted, ElastiCache atRestEncryption)\n4. Lambda function without error handling — unhandled errors cause silent failures\n5. DynamoDB scan operations — use Query with partition key instead\n6. Missing DLQ (dead letter queue) on SQS queues or Lambda async invocations\n7. Security group with 0.0.0.0/0 inbound on non-HTTP ports\n8. Using :latest tag for container images in ECS task definitions\n9. Missing health checks on ECS services or target groups\n10. CloudFormation/CDK resources without RemovalPolicy.RETAIN on stateful resources (databases, S3)\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

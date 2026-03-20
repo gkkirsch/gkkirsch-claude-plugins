@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for React and Next.js issues. Check for:\n1. Using useEffect for data fetching instead of Server Components or React Query\n2. Missing dependency array in useEffect — causes infinite re-render loops\n3. Creating new objects/arrays in render that defeat React.memo (inline objects, .filter(), .map() in JSX props)\n4. Using useState for derived state — compute it during render instead\n5. Missing error boundary around components that can throw\n6. Client component importing server-only modules (fs, database clients)\n7. Missing 'use client' directive on component that uses hooks or event handlers\n8. Using index as key in lists that can reorder, filter, or insert items\n9. Fetching data in useEffect without cleanup/abort controller — causes race conditions\n10. Missing loading and error states for async operations\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }
