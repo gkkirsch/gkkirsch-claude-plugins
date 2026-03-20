@@ -1,0 +1,5 @@
+{
+  "name": "PostgreSQL Advanced Suite",
+  "version": "1.0.0",
+  "description": "Advanced PostgreSQL toolkit — query optimization with EXPLAIN ANALYZE, indexing strategies (B-tree, GIN, GiST, partial, covering), migration management with Prisma and raw SQL, connection pooling, security hardening, monitoring, partitioning, and production performance tuning."
+}

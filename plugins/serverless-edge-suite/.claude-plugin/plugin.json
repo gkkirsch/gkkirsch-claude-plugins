@@ -1,0 +1,5 @@
+{
+  "name": "Serverless & Edge Computing Suite",
+  "version": "1.0.0",
+  "description": "Build and deploy serverless functions and edge workers — AWS Lambda, Vercel Serverless Functions, Cloudflare Workers, and edge computing patterns. Covers cold starts, streaming, middleware, KV storage, and deployment strategies."
+}
