@@ -1,202 +1,221 @@
-# Vite Cheatsheet
+# Vite & Build Tools Cheatsheet
 
-## Quick Start
+## CLI Commands
+
+| Command | Use |
+|---------|-----|
+| `npm create vite@latest` | Create new project |
+| `npx vite` | Start dev server |
+| `npx vite build` | Production build |
+| `npx vite preview` | Preview production build |
+| `npx vite --force` | Clear dep cache and restart |
+| `npx vite --host` | Expose to network |
+| `npx vite --port 4000` | Custom port |
+| `npx vite optimize --force` | Force re-optimize deps |
+| `npx vitest` | Run tests (watch mode) |
+| `npx vitest run` | Run tests once (CI) |
+| `npx vitest run --coverage` | Run with coverage |
+| `npx vitest --ui` | Browser test viewer |
+
+## Vite Templates
 
 ```bash
-npm create vite@latest my-app -- --template react-ts
-cd my-app && npm i && npm run dev
+npm create vite@latest my-app -- --template <template>
 ```
 
-## Config Essentials
+| Template | Stack |
+|----------|-------|
+| `react-ts` | React + TypeScript |
+| `react-swc-ts` | React + SWC + TypeScript (fastest) |
+| `vue-ts` | Vue 3 + TypeScript |
+| `svelte-ts` | Svelte + TypeScript |
+| `solid-ts` | Solid + TypeScript |
+| `preact-ts` | Preact + TypeScript |
+| `vanilla-ts` | Vanilla + TypeScript |
+
+## Environment Variables
+
+| Variable | Access | Scope |
+|----------|--------|-------|
+| `VITE_*` | `import.meta.env.VITE_*` | Client + server |
+| Non-prefixed | `loadEnv()` in config only | Server only |
+| `import.meta.env.MODE` | Auto | `"development"` or `"production"` |
+| `import.meta.env.DEV` | Auto | `true` in dev |
+| `import.meta.env.PROD` | Auto | `true` in prod |
+| `import.meta.env.BASE_URL` | Auto | Base URL from config |
+| `import.meta.env.SSR` | Auto | `true` during SSR |
+
+### .env File Priority
+
+```
+.env                  # Always loaded
+.env.local            # Always loaded, gitignored
+.env.[mode]           # Only in specified mode
+.env.[mode].local     # Only in specified mode, gitignored
+
+Priority: .env.[mode].local > .env.[mode] > .env.local > .env
+```
+
+## Asset Handling
+
+| Import Syntax | Result |
+|---------------|--------|
+| `import img from './img.png'` | URL string |
+| `import raw from './file.txt?raw'` | Raw string content |
+| `import url from './file.json?url'` | URL (force) |
+| `import worker from './worker.js?worker'` | Web Worker |
+| `import wasm from './lib.wasm?init'` | WASM module |
+| `import svg from './icon.svg?react'` | React component (with vite-plugin-svgr) |
+
+## import.meta.glob
 
 ```typescript
-// vite.config.ts
-import { defineConfig } from "vite"
-import react from "@vitejs/plugin-react-swc"
-import path from "path"
+// Lazy loading (default) — code-split modules
+const modules = import.meta.glob('./modules/*.ts');
+// Returns: { './modules/a.ts': () => import('./modules/a.ts'), ... }
+
+// Eager loading — bundled together
+const modules = import.meta.glob('./modules/*.ts', { eager: true });
+// Returns: { './modules/a.ts': { default: ..., export1: ... }, ... }
+
+// Named imports only
+const modules = import.meta.glob('./modules/*.ts', { import: 'setup' });
+
+// As strings
+const modules = import.meta.glob('./modules/*.ts', { query: '?raw', import: 'default' });
+```
+
+## Config Quick Reference
+
+```typescript
+// vite.config.ts — minimal production-ready
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: { "@": path.resolve(__dirname, "./src") },
+    alias: { "@": "/src" },
   },
   server: {
     port: 3000,
-    proxy: { "/api": { target: "http://localhost:8080", changeOrigin: true } },
+    proxy: { "/api": "http://localhost:8080" },
   },
   build: {
-    target: "es2022",
+    target: "es2020",
     sourcemap: false,
-    minify: "esbuild",
-  },
-})
-```
-
-## Environment Variables
-
-```bash
-# .env — only VITE_ prefix exposed to client
-VITE_API_URL=https://api.example.com
-DATABASE_URL=postgres://...  # server-only (vite.config.ts)
-```
-
-```typescript
-const url = import.meta.env.VITE_API_URL
-const isDev = import.meta.env.DEV
-const isProd = import.meta.env.PROD
-const mode = import.meta.env.MODE
-```
-
-## Path Aliases
-
-```typescript
-// vite.config.ts
-resolve: { alias: { "@": path.resolve(__dirname, "./src") } }
-
-// tsconfig.json (must match!)
-{ "compilerOptions": { "paths": { "@/*": ["./src/*"] } } }
-```
-
-## Code Splitting
-
-```typescript
-// Route-based (React)
-const Dashboard = lazy(() => import("./pages/Dashboard"))
-const Settings = lazy(() => import("./pages/Settings"))
-
-// Manual chunks
-build: {
-  rollupOptions: {
-    output: {
-      manualChunks: {
-        "vendor-react": ["react", "react-dom"],
-        "vendor-ui": ["@radix-ui/react-dialog"],
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom"],
+        },
       },
     },
   },
-},
+});
 ```
 
-## Essential Plugins
+## Build Output Structure
 
-```bash
-npm i -D @vitejs/plugin-react-swc    # React (fastest)
-npm i -D vite-plugin-checker          # TS + ESLint in dev
-npm i -D vite-plugin-svgr             # SVGs as components
-npm i -D vite-plugin-compression      # Gzip/Brotli
-npm i -D rollup-plugin-visualizer     # Bundle analysis
-npm i -D vite-plugin-dts              # .d.ts for libraries
-npm i -D vite-plugin-pwa              # PWA support
+```
+dist/
+  index.html
+  assets/
+    index-[hash].js       # Entry chunk
+    vendor-[hash].js      # Vendor chunk (manual)
+    Dashboard-[hash].js   # Route chunk (lazy)
+    index-[hash].css      # CSS
+    logo-[hash].svg       # Static assets
 ```
 
-## Library Mode
+## Plugin Hook Order
+
+```
+config          → Modify config
+configResolved  → Read final config
+configureServer → Add dev server middleware
+buildStart      → Build starting
+resolveId       → Resolve import paths
+load            → Load file contents
+transform       → Transform file contents
+buildEnd        → Build complete
+closeBundle     → After bundle written
+```
+
+## Optimization Checklist
+
+| Check | How |
+|-------|-----|
+| Bundle size | `npx vite-bundle-visualizer` |
+| Unused code | Check tree shaking with `sideEffects: false` in package.json |
+| Large deps | Replace lodash → lodash-es, moment → date-fns |
+| Image size | Use `vite-plugin-imagemin` or WebP format |
+| CSS unused | PurgeCSS or Tailwind's built-in purge |
+| Code splitting | `React.lazy()` for route components |
+| Chunk grouping | `manualChunks` for vendor deps |
+| Compression | `vite-plugin-compression` for gzip/brotli |
+| Caching | Content hashes in filenames (default) |
+| Preload | `<link rel="modulepreload">` (auto-generated) |
+
+## Vitest Quick Reference
 
 ```typescript
-build: {
-  lib: {
-    entry: resolve(__dirname, "src/index.ts"),
-    formats: ["es", "cjs"],
-    fileName: (fmt) => `lib.${fmt === "es" ? "mjs" : "cjs"}`,
-  },
-  rollupOptions: {
-    external: ["react", "react-dom"],
-  },
-},
+// Test file naming: *.test.ts or *.spec.ts
+
+// Assertions
+expect(value).toBe(exact);
+expect(value).toEqual(deep);
+expect(value).toBeTruthy();
+expect(value).toBeFalsy();
+expect(value).toBeNull();
+expect(value).toBeDefined();
+expect(value).toContain(item);
+expect(value).toHaveLength(n);
+expect(value).toMatch(/regex/);
+expect(fn).toThrow("message");
+expect(fn).toHaveBeenCalled();
+expect(fn).toHaveBeenCalledWith(arg);
+expect(fn).toHaveBeenCalledTimes(n);
+expect(value).toMatchSnapshot();
+expect(value).toMatchInlineSnapshot();
+
+// Mocking
+vi.fn()                         // Mock function
+vi.fn(() => 42)                 // Mock with implementation
+vi.spyOn(obj, "method")        // Spy on method
+vi.mock("./module")             // Mock module (hoisted)
+vi.doMock("./module")           // Mock module (not hoisted)
+vi.mocked(fn)                   // TypeScript-typed mock
+vi.useFakeTimers()              // Fake timers
+vi.advanceTimersByTime(ms)      // Advance fake timers
+vi.useRealTimers()              // Restore real timers
+vi.stubEnv("KEY", "value")     // Mock env var
+vi.unstubAllEnvs()              // Restore env vars
+
+// Lifecycle
+beforeAll(() => {});
+afterAll(() => {});
+beforeEach(() => {});
+afterEach(() => {});
+
+// Test organization
+describe("group", () => {});
+it("test", () => {});
+it.skip("skipped", () => {});
+it.only("focused", () => {});
+it.todo("future test");
+it.each([1, 2, 3])("test %i", (n) => {});
 ```
 
-## CSS
+## Common Vite Errors
 
-```typescript
-css: {
-  modules: { localsConvention: "camelCase" },
-  preprocessorOptions: {
-    scss: { additionalData: `@use "@/styles/vars" as *;` },
-  },
-  // Lightning CSS (faster than PostCSS)
-  transformer: "lightningcss",
-},
-```
-
-## Dev Performance
-
-```typescript
-optimizeDeps: {
-  include: ["react", "react-dom"],  // pre-bundle
-  exclude: ["@local/pkg"],          // skip
-},
-server: {
-  warmup: { clientFiles: ["./src/App.tsx"] },
-},
-```
-
-## Production Optimization
-
-```typescript
-build: {
-  target: "es2022",
-  minify: "terser",
-  terserOptions: { compress: { drop_console: true } },
-  cssCodeSplit: true,
-  assetsInlineLimit: 8192,
-  rollupOptions: {
-    output: {
-      manualChunks(id) {
-        if (id.includes("node_modules")) return "vendor"
-      },
-    },
-  },
-},
-```
-
-## SSR
-
-```typescript
-// vite.config.ts
-ssr: {
-  noExternal: ["some-cjs-package"],
-  external: ["express"],
-  target: "node",
-},
-```
-
-## Bundle Analysis
-
-```bash
-npx vite-bundle-visualizer      # opens treemap
-npm run build -- --report        # CLI report
-```
-
-## Vitest
-
-```typescript
-// vite.config.ts
-test: {
-  globals: true,
-  environment: "jsdom",
-  setupFiles: "./src/test/setup.ts",
-  coverage: { provider: "v8" },
-},
-```
-
-## CLI
-
-```bash
-npm run dev           # start dev server
-npm run build         # production build
-npm run preview       # preview production build
-npx vite --host       # expose to network
-npx vite --port 4000  # custom port
-npx vite build --mode staging  # custom mode
-npx vite optimize     # force dep optimization
-```
-
-## Gotchas
-
-1. Only `VITE_` prefixed env vars reach client code
-2. Path aliases need BOTH vite.config.ts AND tsconfig.json
-3. `import.meta.env` is statically replaced — no dynamic keys
-4. `public/` files served as-is, no processing — reference as `/file.png`
-5. SWC plugin is 3-20x faster than Babel — use unless you need Babel plugins
-6. `optimizeDeps.force: true` is for debugging — don't commit it
-7. `manualChunks` can break lazy loading if deps overlap
-8. CSS order across chunks can cause FOUC — use CSS Modules
+| Error | Fix |
+|-------|-----|
+| `Failed to resolve import` | Check alias config, ensure file exists |
+| `Pre-bundling... new dependencies` | Run `npx vite --force` to rebuild |
+| `Cannot use import statement outside module` | Add `"type": "module"` to package.json |
+| `Hydration mismatch` | SSR rendering differs from client — check dynamic content |
+| `[plugin:vite:css] Preprocessor not found` | Install `sass` or `less` package |
+| `process is not defined` | Use `import.meta.env` instead of `process.env` |
+| `global is not defined` | Add `define: { global: "globalThis" }` to config |
+| `require is not defined` | Use `import` instead, or add to `optimizeDeps.include` |

@@ -1,0 +1,5 @@
+{
+  "name": "Web Scraping Suite",
+  "description": "Web scraping and crawling patterns — Cheerio for HTML parsing, Puppeteer/Playwright for dynamic pages, rate limiting, proxy rotation, data extraction, pagination handling, anti-detection, and structured output.",
+  "version": "1.0.0"
+}

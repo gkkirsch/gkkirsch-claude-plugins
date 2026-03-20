@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for Vite and build configuration issues. Check for:\n1. Importing from barrel files (index.ts re-exports) instead of direct file imports — causes large bundles\n2. Using process.env instead of import.meta.env in client code — process.env is not available in Vite\n3. Missing VITE_ prefix on environment variables intended for client use\n4. Using require() instead of import() in Vite projects — CJS is not supported in ESM modules\n5. Missing path aliases in both vite.config.ts AND tsconfig.json — they must match\n6. Route components not wrapped in React.lazy() — missing code splitting opportunity\n7. Import of lodash (CJS) instead of lodash-es (ESM) — prevents tree shaking\n8. Hardcoded API URLs instead of using environment variables\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
