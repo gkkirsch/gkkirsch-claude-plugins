@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the data analysis/visualization code change for issues. Check for: 1) Chart component without ResponsiveContainer wrapper (renders at 0px height — always wrap Recharts components in ResponsiveContainer with explicit height), 2) Data array passed directly without useMemo (new array reference on every render causes full chart re-animation — memoize data transformations), 3) Number formatting without Intl.NumberFormat or locale awareness (inconsistent display — use Intl.NumberFormat for currency, percentages, and compact notation), 4) A/B test results checked before reaching required sample size (inflated false positive rate — pre-commit to sample size, use sequential testing for early stopping), 5) Statistical calculation using floating point for currency amounts (0.1 + 0.2 !== 0.3 — use integer cents or a decimal library for all monetary calculations), 6) Missing empty state when chart data is empty array (renders blank axes — check data.length and show placeholder message), 7) Date/time aggregation without timezone consistency (same event counted in different days — aggregate in UTC consistently), 8) Percentage calculation dividing by potentially zero value (NaN or Infinity — guard division with fallback: count > 0 ? value / count : 0), 9) Large dataset rendered as SVG without downsampling (10k+ points crashes browser — use LTTB algorithm to downsample to ~500 points for line charts), 10) Color palette that fails for color-blind users (8% of males are color-blind — use patterns/shapes in addition to colors, test with color blindness simulator). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

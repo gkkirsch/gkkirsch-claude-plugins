@@ -1,1 +1,16 @@
-{"hooks":{}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the AI/LLM integration code change for issues. Check for: 1) User input concatenated directly into system prompt without sanitization (prompt injection — wrap user content in XML tags and instruct the model to treat it as data only), 2) LLM response used without JSON parsing validation (crashes on malformed output — always try/catch JSON.parse and strip markdown code fences before parsing), 3) Missing max_tokens parameter on API calls (unbounded output costs — set explicit max_tokens matching expected response length), 4) No retry logic for API rate limits or 503 errors (single failure crashes the flow — implement exponential backoff with jitter for retryable errors), 5) Hardcoded model name instead of configuration variable (painful to switch models — use config/env var for model selection), 6) Sensitive data (PII, API keys, credentials) included in prompt text sent to external API (data exposure — sanitize all prompts, mask PII, never send secrets), 7) Missing structured output schema when expecting parseable responses (fragile text parsing — use JSON Schema or XML tags to enforce output structure), 8) Temperature set too high for factual/deterministic tasks (hallucination risk — use temperature 0 for extraction, classification, and factual responses), 9) Entire document stuffed into context without chunking or summarization (token limit exceeded, degraded quality — chunk large inputs, use RAG for knowledge-grounded tasks), 10) Chain-of-thought response parsed without extracting the final answer (using reasoning as the result — separate thinking from conclusion with XML tags or structured format). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

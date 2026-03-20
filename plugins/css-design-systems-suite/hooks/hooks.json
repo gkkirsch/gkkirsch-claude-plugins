@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the CSS/design system code change for issues. Check for: 1) Using primitive color tokens directly in components instead of semantic tokens (var(--color-gray-700) won't adapt to theme changes — use var(--border-primary) semantic tokens), 2) Missing dark mode support on themed elements (no dark: variant or data-theme handling — add theme-aware token values for backgrounds, text, and borders), 3) Hardcoded pixel values instead of design token references (magic numbers break consistency — use var(--space-4) or var(--radius-md) from the token scale), 4) z-index using arbitrary numbers without a defined scale (z-index wars — use a scale: var(--z-dropdown: 50), var(--z-modal: 300), var(--z-toast: 500)), 5) Component styles using !important (specificity escalation — fix the cascade: reorder declarations, increase specificity naturally, or restructure component), 6) Missing focus-visible styles on interactive elements (accessibility violation — add :focus-visible with visible outline or ring for keyboard navigation), 7) Typography without consistent scale (random font sizes — use a type scale: var(--text-sm), var(--text-base), var(--text-lg) with matching line-height), 8) Responsive styles using max-width breakpoints instead of mobile-first min-width (mobile-first is more maintainable — start with mobile styles, add complexity with min-width media queries), 9) CSS custom property typo that silently fails (var(--bg-primry) resolves to nothing — use stylelint-value-no-unknown-custom-properties to catch typos), 10) Transition applied to 'all' properties (animates box-shadow, border, etc. causing jank — specify exact properties: transition: background-color 200ms, color 200ms). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }
