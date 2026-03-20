@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the search/full-text code change for issues. Check for: 1) LIKE '%query%' on SQL text columns for search (sequential scan, no relevance ranking — use full-text search: PostgreSQL tsvector/tsquery, Elasticsearch, or Typesense), 2) Search index not updated when source data changes (stale results — implement sync via database triggers, change data capture, or application-level indexing on write), 3) Search query accepting raw user input without sanitization or escaping (query injection — sanitize special characters, escape Lucene/Elasticsearch query syntax), 4) Missing pagination on search results (returning unbounded results — implement limit/offset or search_after for deep pagination, include total count in response), 5) Search without relevance scoring or boost configuration (all results weighted equally — configure field boosts, BM25 tuning, or custom scoring for domain-specific relevance), 6) Fuzzy matching without distance threshold (matches too broadly — set appropriate fuzziness: edit distance 1 for short terms, 2 for longer terms, AUTO in Elasticsearch), 7) Full reindex on every data change instead of incremental updates (expensive, slow — update only changed documents, use bulk API for batch operations), 8) Search analyzer not matching index analyzer (search misses valid results — ensure query-time and index-time analyzers are compatible, test with _analyze API), 9) Missing search suggestions/autocomplete implementation (poor UX — implement completion suggester, prefix queries, or edge n-gram tokenizer for type-ahead), 10) Search results without highlighting of matched terms (users cannot see why a result matched — implement hit highlighting with pre/post tags). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Prisma ORM code change for issues. Check for: 1) N+1 query pattern: loop calling prisma.model.findUnique per iteration instead of using include/select or findMany with where: { id: { in: ids } } (performance killer — batch queries or use eager loading), 2) Missing select or include causing over-fetching (Prisma returns all scalar fields by default — use select to fetch only needed fields, especially for list endpoints), 3) Schema migration that drops a column without data migration step (data loss — use multi-step migration: add new column, copy data, drop old column), 4) prisma.$queryRaw with string interpolation instead of Prisma.sql tagged template (SQL injection — use Prisma.sql`SELECT * FROM users WHERE id = ${id}` for parameterized raw queries), 5) Missing @@index in schema.prisma for columns used in where/orderBy (causes sequential scans — add @@index([columnA, columnB]) for frequently queried column combinations), 6) Transaction-worthy operations without prisma.$transaction (partial writes on failure — wrap related creates/updates in $transaction for atomicity), 7) @updatedAt field missing on models that track modification time (no audit trail — add updatedAt DateTime @updatedAt to models), 8) Relation without onDelete behavior specified (defaults to Restrict which blocks parent deletion — explicitly set onDelete: Cascade, SetNull, or NoAction based on domain rules), 9) Using prisma.model.findFirst without orderBy when expecting a unique result (non-deterministic — use findUnique with a unique constraint, or add explicit orderBy), 10) Prisma Client instantiated per request instead of shared singleton (connection pool exhaustion — create one PrismaClient instance and reuse it, use $disconnect in serverless). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

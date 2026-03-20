@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the web scraping code change for issues. Check for: 1) Missing rate limiting or delay between requests (will get IP banned — add randomized delays of 1-3 seconds between requests, respect Retry-After headers), 2) No robots.txt checking before scraping (violates site policy and may be illegal — check and respect robots.txt directives for the target domain), 3) Scraping without User-Agent header or using obvious bot UA (blocked immediately — set a realistic browser User-Agent string, rotate UAs for large-scale scraping), 4) No error handling for HTTP 403/429/503 responses (script crashes or loops — implement exponential backoff retry, detect anti-bot responses, handle CAPTCHAs gracefully), 5) Selectors targeting class names or IDs that are likely auto-generated (brittle — look for semantic HTML attributes, data-* attributes, or ARIA roles that are more stable), 6) Storing scraped data without deduplication (duplicate records on re-runs — use unique keys to upsert rather than insert), 7) Missing proxy rotation for large-scale scraping (single IP gets blocked — implement proxy pool with rotation and failure tracking), 8) Scraping dynamic JavaScript-rendered content with simple HTTP GET (gets empty/partial HTML — use Playwright or Puppeteer for SPAs and dynamically rendered content), 9) No data validation on scraped output (garbage data silently stored — validate extracted fields match expected format and type before saving), 10) Missing session/cookie handling for authenticated scraping (requests fail after login — maintain cookie jar across requests, handle session expiry and re-authentication). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

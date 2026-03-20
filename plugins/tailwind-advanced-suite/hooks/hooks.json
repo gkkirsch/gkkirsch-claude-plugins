@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Tailwind CSS code change for issues. Check for: 1) Arbitrary values used repeatedly instead of extending the theme (magic numbers — if you use bg-[#1a1b2e] or p-[13px] more than once, add it to tailwind.config as a design token), 2) Missing responsive breakpoint handling (desktop-only styles — add sm:, md:, lg: variants for layout, typography, and spacing that should adapt), 3) Dark mode styles without dark: variant (no dark mode support — add dark: prefix for background, text, and border colors on themed components), 4) Long className strings without component extraction (30+ classes per element — extract to a component or use @apply in component CSS for complex, repeated patterns), 5) Using !important or style prop to override Tailwind (specificity war — fix the cascade instead: reorder classes, use more specific variants, or restructure components), 6) Missing hover, focus, and active states on interactive elements (no visual feedback — add hover:, focus:, focus-visible:, active: variants on buttons and links), 7) Fixed pixel widths instead of responsive utilities (breaks on different screens — use max-w-*, w-full, flex, grid for fluid layouts), 8) Typography without proper text hierarchy (all text looks the same — use consistent heading sizes with text-xl/2xl/3xl, proper line-height with leading-*, and font-weight contrast), 9) Colors used directly instead of semantic tokens (hard to theme — use bg-primary, text-muted-foreground semantic names via CSS variables, not raw bg-blue-500 everywhere), 10) Missing transition utilities on state changes (jarring visual jumps — add transition-colors, transition-all, or duration-200 on elements with hover/focus state changes). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

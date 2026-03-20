@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Redis/MongoDB code change for issues. Check for: 1) Redis key without TTL/expiry (memory grows unbounded — set expiry with EX/PX on SET or EXPIRE for all cache keys), 2) MongoDB query without index on filtered/sorted fields (collection scan — create compound indexes matching query patterns with explain() verification), 3) Redis used as primary data store without persistence config (data loss on restart — enable RDB snapshots or AOF if Redis holds non-cacheable data, or accept cache-miss rebuilds), 4) MongoDB document growing unbounded via $push to arrays (document exceeds 16MB limit — use bucket pattern or separate collection for unbounded lists), 5) Missing connection pooling or connection reuse (new connection per request — reuse MongoDB client instance, configure Redis connection pool with maxRetriesPerRequest), 6) Cache invalidation using DELETE without considering thundering herd (all requests hit DB simultaneously when cache expires — use stale-while-revalidate pattern or cache stampede locks), 7) MongoDB aggregation pipeline without $match early in pipeline (processes entire collection — put $match and $project as early as possible to reduce documents flowing through pipeline), 8) Redis KEYS command in production code (blocks Redis, O(N) scan — use SCAN with cursor for pattern matching in production), 9) Missing error handling for Redis/MongoDB connection failures (app crashes on DB outage — implement circuit breaker, fallback, and graceful degradation), 10) Storing large objects (>1MB) in Redis without compression (memory waste — compress with gzip/lz4 before storing, or use Redis hashes for structured data). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

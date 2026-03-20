@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the CLI tool code change for issues. Check for: 1) Missing --help flag or usage text (users cannot discover commands or options — every CLI must have comprehensive help output with examples), 2) Hardcoded file paths instead of using os.homedir(), XDG_CONFIG_HOME, or path.resolve (breaks on other machines/OS — use platform-aware path resolution), 3) process.exit() called directly instead of throwing errors (prevents cleanup, breaks testing — throw errors and let the top-level handler call process.exit), 4) Missing exit code conventions (always exit 0 on success, 1 on general error, 2 on usage error — non-zero exit enables shell scripting and CI/CD integration), 5) Interactive prompts without --yes or --non-interactive flag (blocks automation and CI/CD — provide flags to skip confirmations), 6) Colored output without NO_COLOR or --no-color support (accessibility issue, breaks pipe output — check process.env.NO_COLOR and isatty before using colors), 7) Large output without streaming (buffering entire output in memory — use process.stdout.write or streams for large data), 8) Missing signal handlers for SIGINT/SIGTERM (Ctrl+C leaves temp files or zombie processes — clean up on signals), 9) Synchronous file operations in main execution path (blocks event loop on large files — use async fs operations or streams), 10) Missing input validation on command arguments with unhelpful error messages (confusing failures — validate args early with clear error messages and suggest corrections). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

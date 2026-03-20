@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the SEO/analytics code change for issues. Check for: 1) Page without unique <title> and <meta name=\"description\"> tags (each page needs unique, descriptive title under 60 chars and description under 160 chars for search results), 2) Missing Open Graph and Twitter Card meta tags (social sharing shows generic preview — add og:title, og:description, og:image, twitter:card meta tags), 3) Images without width/height attributes or without next/image optimization (causes Cumulative Layout Shift — specify dimensions or use Image component with automatic optimization), 4) Client-side rendered content critical for SEO without SSR/SSG fallback (search engines may not index JavaScript-rendered content — use server-side rendering or static generation for SEO-critical pages), 5) Missing structured data / JSON-LD schema markup (no rich snippets in search results — add relevant Schema.org types: Article, Product, FAQ, Organization, BreadcrumbList), 6) Analytics tracking code that blocks page render (delays First Contentful Paint — load analytics scripts async or defer, use requestIdleCallback for non-critical tracking), 7) Missing canonical URL tag on pages accessible via multiple URLs (duplicate content penalty — add <link rel=\"canonical\"> pointing to the preferred URL), 8) Internal links using onClick navigation instead of <a href> tags (search crawlers cannot follow JavaScript navigation — use semantic anchor tags for all navigable links), 9) Missing sitemap.xml or robots.txt configuration (search engines cannot discover all pages — generate sitemap with lastmod dates, configure robots.txt with sitemap reference), 10) Missing alt text on images or generic alt text like 'image' or 'photo' (missed SEO opportunity and accessibility violation — write descriptive, keyword-relevant alt text for every image). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

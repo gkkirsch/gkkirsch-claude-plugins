@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Firebase code change for issues. Check for: 1) Firestore security rules allowing read/write to all authenticated users without resource-level checks (any logged-in user can access any document — rules must validate request.auth.uid matches resource owner), 2) Missing composite index for Firestore queries with multiple where clauses or orderBy (query will fail at runtime — check if index is declared in firestore.indexes.json), 3) Firestore document without subcollection pagination (fetching all subcollection docs at once — use .limit() and .startAfter() for collections that can grow), 4) Firebase config (apiKey, projectId) committed without .env or environment handling (while Firebase API keys are safe to expose, other config values should use environment variables for multi-environment deploys), 5) Cloud Function without proper error handling or timeout configuration (default 60s timeout, unhelpful error messages — set appropriate timeout and return structured errors), 6) onSnapshot listener without unsubscribe cleanup (memory leak — always unsubscribe in useEffect cleanup or component unmount), 7) Storing derived or redundant data without a Cloud Function to keep it in sync (data inconsistency — if you denormalize, use triggers to maintain consistency), 8) Authentication state checked only client-side without server-side verification (spoofable — verify ID tokens server-side with admin.auth().verifyIdToken() for sensitive operations), 9) Firestore write without transaction for multi-document updates (partial writes on failure — use runTransaction or writeBatch for atomic multi-document operations), 10) Missing Firestore backup configuration or export schedule (data loss risk — configure scheduled exports to Cloud Storage via firebase CLI or Cloud Function). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the i18n/localization code change for issues. Check for: 1) Hardcoded user-visible string not wrapped in translation function (missed i18n — all user-facing text must use t(), formatMessage(), or equivalent translation wrapper), 2) String concatenation for building translated sentences (word order differs between languages — use ICU MessageFormat with placeholders: '{count} items' not count + ' items'), 3) Date, number, or currency formatted without locale parameter (displays in server locale, not user locale — use Intl.DateTimeFormat, Intl.NumberFormat with user's locale), 4) Pluralization using simple if/else instead of ICU plural rules (English has 2 forms but Arabic has 6, Polish has 4 — use {count, plural, one {# item} other {# items}} format), 5) Translation keys that are full English sentences instead of semantic keys (fragile, hard to maintain — use 'user.profile.title' not 'Welcome to your profile'), 6) Missing lang attribute on HTML element or missing dir attribute for RTL languages (accessibility and rendering issues — set html lang and dir attributes from user locale), 7) Right-to-left (RTL) layout not supported (CSS layout breaks for Arabic, Hebrew — use logical CSS properties: margin-inline-start not margin-left, and test with dir=\"rtl\"), 8) Translation file with missing keys compared to default locale (untranslated strings show keys or fallback silently — lint translation files for completeness against source locale), 9) Locale detection only from browser language without user preference override or fallback chain (user may prefer different locale — support preference > URL param > cookie > Accept-Language > default), 10) Images, icons, or media with embedded text that cannot be translated (hardcoded text in images — use overlaid text elements or locale-specific image variants). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

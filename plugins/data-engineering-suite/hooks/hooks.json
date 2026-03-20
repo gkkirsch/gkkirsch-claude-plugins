@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the data engineering code change for issues. Check for: 1) ETL pipeline without idempotency (re-running inserts duplicate data — use UPSERT, merge, or idempotent write patterns with deduplication keys), 2) Loading data without schema validation (bad data silently corrupts downstream — validate schema at ingestion with tools like Great Expectations, Pandera, or JSON Schema), 3) Missing data lineage or metadata tracking (cannot trace data origin or transformation history — log source, timestamp, row counts, and transformation steps), 4) Unbounded SELECT or full table scan in production pipeline (memory explosion on large tables — use incremental loading with watermark columns like updated_at), 5) Hardcoded connection strings or credentials in pipeline code (security risk — use environment variables, secrets manager, or connection profiles), 6) Pipeline without retry logic or dead letter queue (transient failures cause data loss — implement exponential backoff retry with DLQ for permanent failures), 7) Date/time handling without timezone awareness (silent data corruption — always use UTC internally, convert at display layer, store timezone offset when relevant), 8) Data pipeline without monitoring or alerting (silent failures — monitor row counts, null ratios, freshness, and schema drift with automated alerts), 9) Writing large datasets without partitioning (slow queries, expensive scans — partition by date, region, or other high-cardinality dimension), 10) Missing data quality checks between pipeline stages (garbage in, garbage out — add assertions for null counts, uniqueness, referential integrity, and value ranges at each stage). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

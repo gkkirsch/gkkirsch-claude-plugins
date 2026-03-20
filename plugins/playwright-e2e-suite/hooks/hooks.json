@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Playwright E2E test code change for issues. Check for: 1) Selector using CSS class names or tag names instead of data-testid, role, or text (brittle — CSS classes change with styling updates; use page.getByRole(), page.getByText(), or page.getByTestId() for stable selectors), 2) Using page.waitForTimeout() with hardcoded delay (flaky and slow — use page.waitForSelector(), expect(locator).toBeVisible(), or page.waitForResponse() for event-driven waits), 3) Test without proper isolation (tests sharing state or depending on execution order — each test should set up its own state, use test.beforeEach for clean state), 4) Missing assertion after user action (click without verifying outcome — every action should be followed by expect() verifying the expected state change), 5) Network-dependent test without mock or intercept (flaky on slow networks, fails offline — use page.route() to mock API responses for deterministic tests), 6) Missing error screenshot or trace on failure (debugging blind — configure use: { screenshot: 'only-on-failure', trace: 'on-first-retry' } in playwright.config), 7) Login flow repeated in every test instead of using storageState (slow test suite — authenticate once and reuse via global setup with storageState), 8) Test that asserts on exact text content that may change (brittle — use toContainText() for partial matching or regex, assert semantic state not exact copy), 9) Parallel tests accessing same database records without isolation (race conditions — use unique test data per worker or separate database per worker via TEST_WORKER_INDEX), 10) Missing viewport or browser configuration (tests only pass on one viewport/browser — configure multiple projects in playwright.config for cross-browser and responsive testing). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

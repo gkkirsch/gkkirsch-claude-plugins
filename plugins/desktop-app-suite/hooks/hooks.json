@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the desktop app (Electron/Tauri) code change for issues. Check for: 1) Electron main process with nodeIntegration: true and contextIsolation: false (critical security vulnerability — always use contextIsolation: true and preload scripts with contextBridge), 2) IPC handler without input validation (renderer can send arbitrary data to main — validate all ipcMain.handle arguments with schema validation), 3) Loading remote URLs in BrowserWindow without proper security (XSS to RCE — set webSecurity: true, use Content-Security-Policy, restrict navigation with will-navigate event), 4) Missing auto-update configuration (users stuck on old versions — implement electron-updater or Tauri's built-in updater with code signing), 5) Storing sensitive data in localStorage or electron-store without encryption (accessible on disk — use safeStorage.encryptString() for secrets, keytar for credentials), 6) Missing app protocol handler registration (deep links don't work — register custom protocol with app.setAsDefaultProtocolClient and handle second-instance event), 7) File system access without path validation (path traversal vulnerability — validate and sanitize all file paths, restrict access to app data directory), 8) Main process performing CPU-intensive work (freezes UI — use worker threads, utility process, or move computation to renderer with Web Workers), 9) Missing crash reporter and error logging (bugs unreported — configure crashReporter.start() and implement structured logging with rotation), 10) Packaging without code signing and notarization (macOS Gatekeeper blocks install, Windows SmartScreen warns — sign with developer certificate, notarize for macOS). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

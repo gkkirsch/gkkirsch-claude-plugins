@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the serverless/edge code change for issues. Check for: 1) Lambda/function handler without cold start optimization (slow initialization — move heavy imports and DB connections outside handler, use provisioned concurrency for latency-sensitive functions), 2) Edge function using Node.js APIs not available in edge runtime (crypto, fs, net unavailable — check runtime compatibility, use Web Crypto API, fetch instead of http module), 3) Serverless function connecting to relational DB without connection pooling proxy (connection exhaustion — use RDS Proxy, PlanetScale, Neon pooler, or Supabase pgbouncer for serverless DB access), 4) Missing function timeout configuration or too-high timeout (default varies by platform, stuck functions waste money — set explicit timeout matching expected execution time plus buffer), 5) Large deployment bundle from unnecessary dependencies (slow cold starts — use tree-shaking, bundle with esbuild, exclude dev dependencies, check bundle size), 6) Secrets or API keys hardcoded instead of using platform secret management (security risk — use Vercel env, AWS SSM/Secrets Manager, Cloudflare secrets), 7) Synchronous file writes or blocking operations in serverless handler (ephemeral filesystem, blocks execution — use /tmp sparingly, prefer streaming or external storage like S3), 8) Missing structured logging with request context (impossible to debug in production — use JSON logging with requestId, timestamp, level, and correlation IDs), 9) Edge function without proper cache headers (CDN cannot cache responses — set Cache-Control, s-maxage, stale-while-revalidate headers for cacheable responses), 10) API route without input validation and proper error responses (crashes on bad input — validate with Zod/joi, return structured error JSON with appropriate status codes). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for accessibility issues. Check for: 1) Image without alt attribute or with empty alt on informational images (screen readers skip decorative-only alt=\"\" — informational images need descriptive alt text), 2) Click handler on div or span without role=\"button\" and tabIndex={0} and keyboard event handler (inaccessible to keyboard users — use a <button> instead), 3) Form input without associated <label> element or aria-label (screen readers cannot identify the field — every input needs a programmatic label), 4) Color contrast below WCAG AA ratio (4.5:1 for normal text, 3:1 for large text — check foreground/background combinations), 5) Missing skip navigation link as first focusable element (keyboard users must tab through entire nav on every page — add 'Skip to main content' link), 6) Custom component missing ARIA attributes: interactive widget without role, state (aria-expanded, aria-selected, aria-checked), or live region (aria-live) for dynamic updates, 7) Focus trap missing in modal/dialog — focus must be contained within modal when open and restored to trigger element on close, 8) Using aria-label or aria-labelledby on elements that don't support naming (div without role, span without role — ARIA attributes ignored on generic elements), 9) Autoplaying media without user control or motion/animation without prefers-reduced-motion media query check, 10) Touch target smaller than 44x44px (WCAG 2.5.5 — small targets are difficult for motor-impaired users). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

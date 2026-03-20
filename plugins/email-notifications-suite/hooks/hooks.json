@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the email/notification code change for issues. Check for: 1) Email sent synchronously in request handler (blocks response, fails silently if SMTP is slow — queue emails via job queue like Bull/BullMQ and process async), 2) HTML email without plain text fallback (spam filters penalize HTML-only emails, some clients only show text — always include both text/plain and text/html parts), 3) Missing unsubscribe link or List-Unsubscribe header (CAN-SPAM/GDPR violation — every marketing email must have one-click unsubscribe), 4) Email template with user-provided content not sanitized (XSS in email clients — sanitize all user input before inserting into HTML templates), 5) Hardcoded SMTP credentials or API keys in source code (security risk — use environment variables for all email service credentials), 6) Missing rate limiting on email-triggering endpoints (abuse vector — limit password reset, verification, and notification emails per user per timeframe), 7) Notification preferences not checked before sending (users opted out but still receive emails — always check notification preferences/subscription status before sending), 8) Missing email validation on signup/input (accepting invalid emails wastes sending quota and hurts deliverability — validate format and optionally verify MX records), 9) Bulk email sent in a loop without batching or rate limiting (provider rate limits, memory issues — use batch APIs and respect provider sending limits), 10) Missing bounce and complaint handling (hard bounces damage sender reputation — process bounce notifications and automatically suppress invalid addresses). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

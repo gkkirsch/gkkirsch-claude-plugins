@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the REST API code change for issues. Check for: 1) Endpoint using verbs instead of nouns (POST /createUser instead of POST /users — REST resources are nouns, HTTP methods are verbs), 2) Missing pagination on list endpoints (returning unbounded arrays — add limit/offset or cursor-based pagination with Link headers), 3) API returning 200 for errors or 500 for client errors (wrong status code semantics — use 400 for validation, 404 for not found, 409 for conflict, 422 for unprocessable), 4) Missing request validation with proper error response format (no input validation or generic error messages — validate early, return structured errors with field-level details), 5) Endpoint without rate limiting middleware (vulnerable to abuse — apply rate limits per client/IP with 429 responses and Retry-After header), 6) Resource ID exposed as sequential integer (information leakage about resource count — use UUIDs for public-facing IDs), 7) Missing CORS configuration or wildcard Access-Control-Allow-Origin in production (security risk with * — specify allowed origins explicitly), 8) Endpoint that performs partial update but uses PUT instead of PATCH, or full replacement that uses PATCH instead of PUT (semantic confusion — PUT replaces entire resource, PATCH applies partial changes), 9) API response without consistent envelope structure (mixing {data} and raw arrays makes client parsing fragile — use consistent response shape with data, meta, and errors fields), 10) Missing API versioning strategy (breaking changes will break clients — version via URL prefix /v1/ or Accept header from the start). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

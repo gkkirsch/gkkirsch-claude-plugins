@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the e-commerce/payment code change for issues. Check for: 1) Price calculation using floating point arithmetic (0.1 + 0.2 !== 0.3 — use integer cents or a decimal library like Dinero.js for all monetary calculations), 2) Missing Stripe webhook signature verification (req.body parsed without stripe.webhooks.constructEvent — anyone can fake payment success), 3) Order total calculated client-side and trusted by server (price manipulation — always recalculate totals server-side from authoritative product prices), 4) Payment intent created without idempotency key (retry sends duplicate charges — pass idempotencyKey to prevent duplicate payments), 5) Missing inventory check before payment processing (overselling — verify stock atomically with SELECT FOR UPDATE or optimistic locking before charging), 6) Sensitive payment data logged or stored (PCI violation — never log full card numbers, CVV, or raw Stripe tokens; mask all payment data in logs), 7) Webhook handler without idempotent processing (Stripe retries webhooks — use event.id as deduplication key to prevent double-processing), 8) Missing currency in price display or calculations (ambiguous amounts — always store and display currency code with prices, format with Intl.NumberFormat), 9) Cart/checkout without session expiration or stock reservation timeout (abandoned carts hold inventory forever — expire reservations after 15-30 minutes), 10) Refund or cancellation logic without proper state machine (invalid state transitions — model order lifecycle as explicit states: pending, paid, fulfilled, refunded, cancelled). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

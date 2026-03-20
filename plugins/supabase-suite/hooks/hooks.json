@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Supabase code change for issues. Check for: 1) RLS (Row Level Security) not enabled on tables with user data (any authenticated user can read/write all rows — enable RLS and create policies: ALTER TABLE t ENABLE ROW LEVEL SECURITY), 2) Using service_role key in client-side code (bypasses RLS — client must use anon key only; service_role is server-side only), 3) Supabase client instantiated per request instead of shared singleton (connection overhead — create one client instance and reuse, especially with createClient in server components), 4) Missing foreign key constraints or database-level validation (data integrity depends on application logic only — enforce constraints in PostgreSQL schema), 5) realtime subscription without cleanup on unmount (memory leak and stale subscriptions — call channel.unsubscribe() in useEffect cleanup), 6) Storage bucket without RLS policies (public access to all files — create bucket policies restricting access by auth.uid() or file path patterns), 7) Using .select('*') on all queries (over-fetching — select only needed columns for performance, especially with joins), 8) Missing error handling on Supabase client calls (errors return { data: null, error } not exceptions — always check error field before using data), 9) Edge Function without proper CORS headers for browser access (blocked by browser — add Access-Control-Allow-Origin and handle OPTIONS preflight), 10) Database migration that modifies RLS policies without testing (broken policies = data exposure or lockout — test policies with different user roles before deploying). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

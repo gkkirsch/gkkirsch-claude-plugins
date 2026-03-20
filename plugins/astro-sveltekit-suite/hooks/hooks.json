@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Astro/SvelteKit code change for issues. Check for: 1) Interactive component without client directive in Astro (component renders as static HTML — add client:load, client:visible, or client:idle for interactive islands), 2) SvelteKit page load function with side effects or mutations (load functions should be pure data fetching — use form actions for mutations, not +page.server.ts load), 3) Missing error page (+error.svelte or 404.astro) at layout level (unhandled errors show framework default — create user-friendly error boundaries), 4) Fetching data client-side in onMount when it could be server-rendered (slower, worse SEO — use +page.server.ts load function or Astro frontmatter for server-side data fetching), 5) Missing type safety on page params or form data (runtime errors — use PageLoad, PageServerLoad types in SvelteKit or Astro.props with TypeScript), 6) Static assets imported without optimization (large unoptimized images — use Astro Image component or SvelteKit enhanced:img for automatic optimization), 7) Missing prerender configuration for static pages (pages that could be static are SSR'd on every request — add export const prerender = true or output: 'static' for static-eligible pages), 8) Form without progressive enhancement (breaks with JS disabled — use SvelteKit form actions with use:enhance, or Astro form with server endpoint fallback), 9) Environment variables accessed in client-side code without PUBLIC_ prefix (secret exposure — SvelteKit requires PUBLIC_ prefix, Astro requires PUBLIC_ for client-visible env vars), 10) Missing head metadata (title, description, OG tags) on pages (poor SEO — use svelte:head or Astro.props with Layout component for consistent metadata). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

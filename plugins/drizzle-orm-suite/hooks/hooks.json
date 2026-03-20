@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Drizzle ORM code change for issues. Check for: 1) Query without .limit() on list endpoints (fetches entire table — always paginate with .limit() and .offset() or cursor-based), 2) Missing index declaration on columns used in WHERE, JOIN, or ORDER BY (schema definition missing indexes — add .index() or .uniqueIndex() to frequently queried columns), 3) N+1 query pattern: loop that executes a query per iteration instead of using .with() relations or a single query with inArray() (performance killer — batch queries or use Drizzle's relational queries), 4) Schema migration that drops or renames a column without a multi-step migration (data loss or downtime — use expand-contract: add new column, migrate data, then drop old column), 5) Using db.execute() with string interpolation instead of sql template literal (SQL injection — use sql`SELECT * FROM ${table} WHERE ${column} = ${value}` with Drizzle's sql tagged template), 6) Transaction not used for multi-table writes that must be atomic (partial writes on failure — wrap related writes in db.transaction()), 7) Missing .notNull() on columns that should never be null (allows null insertions silently — be explicit about nullability in schema), 8) Timestamps without .defaultNow() or .$onUpdate() (missing created_at/updated_at automation — use .defaultNow() for createdAt and .$onUpdate(() => new Date()) for updatedAt), 9) Enum defined as text column without Drizzle's pgEnum/mysqlEnum (no database-level validation — use pgEnum() for type-safe enum columns), 10) Foreign key without .onDelete() behavior specified (defaults vary by database — always specify .onDelete('cascade'), .onDelete('set null'), or .onDelete('restrict') explicitly). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the tRPC code change for issues. Check for: 1) Procedure without input validation schema (accepts any input — always define z.object() input schema with strict validation on every procedure), 2) Missing error handling or using generic throw instead of TRPCError (unhelpful error messages — throw new TRPCError({ code: 'NOT_FOUND', message: '...' }) with appropriate code), 3) Query procedure that mutates data (semantic violation — queries should be GET-equivalent and idempotent; use mutation for state changes), 4) Missing middleware for auth checks on protected routes (unprotected endpoints — create protectedProcedure with auth middleware that verifies session/token), 5) Router with all procedures in a single file (unmaintainable — split into domain routers and merge with mergeRouters or router nesting), 6) Missing optimistic updates on mutations in React Query integration (UI feels slow — use utils.model.setData for instant feedback, revert on error), 7) Subscription without cleanup or error reconnection logic (memory leaks, dropped connections — implement onComplete cleanup and automatic reconnection with backoff), 8) Output schema not defined (response shape not validated — add .output(z.object({...})) for runtime type safety on responses), 9) Context creation with expensive operations (runs on every request — move DB connections and heavy initialization outside createContext, use lazy evaluation), 10) Missing batching configuration or batching disabled for operations that should batch (multiple round trips — enable httpBatchLink and configure maxURLLength for query batching). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

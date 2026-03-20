@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the animation/motion code change for issues. Check for: 1) Animation without prefers-reduced-motion media query or check (users with vestibular disorders need motion opt-out — wrap animations in @media (prefers-reduced-motion: no-preference) or check window.matchMedia), 2) CSS animation using left/top/width/height properties instead of transform and opacity (triggers layout reflow — use transform: translateX/Y/scale for 60fps GPU-accelerated animations), 3) Animation duration over 500ms for UI feedback or under 100ms for transitions (too slow feels sluggish, too fast is imperceptible — 200-300ms is the sweet spot for most UI transitions), 4) Missing will-change property on elements about to animate, or will-change left on permanently (promotes to compositor layer but wastes GPU memory if permanent — add before animation, remove after), 5) JavaScript animation using setInterval or setTimeout instead of requestAnimationFrame (jank and frame drops — always use rAF for smooth 60fps animations), 6) Spring/physics animation without configurable damping and stiffness (default spring params rarely match the design intent — expose tension/friction/mass), 7) Framer Motion AnimatePresence without mode=\"wait\" when sequential enter/exit is needed (elements overlap during transition — mode=\"wait\" ensures exit completes before enter), 8) CSS keyframe animation without animation-fill-mode: forwards or backwards (element snaps back to initial state after animation — set fill mode to maintain end state), 9) Multiple simultaneous animations without stagger/orchestration (visual chaos — stagger child animations with delay increments for polished feel), 10) Scroll-linked animation without IntersectionObserver or CSS scroll-timeline (scroll event fires 60+ times/sec — use IntersectionObserver for scroll-triggered animations or CSS scroll() for smooth scroll-linked). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
