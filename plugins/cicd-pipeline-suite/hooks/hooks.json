@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the CI/CD pipeline code change for issues. Check for: 1) GitHub Actions workflow using 'latest' tag for actions instead of pinned SHA (supply chain attack vector — pin to commit SHA), 2) Secrets accessed outside of environment protection rules (secrets should be scoped to environments with required reviewers for production), 3) Missing concurrency group on deployment workflows (parallel deploys to same environment cause conflicts), 4) Docker build without layer caching (rebuilds from scratch every run — use actions/cache or BuildKit cache mounts), 5) Test matrix without fail-fast: false (one platform failure cancels all other matrix jobs before they report), 6) Workflow with 'pull_request_target' and checkout of PR code (allows arbitrary code execution from forks — security vulnerability), 7) Missing timeout-minutes on jobs (stuck jobs run forever, consuming runner minutes), 8) Hardcoded registry credentials instead of OIDC token exchange (long-lived credentials leak risk — use aws-actions/configure-aws-credentials with role-to-assume), 9) Release workflow without changelog or version validation (releases without context are useless — generate from commit history), 10) Pipeline that deploys without smoke test or health check verification (blind deploy — always verify the deployment succeeded before marking complete). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

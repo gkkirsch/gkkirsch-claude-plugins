@@ -1,3 +1,16 @@
 {
-  "hooks": {}
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the PostgreSQL code change for issues. Check for: 1) SELECT * in application queries (fetches unnecessary columns, breaks when schema changes, prevents covering index optimization — list specific columns), 2) Missing index on foreign key columns (causes sequential scans on JOIN and CASCADE DELETE — every FK should have a matching index), 3) OFFSET-based pagination (performance degrades linearly with page number — use cursor-based pagination with WHERE id > $last_id), 4) ALTER TABLE with NOT NULL on large table without DEFAULT (rewrites entire table, locks it for duration — add column nullable first, backfill, then add constraint NOT VALID), 5) CREATE INDEX without CONCURRENTLY (locks table for writes during index build — always use CONCURRENTLY in production), 6) Connection string without connection pooling (each connection costs ~10MB RAM — use PgBouncer or application-level pooling with reasonable pool size), 7) LIKE '%search%' on unindexed text columns (sequential scan — use pg_trgm GIN index for pattern matching or full-text search with tsvector), 8) Missing EXPLAIN ANALYZE before deploying query changes (unknown performance impact — always analyze execution plan on production-like data volume), 9) Raw SQL string concatenation instead of parameterized queries (SQL injection vulnerability — use $1, $2 placeholders), 10) Transaction held open during external API calls or user interaction (holds locks, blocks autovacuum, causes table bloat — keep transactions short, do external work outside). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

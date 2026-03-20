@@ -1,1 +1,16 @@
-{"hooks":{}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the cloud architecture code change for issues. Check for: 1) Security group with 0.0.0.0/0 ingress on non-HTTP ports (exposing SSH, database, or internal services to the internet — restrict to specific CIDRs or security groups), 2) Resources in a single availability zone (no fault tolerance — use multi-AZ for production workloads), 3) Public subnet for resources that don't need internet-facing access (databases, workers, internal services should be in private subnets behind NAT), 4) Missing encryption at rest or in transit (S3 without SSE, RDS without storage encryption, ALB without HTTPS — enable encryption everywhere), 5) Hardcoded IP addresses or CIDR blocks instead of variables or data sources (brittle, not reusable — use variables or SSM parameters), 6) NAT Gateway in only one AZ (single point of failure — deploy one per AZ for high availability), 7) Missing VPC flow logs (no network visibility for security auditing or troubleshooting), 8) Route53 health checks without failover routing (health check alone does nothing — pair with failover or weighted routing), 9) CloudFront distribution without WAF or geo-restriction for sensitive APIs (exposed to abuse — add AWS WAF rules), 10) Cost optimization anti-patterns: on-demand instances for predictable workloads (use Reserved or Savings Plans), gp2 volumes instead of gp3 (gp3 is cheaper and faster), missing S3 lifecycle policies (storage costs grow unbounded). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
