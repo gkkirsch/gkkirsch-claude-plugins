@@ -1,0 +1,5 @@
+{
+  "name": "Monorepo Suite",
+  "description": "Monorepo architecture with Turborepo, pnpm workspaces, shared packages, changesets, and CI/CD. Covers workspace setup, pipeline configuration, shared UI/config packages, versioning, and optimized builds.",
+  "version": "1.0.0"
+}
