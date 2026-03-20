@@ -1,0 +1,5 @@
+{
+  "name": "PWA Suite",
+  "description": "Progressive Web App development — service workers with caching strategies, Web App Manifest, offline-first architecture, push notifications, background sync, app installation, Workbox integration, and performance optimization for installable web apps.",
+  "version": "1.0.0"
+}

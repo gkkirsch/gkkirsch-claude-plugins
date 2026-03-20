@@ -1,0 +1,5 @@
+{
+  "name": "Design Patterns Suite",
+  "description": "Software design patterns in TypeScript — creational patterns (Factory, Builder, Singleton), behavioral patterns (Strategy, Observer, Command, State Machine), SOLID principles, dependency injection, and practical refactoring recipes for real-world applications.",
+  "version": "1.0.0"
+}

@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for PWA issues. Check for:\n1. Service worker not registering — missing navigator.serviceWorker.register() in main entry or wrong scope\n2. Cache-first without network fallback — stale content forever if cache-first has no revalidation strategy\n3. Caching everything — service worker cache grows unbounded without max entries or expiration\n4. Missing offline fallback page — no response for navigation requests when offline\n5. Service worker using import statements — must use importScripts() or be bundled (no ES modules in SW)\n6. Not handling SW update lifecycle — missing 'waiting' state handling, no skip-waiting prompt\n7. Web manifest missing required fields — needs name, short_name, icons (192+512), start_url, display\n8. Push notification without permission check — must check Notification.permission before subscribing\n9. No cache versioning — old caches not cleaned up in activate event\n10. Background sync without retry limit — failing sync retries forever, draining battery\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

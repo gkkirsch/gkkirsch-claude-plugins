@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for design pattern violations and SOLID principle issues. Check for:\n1. God class — single class with too many responsibilities (>5 methods doing unrelated things). Split by responsibility.\n2. Feature envy — method that uses more data from another class than its own. Move it to where the data lives.\n3. Shotgun surgery — one change requires edits to many classes. Missing abstraction or interface.\n4. switch/if-else chains on type — use Strategy pattern or polymorphism instead of switching on a type string.\n5. Constructor doing work — constructors should assign, not compute or fetch. Use factory methods for complex creation.\n6. Concrete dependency — importing and instantiating concrete classes directly instead of depending on interfaces.\n7. Callback hell — deeply nested callbacks or event handlers. Use Command pattern, async/await, or event bus.\n8. Mutable shared state — global variables or singletons storing mutable state. Use dependency injection.\n9. Primitive obsession — passing strings/numbers where a value object or enum would add type safety.\n10. Missing error type hierarchy — catching generic Error instead of defining domain-specific error classes.\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
