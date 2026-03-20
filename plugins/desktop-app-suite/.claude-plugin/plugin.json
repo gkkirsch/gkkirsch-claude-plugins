@@ -1,0 +1,5 @@
+{
+  "name": "Desktop App Suite",
+  "description": "Build cross-platform desktop apps with web technologies — Electron for maximum compatibility and Tauri for lightweight native performance. Covers IPC, menus, auto-updates, system tray, file system access, packaging, and distribution.",
+  "version": "1.0.0"
+}
