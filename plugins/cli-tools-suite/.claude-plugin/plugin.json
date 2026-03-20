@@ -1,0 +1,5 @@
+{
+  "name": "CLI Tool Development Suite",
+  "version": "1.0.0",
+  "description": "Complete toolkit for building command-line tools with Node.js/TypeScript — argument parsing, interactive prompts, colorful output, progress bars, configuration files, and distribution patterns. Covers Commander.js, Inquirer, chalk, ora, and npm/npx publishing."
+}
