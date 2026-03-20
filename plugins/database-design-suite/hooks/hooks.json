@@ -1,3 +1,16 @@
 {
-  "hooks": {}
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for database design and query issues. Check for:\n1. N+1 queries — fetching related records in a loop instead of using JOINs, includes, or batch queries\n2. Missing indexes on columns used in WHERE, JOIN, or ORDER BY clauses\n3. SQL injection — string concatenation in queries instead of parameterized queries or ORM methods\n4. OFFSET pagination on large tables — should use cursor-based pagination (WHERE id > last_id) for constant performance\n5. Loading entire tables into memory — missing LIMIT, no pagination, or SELECT * without WHERE on large tables\n6. Missing foreign key constraints — related tables without REFERENCES or ON DELETE behavior defined\n7. Missing NOT NULL constraints — columns that should always have values but allow NULL\n8. Storing derived data that could be computed — duplicating data that can be calculated from existing columns\n9. Missing database transactions — multi-step operations that should be atomic but aren't wrapped in a transaction\n10. Hardcoded IDs or magic strings in queries — using raw values instead of constants, enums, or references\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

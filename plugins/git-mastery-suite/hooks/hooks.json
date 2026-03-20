@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for git configuration and workflow issues. Check for:\n1. Secrets or credentials in committed files — API keys, passwords, tokens, or connection strings that should be in .env or environment variables\n2. Large binary files committed without Git LFS — images, videos, compiled binaries, or archives that bloat repo history\n3. Missing .gitignore entries — node_modules, .env, dist, build output, OS files (.DS_Store), or IDE config committed to repo\n4. Force push without --force-with-lease — using --force instead of --force-with-lease risks overwriting teammates' work\n5. Committing generated files — package-lock.json changes without package.json changes, compiled output, or auto-generated code that should be in .gitignore\n6. Git hooks without Husky or lefthook — hooks in .git/hooks/ that aren't shared with the team via a committed hook manager\n7. Merge conflict markers left in code — <<<<<<, ======, or >>>>>> strings still present in committed files\n8. Committing debug code — console.log, debugger statements, TODO/FIXME comments, or commented-out code blocks\n9. Non-conventional commit messages — commit messages that don't follow type(scope): description format when the project uses conventional commits\n10. Modifying files in .git directory — never manually edit files in .git/, use git commands instead\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

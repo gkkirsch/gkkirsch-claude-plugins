@@ -1,1 +1,16 @@
-{"hooks":{}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for frontend performance issues. Check for:\n1. Images without width and height attributes — causes Cumulative Layout Shift (CLS) when images load\n2. Large synchronous imports — importing heavy libraries (moment, lodash, chart.js) at top level instead of dynamic import()\n3. Missing lazy loading — components or images below the fold loaded eagerly instead of using React.lazy() or loading='lazy'\n4. Barrel file imports — importing from index.ts re-export files which defeats tree shaking and bundles unused code\n5. Inline object/array creation in JSX props — creating new objects on every render defeats React.memo and causes unnecessary re-renders\n6. Missing key prop or using array index as key — causes React to remount components on list changes instead of reordering\n7. useEffect with missing or empty dependency array causing stale closures or infinite loops\n8. Blocking the main thread — heavy computation in render, event handlers, or useEffect without requestAnimationFrame or Web Workers\n9. Loading='lazy' on LCP image — the largest contentful paint image must NOT be lazy loaded, needs fetchpriority='high'\n10. CSS @import inside stylesheets — serializes CSS loading into a waterfall, should use separate link tags for parallel loading\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
