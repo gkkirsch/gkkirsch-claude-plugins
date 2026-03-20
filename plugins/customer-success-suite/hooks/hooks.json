@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the customer success code change for issues. Check for: 1) Auto-closing support tickets without sending a follow-up warning email first (frustrates users who were busy), 2) Sending onboarding drip emails to already-activated users (destroys trust), 3) Health score calculation without triggered actions for each grade (score without intervention is a vanity metric), 4) Ticket routing rules without a default fallback (unrouted tickets get lost), 5) SLA timers based on business hours for urgent priority tickets (weekend gaps for global customers), 6) Bot auto-responses to cancellation requests or angry messages (these need human agents), 7) CSAT survey sent immediately after ticket creation instead of after resolution, 8) Knowledge base articles not connected to ticket routing or in-app help (invisible articles), 9) Hard-coded escalation thresholds without configuration (different plans need different SLA tiers), 10) Missing negative signal tracking (support ticket spikes, repeated failed actions, settings page visits without changes are churn signals). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
