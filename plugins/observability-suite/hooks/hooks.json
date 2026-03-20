@@ -1,1 +1,16 @@
-{"hooks":{}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for observability issues. Check for: 1) Console.log instead of structured logging (pino/winston), 2) Missing request context in log entries (requestId, userId, traceId), 3) Logging sensitive data (passwords, tokens, PII), 4) Missing error context (stack trace, input params) in catch blocks, 5) No metric instrumentation on critical paths (latency, error rate, throughput), 6) Missing span creation for significant operations, 7) Silent error swallowing (empty catch blocks), 8) Log levels used incorrectly (error for non-errors, info for debug), 9) Missing health check or readiness endpoints, 10) No alerting thresholds defined for SLI/SLO metrics. Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,1 +1,16 @@
-{"hooks":{}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for microservices issues. Check for: 1) Missing circuit breakers on external service calls, 2) No retry logic or missing exponential backoff, 3) Synchronous inter-service calls that should be async/event-driven, 4) Missing idempotency keys on write operations, 5) Tight coupling between services (importing from another service's internals), 6) Missing correlation/request IDs for distributed tracing, 7) No timeout configuration on HTTP/gRPC clients, 8) Missing dead letter queue handling for failed messages, 9) Saga/compensation logic without proper rollback, 10) Health check endpoints missing dependency status. Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

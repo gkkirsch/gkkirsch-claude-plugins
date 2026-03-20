@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Python web code change for issues. Check for: 1) N+1 query problems (accessing related objects in loops without select_related/prefetch_related or joinedload), 2) Missing input validation on request data (no Pydantic model or serializer validation), 3) Sync database calls inside async def functions (blocking the event loop), 4) Missing authentication/permission checks on endpoints, 5) Raw SQL without parameterized queries (SQL injection risk), 6) Missing error handling on database operations, 7) Returning sensitive fields in API responses (password_hash, tokens), 8) Missing database indexes on filtered/sorted columns, 9) Using mutable default arguments in function signatures, 10) Missing type hints on function parameters and return values. Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
