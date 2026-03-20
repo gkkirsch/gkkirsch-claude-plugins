@@ -1,0 +1,5 @@
+{
+  "name": "Remix & React Router Suite",
+  "description": "Full-stack Remix and React Router v7 development — loaders, actions, nested routing, data fetching patterns, form handling, error boundaries, streaming, defer, optimistic UI, authentication, deployment, and migration from other frameworks.",
+  "version": "1.0.0"
+}

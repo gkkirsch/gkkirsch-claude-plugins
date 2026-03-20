@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Remix/React Router code change for issues. Check for: 1) Fetching data in useEffect instead of using loader functions (bypasses Remix's data flow), 2) Using client-side state management (useState/Redux) for server data that should live in loaders, 3) Missing error boundary (ErrorBoundary export) in route modules, 4) Form submissions using fetch/axios instead of Remix <Form> or useSubmit (bypasses progressive enhancement), 5) Returning non-Response objects from actions/loaders (must return Response or use json/redirect helpers), 6) Missing revalidation handling after mutations (Remix auto-revalidates but custom fetchers may not), 7) Importing server-only modules (db, fs) in files that run on client (use .server.ts suffix), 8) Using window/document in loader/action functions (these run on server), 9) Missing TypeScript types for loader/action data (use LoaderFunctionArgs, ActionFunctionArgs), 10) Not handling the thrown Response from requireAuth in loaders (auth redirects must be caught). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

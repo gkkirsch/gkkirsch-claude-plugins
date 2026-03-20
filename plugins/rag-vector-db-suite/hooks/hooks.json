@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the RAG/vector database code change for issues. Check for: 1) Chunking without overlap (losing context at chunk boundaries — use 10-20% overlap), 2) Embedding entire documents instead of chunks (exceeds model token limits, poor retrieval), 3) Missing metadata filtering before vector search (searching entire corpus when category/date filter would narrow results), 4) Hardcoded top-k without relevance threshold (returning irrelevant results when nothing matches — add minimum similarity score), 5) Not handling embedding API rate limits (missing retry/backoff on 429 errors), 6) Storing embeddings without the source text (can't reconstruct context without re-fetching), 7) Using cosine similarity on non-normalized vectors (results will be wrong — normalize or use dot product), 8) Missing chunking for large documents before embedding (most embedding models have 512-8192 token limits), 9) Not batching embedding API calls (sending one document at a time instead of batching 50-100), 10) Concatenating retrieved chunks without deduplication (same content from overlapping chunks appears twice in prompt). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

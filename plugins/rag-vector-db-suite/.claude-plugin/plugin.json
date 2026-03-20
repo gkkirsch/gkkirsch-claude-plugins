@@ -1,0 +1,5 @@
+{
+  "name": "RAG & Vector Database Suite",
+  "description": "Retrieval-Augmented Generation patterns — chunking strategies, embedding models, vector databases (Pinecone, Weaviate, pgvector, ChromaDB), hybrid search, reranking, evaluation metrics, production RAG pipelines, and common failure modes with fixes.",
+  "version": "1.0.0"
+}
