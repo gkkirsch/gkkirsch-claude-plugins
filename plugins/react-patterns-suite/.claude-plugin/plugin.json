@@ -1,0 +1,5 @@
+{
+  "name": "React Patterns Suite",
+  "version": "1.0.0",
+  "description": "Production React patterns — component architecture, advanced hooks, Zustand state management, TanStack Query for data fetching, performance optimization, and modern React best practices."
+}

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check the edited React code for best practices. Flag if you see ANY of these issues:\n1. Using useState for server/API data instead of TanStack Query (useQuery)\n2. Using Redux or useReducer for simple state that useState handles fine\n3. Creating a new object, array, or function inside JSX props without memoization (causing child re-renders)\n4. Using array index as key in a list that can be reordered or filtered\n5. Missing error boundary around components that can fail\n6. useEffect with missing or incorrect dependencies (stale closure risk)\n7. Storing derived state (computing from props/state and storing in another useState)\n8. Prop drilling through 3+ levels when Context or Zustand would be cleaner\n9. Missing loading and error states for async operations\n10. Using useEffect for things that should be event handlers or useMemo\n11. Direct DOM manipulation instead of using refs or React state\n12. Missing cleanup in useEffect (subscriptions, timers, abort controllers)\nIf none of these issues are found, respond with just {\"ok\": true}. If issues found, respond {\"ok\": false, \"reason\": \"brief description of the issue(s)\"}. Only flag issues — do not block the edit."
+          }
+        ]
+      }
+    ]
+  }
+}
