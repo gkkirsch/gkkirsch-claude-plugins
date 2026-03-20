@@ -1,17 +1,16 @@
 {
-  "hooks": [
-    {
-      "event": "on_tool_call",
-      "matcher": {
-        "tool_name": "Write",
-        "file_pattern": "*.ts"
-      },
-      "commands": [
-        {
-          "type": "check",
-          "command": "echo 'Node.js Backend Suite: Verifying TypeScript file write'"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for Node.js backend issues. Check for:\n1. Blocking the event loop — synchronous file operations (readFileSync, writeFileSync), heavy JSON.parse on large data, or CPU-intensive work without worker threads\n2. Missing error handling in async code — unhandled promise rejections, missing try/catch in async handlers, or missing .catch() on promises\n3. Connection leaks — database clients not released back to pool, unclosed file handles, or event listeners added in request handlers without cleanup\n4. Missing input validation — route params and query strings used without validation or coercion (parseInt on undefined returns NaN silently)\n5. Exposing error details — stack traces, SQL errors, or internal paths returned to clients in production error responses\n6. Missing graceful shutdown — no SIGTERM/SIGINT handlers to close server and drain connections before exit\n7. Unbounded data loading — loading entire database tables into memory instead of using pagination, cursors, or streaming\n8. Hardcoded configuration — ports, URLs, secrets, or feature flags hardcoded instead of using environment variables\n9. Missing request body limits — express.json() without size limit allowing attackers to send huge payloads\n10. Race conditions — shared mutable state accessed by concurrent requests without locking or atomic operations\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }

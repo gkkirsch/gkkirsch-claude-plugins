@@ -1,1 +1,16 @@
-{"hooks": {}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for security vulnerabilities. Check for:\n1. SQL injection — string concatenation in queries instead of parameterized queries or ORM methods\n2. XSS — rendering user input without escaping, using dangerouslySetInnerHTML, or innerHTML without sanitization\n3. Hardcoded secrets — API keys, passwords, tokens, or connection strings in source code instead of environment variables\n4. Missing input validation — accepting user input without length limits, type checks, or sanitization\n5. Insecure authentication — storing passwords in plaintext, using MD5/SHA for passwords, JWT without expiry, or tokens in localStorage\n6. Missing CSRF protection — state-changing endpoints without CSRF tokens or SameSite cookie attributes\n7. Insecure cookie settings — missing httpOnly, secure, or sameSite flags on authentication cookies\n8. Path traversal — using user input in file paths without sanitizing ../\n9. Missing rate limiting — authentication or expensive endpoints without rate limiting\n10. Overly permissive CORS — Access-Control-Allow-Origin set to * with credentials, or reflecting arbitrary origins\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

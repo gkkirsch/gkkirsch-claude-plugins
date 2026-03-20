@@ -1,1 +1,16 @@
-{"hooks": {}}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for testing quality issues. Check for:\n1. Testing implementation instead of behavior — tests that assert internal state, private methods, or implementation details instead of observable outputs\n2. Missing act() wrapper — React state updates in tests without act() cause warnings and flaky results\n3. Hardcoded waits (setTimeout, sleep) — use waitFor, findBy, or poll-based assertions instead of fixed delays\n4. No cleanup between tests — shared state, DOM nodes, or mocks leaking between test cases\n5. Overly broad assertions — toMatchObject on entire response when only one field matters, or snapshot tests on large volatile objects\n6. Missing error case tests — only testing the happy path without testing validation errors, network failures, or edge cases\n7. Test data coupling — tests depending on execution order, database state from other tests, or shared mutable fixtures\n8. Mocking too much — mocking the thing you're testing, or mocking so much that the test proves nothing\n9. Missing async assertions — not awaiting async operations, causing tests to pass before assertions run\n10. No accessibility queries — using getByTestId when getByRole, getByLabelText, or getByText would be more meaningful\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
