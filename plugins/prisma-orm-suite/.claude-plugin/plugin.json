@@ -1,0 +1,5 @@
+{
+  "name": "Prisma ORM Suite",
+  "description": "Complete Prisma ORM patterns — schema design, relations, queries, migrations, middleware, seeding, testing, multi-tenancy, and production optimization for PostgreSQL and MySQL.",
+  "version": "1.0.0"
+}
