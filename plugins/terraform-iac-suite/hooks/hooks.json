@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the Terraform/HCL code change for issues. Check for: 1) Using count instead of for_each for sets of similar resources (index-based addressing causes unnecessary destroys), 2) Missing backend encryption (encrypt = true for S3, CMEK for GCS), 3) Hardcoded values that should be variables (AMI IDs, instance types, CIDR blocks), 4) Missing lifecycle prevent_destroy on stateful resources (databases, S3 buckets with data), 5) Using latest tag or unpinned module source without version constraint, 6) Missing description on variables and outputs, 7) terraform_remote_state used where SSM Parameter Store would decouple better, 8) Missing validation blocks on variables that accept structured input, 9) depends_on on a module instead of explicit resource references (sledgehammer dependency), 10) State manipulation commands in automation without state backup (missing terraform state pull before mv/rm). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

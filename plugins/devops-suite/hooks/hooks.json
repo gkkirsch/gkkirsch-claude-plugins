@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the DevOps/deployment code change for issues. Check for: 1) Docker COPY before package install (busting dependency layer cache on every code change), 2) Running container as root (missing USER directive or runAsNonRoot in k8s), 3) Using 'latest' image tag in production (non-reproducible deploys), 4) Missing health checks (no readinessProbe or livenessProbe in k8s manifests), 5) Database check in livenessProbe instead of readinessProbe (DB outage cascading pod restarts), 6) Missing resource limits on containers (cpu/memory limits not set), 7) Secrets in plain text (hardcoded in YAML, env vars in Dockerfile, or committed to git), 8) Missing preStop hook for graceful shutdown (in-flight requests dropped during rolling updates), 9) Database migration that drops or renames columns (breaks old code during rolling deploy, needs expand-contract pattern), 10) CI pipeline with cancel-in-progress on deploy jobs (cancelling a running deploy leaves partial state). Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

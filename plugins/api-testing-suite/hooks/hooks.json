@@ -1,3 +1,16 @@
 {
-  "hooks": []
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the API test code change for issues. Check for: 1) Missing test isolation (shared database state between tests without cleanup in beforeEach), 2) Hardcoded ports causing conflicts in parallel test suites (use supertest(app) without .listen()), 3) Missing afterAll cleanup (database connections not closed, causing Jest to hang), 4) Testing against production URLs or databases (NODE_ENV not validated as 'test'), 5) Asserting exact timestamps instead of using expect.any(String) or time ranges, 6) Missing error scenario tests (only testing happy path, no 400/401/403/404/409/429 cases), 7) Pact consumer test missing provider state setup (given clause), 8) Contract test with overly strict matchers (exact values instead of like/regex for flexible matching), 9) Missing authentication in test requests (forgetting Authorization header), 10) Test data factories with non-deterministic values causing flaky assertions. Return {\"ok\": true} if no issues, or {\"ok\": false, \"reason\": \"specific issue found\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
 }
