@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for Vue/Angular development issues. Check for: 1) Vue: using reactive() and destructuring (loses reactivity, use ref() or toRefs()), 2) Vue: v-for without :key or using index as key on dynamic lists, 3) Vue: mutating props directly instead of emitting events to parent, 4) Angular: subscribing to observables without unsubscribing (memory leak, use takeUntilDestroyed or async pipe), 5) Angular: using ngOnInit for inject() calls (should be in constructor or field initializer), 6) both: missing type annotations on component props/inputs and event emitters, 7) both: inline styles or string concatenation for CSS classes instead of proper binding (class binding or ngClass), 8) Vue: watchers without cleanup (timers, event listeners, subscriptions), 9) Angular: importing CommonModule in standalone components that use new control flow (@if/@for dont need it), 10) both: missing error boundaries or error handling in async template operations. Return {\"ok\": true} if clean or {\"ok\": false, \"reason\": \"specific issue found\"} if any issue is detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

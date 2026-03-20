@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the content/copy change for content strategy issues. Check for: 1) missing or weak headline (no clear benefit, no specificity, no urgency), 2) no clear call-to-action in blog posts or landing pages, 3) keyword stuffing (same exact phrase repeated unnaturally more than 3 times), 4) missing meta description or title tag, 5) content without clear structure (no subheadings in posts over 500 words), 6) placeholder text left in templates (TODO, TBD, [insert], lorem ipsum), 7) broken or placeholder links (example.com, #, javascript:void), 8) missing alt text on images, 9) inconsistent brand voice (mixing formal and casual tone within the same piece), 10) claims without evidence or sources (statistics without attribution, superlatives without proof). Return {\"ok\": true} if clean or {\"ok\": false, \"reason\": \"specific issue found\"} if any issue is detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

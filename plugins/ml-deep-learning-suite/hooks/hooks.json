@@ -1,1 +1,16 @@
-{}
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for ML/deep learning issues. Check for: 1) missing model.eval() before inference or export (BatchNorm and Dropout behave differently in train vs eval), 2) not using torch.no_grad() during validation or inference (wastes GPU memory on gradient computation), 3) missing gradient clipping (training can diverge with large gradients), 4) hardcoded device strings ('cuda') instead of torch.device detection with CPU fallback, 5) loading data without num_workers or pin_memory in DataLoader (slow GPU utilization), 6) missing random seed setting for reproducibility (torch.manual_seed, numpy.random.seed, random.seed), 7) saving model with torch.save(model) instead of torch.save(model.state_dict()) (saves entire pickle, fragile across code changes), 8) not handling class imbalance (no weighted loss, no oversampling, no stratified splits), 9) missing learning rate scheduler (constant LR rarely optimal), 10) no validation set or using test set for hyperparameter tuning (data leakage). Return {\"ok\": true} if clean or {\"ok\": false, \"reason\": \"specific issue found\"} if any issue is detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
