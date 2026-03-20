@@ -1,0 +1,5 @@
+{
+  "name": "GraphQL Suite",
+  "description": "Full-stack GraphQL development — Apollo Server with schema-first and code-first approaches, Apollo Client with caching and optimistic updates, code generation with graphql-codegen for type-safe operations, subscriptions, federation, error handling, and performance optimization.",
+  "version": "1.0.0"
+}

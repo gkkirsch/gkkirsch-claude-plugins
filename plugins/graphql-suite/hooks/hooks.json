@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Review the code change for GraphQL issues. Check for:\n1. N+1 query problem — resolvers fetching related data in a loop instead of using DataLoader\n2. Missing error handling in resolvers — unhandled errors expose stack traces to clients\n3. No input validation — GraphQL inputs should be validated before processing\n4. Overfetching in queries — selecting all fields when only a few are needed\n5. Missing authentication/authorization checks in resolvers\n6. Unbounded list queries — no pagination (first/after or limit/offset) on collection fields\n7. Missing null checks — nullable fields not handled in client code\n8. Schema using generic types (String for IDs, dates) instead of custom scalars\n9. Mutations not returning the modified object — clients can't update cache\n10. Missing optimistic response in Apollo Client mutations\n\nRespond {\"ok\": true} if no issues found, or {\"ok\": false, \"reason\": \"specific issue description\"} if problems detected.",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
