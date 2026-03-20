@@ -1,0 +1,5 @@
+{
+  "name": "Forms & Validation Suite",
+  "version": "1.0.0",
+  "description": "Complete form building toolkit — React Hook Form for performant forms, Zod for type-safe schema validation, file upload patterns with drag-and-drop, multi-step wizard forms with progress tracking, and accessible form UI patterns with error handling."
+}

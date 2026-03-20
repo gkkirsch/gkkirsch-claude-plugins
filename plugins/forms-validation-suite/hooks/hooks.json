@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check the edited code for form and validation best practices. Flag if you see ANY of these issues:\n1. Defining TypeScript interfaces manually instead of using z.infer<typeof schema>\n2. Using controlled state (useState) for form values when React Hook Form would be better\n3. Missing error display — form has validation but errors are not shown to the user\n4. Using z.string() without .min(1) for required fields (empty strings pass z.string())\n5. Missing defaultValues in useForm — causes uncontrolled-to-controlled warnings\n6. Not using zodResolver — mixing manual validation with Zod schemas\n7. Number inputs without valueAsNumber: true or z.coerce.number()\n8. Form submission without disabled state on the submit button (double-submit risk)\n9. Missing aria-invalid or aria-describedby for accessibility on error fields\n10. Server errors shown as toast/alert instead of inline with setError()\n11. Clearing form data on validation error (user loses their input)\n12. Missing htmlFor on labels or missing id on inputs\nIf none of these issues are found, respond with just {\"ok\": true}. If issues found, respond {\"ok\": false, \"reason\": \"brief description of the issue(s)\"}. Only flag issues — do not block the edit."
+          }
+        ]
+      }
+    ]
+  }
+}

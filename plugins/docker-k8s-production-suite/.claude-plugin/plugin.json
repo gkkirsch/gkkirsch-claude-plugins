@@ -1,0 +1,5 @@
+{
+  "name": "Docker & Kubernetes Production Suite",
+  "version": "1.0.0",
+  "description": "Production-grade Docker and Kubernetes patterns — optimized Dockerfiles, multi-stage builds, Docker Compose, Kubernetes deployments, services, ingress, debugging, and operational best practices."
+}

@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check the edited code for Docker and Kubernetes best practices. Flag if you see ANY of these issues:\n1. Using 'latest' tag in FROM or image references instead of pinned versions\n2. Running as root (missing USER instruction in Dockerfile, missing securityContext in K8s)\n3. No HEALTHCHECK in Dockerfile or no readiness/liveness probes in K8s manifests\n4. Copying node_modules or .git into Docker image (missing .dockerignore patterns)\n5. Not using multi-stage builds when the final image contains build tools\n6. Missing resource limits (memory/CPU) in Kubernetes pod specs\n7. Using NodePort or LoadBalancer when ClusterIP + Ingress would suffice\n8. Secrets stored as plain environment variables instead of K8s Secrets or mounted files\n9. Missing restart policy or using 'Always' for batch/CronJob workloads\n10. Not combining RUN commands (creating unnecessary layers)\n11. Installing dev dependencies in production Dockerfile (missing --production or --omit=dev)\n12. Missing Pod Disruption Budget for production deployments\n13. Using docker compose 'depends_on' without health check condition\n14. Exposing unnecessary ports or using privileged mode\nIf none of these issues are found, respond with just {\"ok\": true}. If issues found, respond {\"ok\": false, \"reason\": \"brief description of the issue(s)\"}. Only flag issues — do not block the edit."
+          }
+        ]
+      }
+    ]
+  }
+}
