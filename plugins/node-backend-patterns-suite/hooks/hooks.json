@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Check the edited code for Node.js API best practices. Flag if you see ANY of these issues:\n1. Using `any` type instead of proper TypeScript types for request handlers or service methods\n2. Missing error handling — async route handler without try/catch or express-async-errors\n3. Business logic in route handler instead of service layer (database queries in controllers)\n4. Hardcoded secrets or credentials (JWT secret, database URL, API keys in source code)\n5. Missing input validation — request body or query params used without Zod schema validation\n6. Using `res.json()` without returning (can lead to double response)\n7. SQL injection risk — string concatenation in raw queries instead of parameterized queries\n8. Missing rate limiting on authentication endpoints (login, signup, password reset)\n9. Storing passwords without bcrypt or with cost factor below 10\n10. Returning sensitive fields in API responses (password hash, tokens, internal IDs)\n11. Missing CORS configuration or using wildcard origin (*) in production\n12. Error handler with fewer than 4 parameters (Express won't recognize it as error middleware)\n13. Missing graceful shutdown handler (SIGTERM/SIGINT) for the HTTP server\n14. Using `console.log` instead of a structured logger (pino, winston)\nIf none of these issues are found, respond with just {\"ok\": true}. If issues found, respond {\"ok\": false, \"reason\": \"brief description of the issue(s)\"}. Only flag issues — do not block the edit."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Node.js Backend Patterns Suite",
+  "version": "1.0.0",
+  "description": "Production Node.js backend patterns — Express API architecture, authentication (JWT, sessions, OAuth), structured error handling, database access patterns with Prisma, and security best practices."
+}

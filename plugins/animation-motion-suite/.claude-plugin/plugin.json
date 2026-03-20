@@ -1,0 +1,5 @@
+{
+  "name": "Animation & Motion Suite",
+  "description": "Complete animation toolkit — Framer Motion for React animations, CSS keyframes and transitions, page transition patterns, scroll-triggered animations, gesture handling, and performance optimization for smooth 60fps motion.",
+  "version": "1.0.0"
+}
