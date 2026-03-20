@@ -1,0 +1,5 @@
+{
+  "name": "Playwright E2E Suite",
+  "description": "End-to-end testing with Playwright — test setup, page objects, fixtures, locators, assertions, visual testing, API testing, authentication, and CI/CD integration with GitHub Actions.",
+  "version": "1.0.0"
+}
