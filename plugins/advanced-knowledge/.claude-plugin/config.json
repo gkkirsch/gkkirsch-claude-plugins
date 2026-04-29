@@ -1,0 +1,22 @@
+{
+  "credentials": [],
+  "schedules": [
+    {
+      "id": "advanced-knowledge-nightly",
+      "label": "Nightly knowledge consolidation",
+      "description": "At 4am, scans knowledge/raw/ for unprocessed sources and compiles them into knowledge/wiki/.",
+      "cron": "0 4 * * *",
+      "prompt": "Run knowledge consolidation: spawn the knowledge-consolidator agent to check knowledge/raw/ for unprocessed sources, compile them into knowledge/wiki/ (summaries, concepts, connections), and update knowledge/wiki/index.md.",
+      "recurring": true
+    }
+  ],
+  "setup_scripts": [
+    {
+      "id": "init-knowledge-dirs",
+      "label": "Initialize knowledge directories",
+      "description": "Creates knowledge/raw/, knowledge/wiki/, and a starter index so the consolidator has somewhere to read and write.",
+      "command": "mkdir -p knowledge/raw knowledge/wiki && [ -f knowledge/wiki/index.md ] || printf '# Knowledge wiki\\n\\nCompiled from sources in knowledge/raw/ — auto-maintained by the knowledge-consolidator agent.\\n' > knowledge/wiki/index.md",
+      "run_once": true
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "credentials": [],
+  "schedules": [
+    {
+      "id": "advanced-memory-nightly",
+      "label": "Nightly memory consolidation",
+      "description": "Reviews session transcripts at 3am, extracts decisions and learnings, and rebuilds MEMORY.md.",
+      "cron": "0 3 * * *",
+      "prompt": "Run memory consolidation: spawn the memory-consolidator agent to review today's session transcripts, extract key decisions/learnings/preferences, update topic files in memory/topics/, and rebuild memory/MEMORY.md index.",
+      "recurring": true
+    }
+  ],
+  "setup_scripts": [
+    {
+      "id": "init-memory-dirs",
+      "label": "Initialize memory directories",
+      "description": "Creates memory/topics/ and an empty MEMORY.md so the consolidator agent has somewhere to write.",
+      "command": "mkdir -p memory/topics && [ -f memory/MEMORY.md ] || printf '# Memory\\n\\nIndex of topic notes — auto-maintained by the memory-consolidator agent.\\n' > memory/MEMORY.md",
+      "run_once": true
+    }
+  ]
+}
