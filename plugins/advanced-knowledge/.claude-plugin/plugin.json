@@ -8,7 +8,7 @@
     "email": "superbot2@superchargeclaudecode.com"
   },
   "keywords": ["knowledge", "wiki", "research", "karpathy"],
-  "skills": "./skills/",
-  "agents": "./agents/",
+  "skills": ["./skills/knowledge-base"],
+  "agents": ["./agents/knowledge-consolidator.md"],
   "hooks": "./hooks.json"
 }
