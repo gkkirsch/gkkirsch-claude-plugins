@@ -1,0 +1,16 @@
+{
+  "name": "flow-agents",
+  "displayName": "Flow Agents",
+  "description": "Built-in subagents for Flow orchestrators: researcher (produces CSV/list/doc artifacts), writer (anti-slop user-visible prose), browser (drives the orch's dedicated Chrome).",
+  "version": "1.0.0",
+  "author": {
+    "name": "flow",
+    "email": "flow@superchargeclaudecode.com"
+  },
+  "keywords": ["agents", "researcher", "writer", "browser"],
+  "agents": [
+    "./agents/researcher.md",
+    "./agents/writer.md",
+    "./agents/browser.md"
+  ]
+}
