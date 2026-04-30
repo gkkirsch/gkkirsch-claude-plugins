@@ -2,13 +2,22 @@
   "name": "advanced-knowledge",
   "displayName": "Advanced Knowledge",
   "description": "LLM-compiled knowledge wiki from raw sources. Ingest, compile, query, lint. Inspired by Andrej Karpathy's knowledge base approach.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "flow",
     "email": "flow@superchargeclaudecode.com"
   },
-  "keywords": ["knowledge", "wiki", "research", "karpathy"],
-  "skills": ["./skills/knowledge-base"],
-  "agents": ["./agents/knowledge-consolidator.md"],
+  "keywords": [
+    "knowledge",
+    "wiki",
+    "research",
+    "karpathy"
+  ],
+  "skills": [
+    "./skills/knowledge-base"
+  ],
+  "agents": [
+    "./agents/knowledge-consolidator.md"
+  ],
   "hooks": "./hooks.json"
 }

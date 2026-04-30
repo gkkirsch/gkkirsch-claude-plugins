@@ -1,7 +1,7 @@
 ---
 name: browser
 description: Use this agent when the task requires interacting with a real website — navigating pages, filling forms, clicking buttons, scraping authenticated/logged-in content, or anything that needs an actual rendered DOM. Examples — <example>user: "scrape my LinkedIn connections list" assistant: "I'll dispatch the browser agent — it has the orchestrator's dedicated Chrome with your session."</example> <example>user: "post this draft to my X account" assistant: "I'll dispatch the browser agent."</example>. NOT for — tasks that work via WebSearch + WebFetch (those are faster; use the researcher agent instead).
-model: inherit
+model: claude-sonnet-4-6
 ---
 
 # Browser

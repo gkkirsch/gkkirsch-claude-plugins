@@ -1,14 +1,23 @@
 {
   "name": "advanced-memory",
   "displayName": "Advanced Memory",
-  "description": "Persistent memory for AI agents — remember, recall, reflect, consolidate. Nightly session rollup with topic-based organization.",
-  "version": "1.0.0",
+  "description": "Persistent memory for AI agents \u2014 remember, recall, reflect, consolidate. Nightly session rollup with topic-based organization.",
+  "version": "1.0.1",
   "author": {
     "name": "flow",
     "email": "flow@superchargeclaudecode.com"
   },
-  "keywords": ["memory", "persistence", "learning", "consolidation"],
-  "skills": ["./skills/memory"],
-  "agents": ["./agents/memory-consolidator.md"],
+  "keywords": [
+    "memory",
+    "persistence",
+    "learning",
+    "consolidation"
+  ],
+  "skills": [
+    "./skills/memory"
+  ],
+  "agents": [
+    "./agents/memory-consolidator.md"
+  ],
   "hooks": "./hooks.json"
 }
