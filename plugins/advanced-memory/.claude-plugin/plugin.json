@@ -2,7 +2,7 @@
   "name": "advanced-memory",
   "displayName": "Advanced Memory",
   "description": "Persistent memory for AI agents \u2014 remember, recall, reflect, consolidate. Nightly session rollup with topic-based organization.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "flow",
     "email": "flow@superchargeclaudecode.com"
