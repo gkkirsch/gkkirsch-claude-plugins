@@ -16,32 +16,30 @@
 # relative.
 set -euo pipefail
 
-INDEX_FILE="knowledge/wiki/index.md"
+INDEX_FILE="library/wiki/index.md"
 
-# Build the always-on guidance. This block is what teaches the agent
-# where to write research/docs/etc — without it, agents tend to stash
-# files under .claude/ or scatter them in unrelated directories.
-COMMON='## Where research & docs go
+# Build the always-on guidance. This block teaches the agent where to
+# write artifacts — without it, agents tend to stash files under
+# .claude/ or scatter them across unrelated directories.
+COMMON='## Where everything you make goes: library/
 
-Anything the user might read or share — research notes, audits,
-compiled docs, scraped data, plans, screenshots, scratch markdown —
-lives **under your cwd** (the same dir as this prompt). The Director
-Library panel shows exactly this directory; files anywhere else are
-invisible to the user.
+Every artifact you produce that the user might read or share —
+research, audits, compiled docs, scraped data, plans, screenshots,
+scratch markdown — goes under `library/` in your cwd. That single
+directory is what the Director Library panel shows the user.
 
-Standard subdirectories (create on demand, no need to ask):
+**Drop raw sources directly at `library/`** (no `raw/` subfolder).
+Anything not under a processed subdirectory is treated as raw. Use
+subdirectories only for *processed* outputs:
 
-- `research/` — short-form notes, exploratory findings.
-- `docs/` — finished prose deliverables.
-- `notes/` — scratch and working memory.
-- `audits/` — site/code/content audits.
-- `data/` — CSVs, JSON dumps, scrape outputs.
-- `knowledge/` — long-form compiled research (see below).
-
-For substantial research, prefer the `/knowledge-base` skill: drop
-sources in `knowledge/raw/`, run `/knowledge-base compile` to produce
-a cross-referenced wiki under `knowledge/wiki/`. The wiki then shows
-up in the Library and is queryable from later turns.
+- `library/wiki/` — compiled knowledge base. Concepts, summaries,
+  connections, the index. Filed Q&A queries live at
+  `library/wiki/queries/`. Built and updated by the `/knowledge-base`
+  skill — use it for any substantial research you want cross-referenced
+  and reusable later.
+- `library/<other-subdir>/` — feel free to carve out topical buckets
+  (`audits/`, `screenshots/`, etc) when it helps organize a project.
+  These are user-visible too.
 
 **Never write to `.claude/`** — claude-code blocks writes there.'
 
