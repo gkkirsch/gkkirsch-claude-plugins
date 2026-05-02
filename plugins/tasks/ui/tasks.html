@@ -1,88 +1,91 @@
 <!--
-  Tasks panel template. Director's runtime renders this with the
-  agent's task list (file-per-item glob from CLAUDE_CONFIG_DIR/tasks/).
+  Tasks panel template. Director's runtime renders this inline (not
+  iframed), so we deliberately avoid <style> blocks that would bleed
+  into the rest of the app. All styling uses Director's existing
+  utility classes (Tailwind-style) and CSS variables.
 
   Attribute hooks the runtime understands:
-    data-loop="<group-key>"     repeat element per item in that group
+    {{field}}                   interpolate field from current item
+    data-loop="<group>"         repeat element per item in group
     data-when="<expr>"          render only if expression is truthy
     data-bind="<prop>=<expr>"   set DOM property from item state
     data-action="<verb>:<args>" wire onclick/onchange/onsubmit
-                                verbs: patch, delete, add
-    {{field}}                   interpolate field from current item
+                                verbs: patch, delete, add, open
 
   Groups derived in the runtime by `status`:
-    in_progress, pending, completed (in that visual order).
+    in_progress, pending, completed (visual order chosen here).
 -->
 
-<style>
-  :root {
-    color-scheme: light dark;
-    --row-pad: 0.5rem 0.75rem;
-  }
-  body { font: 13px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-         margin: 0; padding: 1.25rem; color: var(--ink); background: transparent; }
-  h2 { font: 600 10px/1 -apple-system, sans-serif; letter-spacing: 0.22em;
-       text-transform: uppercase; color: var(--muted); margin: 1.5rem 0 0.5rem; }
-  h2:first-of-type { margin-top: 0; }
-  ul { list-style: none; margin: 0; padding: 0; }
-  li { display: flex; align-items: flex-start; gap: 0.6rem; padding: var(--row-pad);
-       border-radius: 0.4rem; }
-  li:hover { background: rgba(127,127,127,0.06); }
-  li input[type="checkbox"] { margin-top: 2px; cursor: pointer; flex-shrink: 0; }
-  li .body { flex: 1; min-width: 0; }
-  li .subject { font-size: 13px; line-height: 1.45; word-break: break-word; }
-  li.done .subject { text-decoration: line-through; color: var(--muted); }
-  li .desc { margin-top: 2px; font-size: 11.5px; color: var(--muted); }
-  li button.del { opacity: 0; border: 0; background: transparent; cursor: pointer;
-                  color: var(--muted); font-size: 16px; padding: 0 4px; line-height: 1; }
-  li:hover button.del { opacity: 0.7; }
-  li button.del:hover { opacity: 1; color: var(--clay, #bb6456); }
-  .empty { color: var(--muted); font-style: italic; padding: 0.75rem 0; font-size: 12px; }
-</style>
+<div class="px-6 py-5 text-foreground">
+  <section data-when="data.length == 0">
+    <p class="text-[12px] italic text-muted-foreground py-3">
+      no tasks yet — the orch creates these via TaskCreate / TodoWrite
+    </p>
+  </section>
 
-<section data-when="data.length == 0">
-  <div class="empty">no tasks yet — the orch creates these via TaskCreate / TodoWrite</div>
-</section>
+  <section data-when="data.length > 0" class="space-y-6">
 
-<section data-when="data.length > 0">
-  <h2>In progress</h2>
-  <ul data-loop="in_progress">
-    <li>
-      <input type="checkbox"
-             data-action="patch:status=completed"
-             title="Mark complete">
-      <div class="body">
-        <div class="subject">{{subject}}</div>
-        <div class="desc" data-when="description">{{description}}</div>
+    <div data-when="in_progress.length > 0">
+      <div class="text-[10px] font-medium tracking-[0.22em] uppercase text-muted-foreground mb-2">
+        In progress
       </div>
-      <button class="del" data-action="delete" title="Delete">×</button>
-    </li>
-  </ul>
+      <ul class="space-y-1">
+        <li data-loop="in_progress" class="flex items-start gap-2.5 px-2 py-1.5 rounded hover:bg-secondary/40 group">
+          <input type="checkbox"
+                 data-action="patch:status=completed"
+                 title="Mark complete"
+                 class="mt-1 cursor-pointer accent-foreground" />
+          <div class="flex-1 min-w-0">
+            <div class="text-[13px] leading-snug break-words">{{subject}}</div>
+            <div data-when="description" class="text-[11.5px] text-muted-foreground mt-0.5 break-words">{{description}}</div>
+          </div>
+          <button data-action="delete"
+                  title="Delete"
+                  class="opacity-0 group-hover:opacity-60 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+        </li>
+      </ul>
+    </div>
 
-  <h2>To do</h2>
-  <ul data-loop="pending">
-    <li>
-      <input type="checkbox"
-             data-action="patch:status=completed"
-             title="Mark complete">
-      <div class="body">
-        <div class="subject">{{subject}}</div>
-        <div class="desc" data-when="description">{{description}}</div>
+    <div data-when="pending.length > 0">
+      <div class="text-[10px] font-medium tracking-[0.22em] uppercase text-muted-foreground mb-2">
+        To do
       </div>
-      <button class="del" data-action="delete" title="Delete">×</button>
-    </li>
-  </ul>
+      <ul class="space-y-1">
+        <li data-loop="pending" class="flex items-start gap-2.5 px-2 py-1.5 rounded hover:bg-secondary/40 group">
+          <input type="checkbox"
+                 data-action="patch:status=completed"
+                 title="Mark complete"
+                 class="mt-1 cursor-pointer accent-foreground" />
+          <div class="flex-1 min-w-0">
+            <div class="text-[13px] leading-snug break-words">{{subject}}</div>
+            <div data-when="description" class="text-[11.5px] text-muted-foreground mt-0.5 break-words">{{description}}</div>
+          </div>
+          <button data-action="delete"
+                  title="Delete"
+                  class="opacity-0 group-hover:opacity-60 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+        </li>
+      </ul>
+    </div>
 
-  <h2>Done</h2>
-  <ul data-loop="completed">
-    <li class="done">
-      <input type="checkbox" checked
-             data-action="patch:status=pending"
-             title="Reopen">
-      <div class="body">
-        <div class="subject">{{subject}}</div>
+    <div data-when="completed.length > 0">
+      <div class="text-[10px] font-medium tracking-[0.22em] uppercase text-muted-foreground mb-2">
+        Done
       </div>
-      <button class="del" data-action="delete" title="Delete">×</button>
-    </li>
-  </ul>
-</section>
+      <ul class="space-y-1">
+        <li data-loop="completed" class="flex items-start gap-2.5 px-2 py-1.5 rounded hover:bg-secondary/40 group opacity-70">
+          <input type="checkbox" checked
+                 data-action="patch:status=pending"
+                 title="Reopen"
+                 class="mt-1 cursor-pointer accent-foreground" />
+          <div class="flex-1 min-w-0">
+            <div class="text-[13px] leading-snug line-through text-muted-foreground break-words">{{subject}}</div>
+          </div>
+          <button data-action="delete"
+                  title="Delete"
+                  class="opacity-0 group-hover:opacity-60 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+        </li>
+      </ul>
+    </div>
+
+  </section>
+</div>
