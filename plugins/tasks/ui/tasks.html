@@ -16,7 +16,7 @@
     in_progress, pending, completed (visual order chosen here).
 -->
 
-<div class="px-6 py-5 text-foreground">
+<div class="px-8 pt-6 pb-8 text-foreground">
   <section data-when="data.length == 0">
     <p class="text-[12px] italic text-muted-foreground py-3">
       no tasks yet — the orch creates these via TaskCreate / TodoWrite
@@ -30,7 +30,7 @@
         In progress
       </div>
       <ul class="space-y-1">
-        <li data-loop="in_progress" class="flex items-start gap-2.5 px-2 py-1.5 rounded hover:bg-secondary/40 group">
+        <li data-loop="in_progress" class="flex items-start gap-2.5 py-1.5">
           <input type="checkbox"
                  data-action="patch:status=completed"
                  title="Mark complete"
@@ -41,7 +41,7 @@
           </div>
           <button data-action="delete"
                   title="Delete"
-                  class="opacity-0 group-hover:opacity-60 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
         </li>
       </ul>
     </div>
@@ -51,7 +51,7 @@
         To do
       </div>
       <ul class="space-y-1">
-        <li data-loop="pending" class="flex items-start gap-2.5 px-2 py-1.5 rounded hover:bg-secondary/40 group">
+        <li data-loop="pending" class="flex items-start gap-2.5 py-1.5">
           <input type="checkbox"
                  data-action="patch:status=completed"
                  title="Mark complete"
@@ -62,7 +62,7 @@
           </div>
           <button data-action="delete"
                   title="Delete"
-                  class="opacity-0 group-hover:opacity-60 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
         </li>
       </ul>
     </div>
@@ -72,7 +72,7 @@
         Done
       </div>
       <ul class="space-y-1">
-        <li data-loop="completed" class="flex items-start gap-2.5 px-2 py-1.5 rounded hover:bg-secondary/40 group opacity-70">
+        <li data-loop="completed" class="flex items-start gap-2.5 py-1.5 opacity-70">
           <input type="checkbox" checked
                  data-action="patch:status=pending"
                  title="Reopen"
@@ -82,7 +82,7 @@
           </div>
           <button data-action="delete"
                   title="Delete"
-                  class="opacity-0 group-hover:opacity-60 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
         </li>
       </ul>
     </div>
