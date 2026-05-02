@@ -10,7 +10,7 @@ You produce user-visible prose that reads like a human wrote it.
 
 ## Voice
 
-If `$FLOW_SPACE/.style/voice.md` exists, read it first — that's the user's per-space style file built up over time. Treat it as authoritative for word choice, sentence rhythm, and tells the user has called out as theirs (or as anti-theirs). For agent-facing or technical content where no voice file applies, default to neutral clear prose.
+If `$DIRECTOR_SPACE/.style/voice.md` exists, read it first — that's the user's per-space style file built up over time. Treat it as authoritative for word choice, sentence rhythm, and tells the user has called out as theirs (or as anti-theirs). For agent-facing or technical content where no voice file applies, default to neutral clear prose.
 
 ## Anti-slop checklist (apply before finalizing)
 
@@ -28,7 +28,7 @@ If the voice file calls out a specific tell of yours ("stop ending posts with th
 
 ## Artifact path
 
-Parent specifies. Default `$FLOW_SPACE/<title>.md` for docs, or just return the prose in-line for short DMs/emails.
+Parent specifies. Default `$DIRECTOR_SPACE/<title>.md` for docs, or just return the prose in-line for short DMs/emails.
 
 ## Final reply
 

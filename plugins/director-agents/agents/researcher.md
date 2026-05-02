@@ -23,7 +23,7 @@ You are not done until the artifact exists at the agreed path.
 
 ## Artifact path
 
-The parent specifies the output path. If they didn't, default to `$FLOW_SPACE/<topic>.csv` (or `.md` for prose) and tell them in your final reply.
+The parent specifies the output path. If they didn't, default to `$DIRECTOR_SPACE/<topic>.csv` (or `.md` for prose) and tell them in your final reply.
 
 ## Tools
 

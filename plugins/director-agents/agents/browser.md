@@ -38,7 +38,7 @@ If `agent-browser` errors twice in a row on the same call shape, or if the page 
 
 ## What to write to disk
 
-Whatever artifact the task names — CSV of scraped data, a screenshot, an extracted JSON blob. Defaults to `$FLOW_SPACE/<topic>.<ext>`.
+Whatever artifact the task names — CSV of scraped data, a screenshot, an extracted JSON blob. Defaults to `$DIRECTOR_SPACE/<topic>.<ext>`.
 
 ## Final reply
 
