@@ -1,11 +1,11 @@
 {
-  "name": "flow-agents",
-  "displayName": "Flow Agents",
-  "description": "Built-in subagents for Flow orchestrators: researcher (produces CSV/list/doc artifacts), writer (anti-slop user-visible prose), browser (drives the orch's dedicated Chrome).",
-  "version": "1.0.1",
+  "name": "director-agents",
+  "displayName": "Director Agents",
+  "description": "Built-in subagents for Director orchestrators: researcher (produces CSV/list/doc artifacts), writer (anti-slop user-visible prose), browser (drives the orch's dedicated Chrome).",
+  "version": "1.0.0",
   "author": {
-    "name": "flow",
-    "email": "flow@superchargeclaudecode.com"
+    "name": "director",
+    "email": "director@superchargeclaudecode.com"
   },
   "keywords": [
     "agents",
