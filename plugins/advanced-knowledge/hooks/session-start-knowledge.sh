@@ -25,21 +25,21 @@ COMMON='## Where everything you make goes: library/
 
 Every artifact you produce that the user might read or share —
 research, audits, compiled docs, scraped data, plans, screenshots,
-scratch markdown — goes under `library/` in your cwd. That single
-directory is what the Director Library panel shows the user.
+scratch markdown — goes directly under `library/` in your cwd. That
+single directory is what the Director Library panel shows the user.
 
-**Drop raw sources directly at `library/`** (no `raw/` subfolder).
-Anything not under a processed subdirectory is treated as raw. Use
-subdirectories only for *processed* outputs:
+**Keep `library/` flat.** Drop files at the root —
+`library/<some-thing>.md`, `library/<scraped-data>.csv`,
+`library/<screenshot>.png`. Do not invent topical subdirectories
+(no `library/audits/`, no `library/research/`, no
+`library/notes/`). A flat list is what the user sees.
 
-- `library/wiki/` — compiled knowledge base. Concepts, summaries,
-  connections, the index. Filed Q&A queries live at
-  `library/wiki/queries/`. Built and updated by the `/knowledge-base`
-  skill — use it for any substantial research you want cross-referenced
-  and reusable later.
-- `library/<other-subdir>/` — feel free to carve out topical buckets
-  (`audits/`, `screenshots/`, etc) when it helps organize a project.
-  These are user-visible too.
+The one exception is the wiki, which has structure:
+
+- `library/wiki/` — compiled knowledge base built by the
+  `/knowledge-base` skill. Concepts, summaries, connections, the
+  index, and filed Q&A queries (`library/wiki/queries/`). Use this
+  for substantial research you want cross-referenced and reusable.
 
 **Never write to `.claude/`** — claude-code blocks writes there.'
 
