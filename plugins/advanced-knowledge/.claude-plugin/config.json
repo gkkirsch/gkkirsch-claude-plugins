@@ -4,18 +4,18 @@
     {
       "id": "advanced-knowledge-nightly",
       "label": "Nightly knowledge consolidation",
-      "description": "At 4am, scans knowledge/raw/ for unprocessed sources and compiles them into knowledge/wiki/.",
+      "description": "At 4am, scans library/ for unprocessed sources and compiles them into library/wiki/.",
       "cron": "0 4 * * *",
-      "prompt": "Run knowledge consolidation: spawn the knowledge-consolidator agent to check knowledge/raw/ for unprocessed sources, compile them into knowledge/wiki/ (summaries, concepts, connections), and update knowledge/wiki/index.md.",
+      "prompt": "Run knowledge consolidation: spawn the knowledge-consolidator agent to scan library/ for new source files (ignoring the wiki/ subdirectory which holds processed output), compile them into library/wiki/ (summaries, concepts, connections), and update library/wiki/index.md.",
       "recurring": true
     }
   ],
   "setup_scripts": [
     {
-      "id": "init-knowledge-dirs",
-      "label": "Initialize knowledge directories",
-      "description": "Creates knowledge/raw/, knowledge/wiki/, and a starter index so the consolidator has somewhere to read and write.",
-      "command": "mkdir -p knowledge/raw knowledge/wiki && [ -f knowledge/wiki/index.md ] || printf '# Knowledge wiki\\n\\nCompiled from sources in knowledge/raw/ — auto-maintained by the knowledge-consolidator agent.\\n' > knowledge/wiki/index.md",
+      "id": "init-library-dirs",
+      "label": "Initialize library directories",
+      "description": "Creates library/wiki/ and a starter index so the consolidator has somewhere to read and write. Raw sources go directly under library/ — no separate raw/ subfolder.",
+      "command": "mkdir -p library/wiki && [ -f library/wiki/index.md ] || printf '# Knowledge wiki\\n\\nCompiled from sources dropped in library/ — auto-maintained by the knowledge-consolidator agent.\\n' > library/wiki/index.md",
       "run_once": true
     }
   ]
