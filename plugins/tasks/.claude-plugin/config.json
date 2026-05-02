@@ -1,0 +1,18 @@
+{
+  "credentials": [],
+  "menu_items": [
+    {
+      "id": "tasks",
+      "label": "Tasks",
+      "icon": "ListTodo",
+      "agent_kinds": ["orchestrator", "worker"],
+      "data": {
+        "kind": "file-per-item",
+        "root": "claude_dir",
+        "glob": "tasks/*/*.json",
+        "id_field": "id"
+      },
+      "template": "ui/tasks.html"
+    }
+  ]
+}

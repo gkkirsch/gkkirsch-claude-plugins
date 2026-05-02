@@ -1,0 +1,88 @@
+<!--
+  Tasks panel template. Director's runtime renders this with the
+  agent's task list (file-per-item glob from CLAUDE_CONFIG_DIR/tasks/).
+
+  Attribute hooks the runtime understands:
+    data-loop="<group-key>"     repeat element per item in that group
+    data-when="<expr>"          render only if expression is truthy
+    data-bind="<prop>=<expr>"   set DOM property from item state
+    data-action="<verb>:<args>" wire onclick/onchange/onsubmit
+                                verbs: patch, delete, add
+    {{field}}                   interpolate field from current item
+
+  Groups derived in the runtime by `status`:
+    in_progress, pending, completed (in that visual order).
+-->
+
+<style>
+  :root {
+    color-scheme: light dark;
+    --row-pad: 0.5rem 0.75rem;
+  }
+  body { font: 13px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+         margin: 0; padding: 1.25rem; color: var(--ink); background: transparent; }
+  h2 { font: 600 10px/1 -apple-system, sans-serif; letter-spacing: 0.22em;
+       text-transform: uppercase; color: var(--muted); margin: 1.5rem 0 0.5rem; }
+  h2:first-of-type { margin-top: 0; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li { display: flex; align-items: flex-start; gap: 0.6rem; padding: var(--row-pad);
+       border-radius: 0.4rem; }
+  li:hover { background: rgba(127,127,127,0.06); }
+  li input[type="checkbox"] { margin-top: 2px; cursor: pointer; flex-shrink: 0; }
+  li .body { flex: 1; min-width: 0; }
+  li .subject { font-size: 13px; line-height: 1.45; word-break: break-word; }
+  li.done .subject { text-decoration: line-through; color: var(--muted); }
+  li .desc { margin-top: 2px; font-size: 11.5px; color: var(--muted); }
+  li button.del { opacity: 0; border: 0; background: transparent; cursor: pointer;
+                  color: var(--muted); font-size: 16px; padding: 0 4px; line-height: 1; }
+  li:hover button.del { opacity: 0.7; }
+  li button.del:hover { opacity: 1; color: var(--clay, #bb6456); }
+  .empty { color: var(--muted); font-style: italic; padding: 0.75rem 0; font-size: 12px; }
+</style>
+
+<section data-when="data.length == 0">
+  <div class="empty">no tasks yet — the orch creates these via TaskCreate / TodoWrite</div>
+</section>
+
+<section data-when="data.length > 0">
+  <h2>In progress</h2>
+  <ul data-loop="in_progress">
+    <li>
+      <input type="checkbox"
+             data-action="patch:status=completed"
+             title="Mark complete">
+      <div class="body">
+        <div class="subject">{{subject}}</div>
+        <div class="desc" data-when="description">{{description}}</div>
+      </div>
+      <button class="del" data-action="delete" title="Delete">×</button>
+    </li>
+  </ul>
+
+  <h2>To do</h2>
+  <ul data-loop="pending">
+    <li>
+      <input type="checkbox"
+             data-action="patch:status=completed"
+             title="Mark complete">
+      <div class="body">
+        <div class="subject">{{subject}}</div>
+        <div class="desc" data-when="description">{{description}}</div>
+      </div>
+      <button class="del" data-action="delete" title="Delete">×</button>
+    </li>
+  </ul>
+
+  <h2>Done</h2>
+  <ul data-loop="completed">
+    <li class="done">
+      <input type="checkbox" checked
+             data-action="patch:status=pending"
+             title="Reopen">
+      <div class="body">
+        <div class="subject">{{subject}}</div>
+      </div>
+      <button class="del" data-action="delete" title="Delete">×</button>
+    </li>
+  </ul>
+</section>
