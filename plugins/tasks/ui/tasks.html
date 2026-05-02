@@ -1,19 +1,16 @@
 <!--
   Tasks panel template. Director's runtime renders this inline (not
   iframed), so we deliberately avoid <style> blocks that would bleed
-  into the rest of the app. All styling uses Director's existing
-  utility classes (Tailwind-style) and CSS variables.
+  into the rest of the app.
 
-  Attribute hooks the runtime understands:
+  Attribute hooks:
     {{field}}                   interpolate field from current item
     data-loop="<group>"         repeat element per item in group
     data-when="<expr>"          render only if expression is truthy
-    data-bind="<prop>=<expr>"   set DOM property from item state
-    data-action="<verb>:<args>" wire onclick/onchange/onsubmit
+    data-action="<verb>:<args>" wire onclick/onchange
                                 verbs: patch, delete, add, open
 
-  Groups derived in the runtime by `status`:
-    in_progress, pending, completed (visual order chosen here).
+  Groups derived in the runtime by `status`: in_progress | pending | completed.
 -->
 
 <div class="px-8 pt-6 pb-8 text-foreground">
@@ -30,18 +27,18 @@
         In progress
       </div>
       <ul class="space-y-1">
-        <li data-loop="in_progress" class="flex items-start gap-2.5 py-1.5">
+        <li data-loop="in_progress" class="flex items-center gap-3 py-1.5">
           <input type="checkbox"
                  data-action="patch:status=completed"
                  title="Mark complete"
-                 class="mt-1 cursor-pointer accent-foreground" />
+                 class="appearance-none w-[14px] h-[14px] rounded-[3px] border border-border bg-transparent checked:bg-foreground checked:border-foreground cursor-pointer flex-shrink-0 transition-colors" />
           <div class="flex-1 min-w-0">
             <div class="text-[13px] leading-snug break-words">{{subject}}</div>
             <div data-when="description" class="text-[11.5px] text-muted-foreground mt-0.5 break-words">{{description}}</div>
           </div>
           <button data-action="delete"
                   title="Delete"
-                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1 transition-opacity">×</button>
         </li>
       </ul>
     </div>
@@ -51,18 +48,18 @@
         To do
       </div>
       <ul class="space-y-1">
-        <li data-loop="pending" class="flex items-start gap-2.5 py-1.5">
+        <li data-loop="pending" class="flex items-center gap-3 py-1.5">
           <input type="checkbox"
                  data-action="patch:status=completed"
                  title="Mark complete"
-                 class="mt-1 cursor-pointer accent-foreground" />
+                 class="appearance-none w-[14px] h-[14px] rounded-[3px] border border-border bg-transparent checked:bg-foreground checked:border-foreground cursor-pointer flex-shrink-0 transition-colors" />
           <div class="flex-1 min-w-0">
             <div class="text-[13px] leading-snug break-words">{{subject}}</div>
             <div data-when="description" class="text-[11.5px] text-muted-foreground mt-0.5 break-words">{{description}}</div>
           </div>
           <button data-action="delete"
                   title="Delete"
-                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1 transition-opacity">×</button>
         </li>
       </ul>
     </div>
@@ -72,17 +69,17 @@
         Done
       </div>
       <ul class="space-y-1">
-        <li data-loop="completed" class="flex items-start gap-2.5 py-1.5 opacity-70">
+        <li data-loop="completed" class="flex items-center gap-3 py-1.5 opacity-70">
           <input type="checkbox" checked
                  data-action="patch:status=pending"
                  title="Reopen"
-                 class="mt-1 cursor-pointer accent-foreground" />
+                 class="appearance-none w-[14px] h-[14px] rounded-[3px] border border-border bg-transparent checked:bg-foreground checked:border-foreground cursor-pointer flex-shrink-0 transition-colors" />
           <div class="flex-1 min-w-0">
             <div class="text-[13px] leading-snug line-through text-muted-foreground break-words">{{subject}}</div>
           </div>
           <button data-action="delete"
                   title="Delete"
-                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1">×</button>
+                  class="opacity-30 hover:opacity-100 text-muted-foreground hover:text-foreground text-[16px] leading-none px-1 transition-opacity">×</button>
         </li>
       </ul>
     </div>
