@@ -13,7 +13,7 @@
   Groups derived in the runtime by `status`: in_progress | pending | completed.
 -->
 
-<div class="px-8 pt-8 pb-8 text-foreground">
+<div>
   <section data-when="data.length == 0">
     <p class="text-[12px] italic text-muted-foreground py-3">
       no tasks yet — the orch creates these via TaskCreate / TodoWrite
@@ -31,7 +31,7 @@
           <input type="checkbox"
                  data-action="patch:status=completed"
                  title="Mark complete"
-                 class="appearance-none w-[14px] h-[14px] rounded-[3px] border border-border bg-transparent checked:bg-foreground checked:border-foreground cursor-pointer flex-shrink-0 transition-colors" />
+                 />
           <div class="flex-1 min-w-0">
             <div class="text-[13px] leading-snug break-words">{{subject}}</div>
             <div data-when="description" class="text-[11.5px] text-muted-foreground mt-0.5 break-words">{{description}}</div>
@@ -52,7 +52,7 @@
           <input type="checkbox"
                  data-action="patch:status=completed"
                  title="Mark complete"
-                 class="appearance-none w-[14px] h-[14px] rounded-[3px] border border-border bg-transparent checked:bg-foreground checked:border-foreground cursor-pointer flex-shrink-0 transition-colors" />
+                 />
           <div class="flex-1 min-w-0">
             <div class="text-[13px] leading-snug break-words">{{subject}}</div>
             <div data-when="description" class="text-[11.5px] text-muted-foreground mt-0.5 break-words">{{description}}</div>
@@ -73,7 +73,7 @@
           <input type="checkbox" checked
                  data-action="patch:status=pending"
                  title="Reopen"
-                 class="appearance-none w-[14px] h-[14px] rounded-[3px] border border-border bg-transparent checked:bg-foreground checked:border-foreground cursor-pointer flex-shrink-0 transition-colors" />
+                 />
           <div class="flex-1 min-w-0">
             <div class="text-[13px] leading-snug line-through text-muted-foreground break-words">{{subject}}</div>
           </div>
