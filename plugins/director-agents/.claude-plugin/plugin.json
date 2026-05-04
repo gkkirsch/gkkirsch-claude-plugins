@@ -2,7 +2,7 @@
   "name": "director-agents",
   "displayName": "Director Agents",
   "description": "Built-in subagents for Director orchestrators: researcher (produces CSV/list/doc artifacts), writer (anti-slop user-visible prose), browser (drives the orch's dedicated Chrome).",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "director",
     "email": "director@superchargeclaudecode.com"
