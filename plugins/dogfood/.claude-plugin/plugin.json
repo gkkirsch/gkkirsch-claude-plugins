@@ -1,0 +1,22 @@
+{
+  "name": "dogfood",
+  "displayName": "Dogfood",
+  "description": "Teaches the agent to verify any change at the outermost layer (browser for UI, real HTTP call for endpoints, real message send for integrations) — and, more importantly, to build a tight feedback loop it can iterate inside before saying done.",
+  "version": "1.0.0",
+  "author": {
+    "name": "director",
+    "email": "director@superchargeclaudecode.com"
+  },
+  "keywords": [
+    "e2e",
+    "test",
+    "verify",
+    "feedback-loop",
+    "browser-test",
+    "smoke-test",
+    "dogfood"
+  ],
+  "skills": [
+    "./skills/dogfood"
+  ]
+}
