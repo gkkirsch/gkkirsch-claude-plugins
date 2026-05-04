@@ -1,0 +1,13 @@
+{
+  "name": "pr-merge",
+  "displayName": "PR Merge",
+  "description": "Shepherd a GitHub PR to merged: address review comments, fix CI, keep branch updated with base, enable auto-merge, monitor until landed.",
+  "version": "1.0.0",
+  "author": {
+    "name": "gkkirsch",
+    "email": "ibekidkirsch@gmail.com"
+  },
+  "keywords": ["github", "pr", "pull request", "merge", "ci", "review", "auto-merge"],
+  "skills": ["./skills/pr-merge"],
+  "commands": ["./commands/merge-pr.md"]
+}

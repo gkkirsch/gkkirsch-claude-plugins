@@ -1,0 +1,31 @@
+{
+  "name": "engineering-team",
+  "owner": {
+    "name": "gkkirsch",
+    "email": "ibekidkirsch@gmail.com"
+  },
+  "metadata": {
+    "description": "Plugins for everyday engineering work: team communication, shepherding PRs to merge, code review. Designed to be installed as a set on any orchestrator that ships code.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "slack",
+      "source": "../plugins/slack",
+      "description": "Send and read Slack messages as yourself (no bot badge). DMs, channels, group DMs, threads, reactions, file uploads, search, recent activity. OAuth user token in macOS Keychain.",
+      "keywords": ["slack", "message", "channel", "dm", "thread", "communication"]
+    },
+    {
+      "name": "pr-merge",
+      "source": "../plugins/pr-merge",
+      "description": "Drive a GitHub PR all the way to merged. Address review comments, fix failing CI, keep the branch on top of base, set auto-merge, monitor until it lands.",
+      "keywords": ["github", "pr", "pull request", "merge", "ci", "review", "auto-merge"]
+    },
+    {
+      "name": "code-review",
+      "source": "../plugins/code-review",
+      "description": "Review a PR (or a local diff) for correctness, design, and project-convention fit. Produces structured feedback an author can act on directly.",
+      "keywords": ["review", "code review", "pr review", "feedback"]
+    }
+  ]
+}

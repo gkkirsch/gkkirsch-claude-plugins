@@ -1,0 +1,12 @@
+{
+  "name": "code-review",
+  "displayName": "Code Review",
+  "description": "Review a PR or local diff for correctness, design, and project-convention fit. Produces structured feedback an author can act on directly.",
+  "version": "0.1.0",
+  "author": {
+    "name": "gkkirsch",
+    "email": "ibekidkirsch@gmail.com"
+  },
+  "keywords": ["review", "code review", "pr review", "feedback"],
+  "skills": ["./skills/code-review"]
+}
