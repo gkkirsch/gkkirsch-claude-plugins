@@ -17,17 +17,34 @@
 
 <div class="space-y-5">
 
-  <!-- Always-visible create row. Sits at the top so users can keep
-       adding without scrolling past existing tasks. Enter on the
-       input also triggers create (handled in the runtime). -->
-  <div data-form class="flex items-center gap-2">
+  <!-- Always-visible create form. Subject + optional description in a
+       single composite card. Press Enter on either input to submit
+       (runtime wires the data-action="create" click). The + button
+       is small and tucked into the description row so it doesn't
+       compete with the subject for visual weight. -->
+  <div data-form
+       class="rounded-lg border border-border/60 bg-background focus-within:border-foreground/30 transition-colors overflow-hidden">
     <input type="text"
            data-field="subject"
            placeholder="New task…"
-           class="flex-1 min-w-0 text-[13px] px-2.5 py-1.5 rounded-md border border-border/60 bg-background placeholder:text-muted-foreground/60 focus:outline-none focus:border-foreground/40 transition-colors" />
-    <button data-action="create"
-            title="Add task"
-            class="text-[18px] leading-none px-2 py-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">+</button>
+           autocorrect="off"
+           autocapitalize="off"
+           spellcheck="false"
+           autocomplete="off"
+           class="w-full text-[13px] leading-tight px-3 py-2 bg-transparent placeholder:text-muted-foreground/60 focus:outline-none border-0" />
+    <div class="flex items-stretch border-t border-border/40">
+      <input type="text"
+             data-field="description"
+             placeholder="Description (optional)"
+             autocorrect="off"
+             autocapitalize="off"
+             spellcheck="false"
+             autocomplete="off"
+             class="flex-1 min-w-0 text-[12px] leading-tight px-3 py-2 bg-transparent placeholder:text-muted-foreground/45 text-muted-foreground focus:text-foreground focus:outline-none border-0" />
+      <button data-action="create"
+              title="Add task — or press Enter"
+              class="shrink-0 px-3 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors text-[15px] leading-none">+</button>
+    </div>
   </div>
 
   <section data-when="data.length == 0">

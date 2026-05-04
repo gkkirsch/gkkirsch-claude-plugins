@@ -1,0 +1,20 @@
+#!/bin/sh
+# Wrapper: dispatch to the right pre-built director-slack binary for this OS/arch.
+# Layout: plugins/slack/slack (this shim) + plugins/slack/bin/<os-arch>/director-slack
+HERE="$(cd "$(dirname "$0")" && pwd)"
+case "$(uname -s)-$(uname -m)" in
+  Darwin-arm64)   bin="$HERE/bin/darwin-arm64/director-slack" ;;
+  Darwin-x86_64)  bin="$HERE/bin/darwin-amd64/director-slack" ;;
+  Linux-x86_64)   bin="$HERE/bin/linux-amd64/director-slack" ;;
+  Linux-aarch64)  bin="$HERE/bin/linux-arm64/director-slack" ;;
+  *)
+    echo "slack: unsupported platform $(uname -s)-$(uname -m)" >&2
+    exit 1
+    ;;
+esac
+if [ ! -x "$bin" ]; then
+  echo "slack: binary missing at $bin" >&2
+  echo "(run plugins/slack/build.sh to rebuild)" >&2
+  exit 1
+fi
+exec "$bin" "$@"

@@ -1,0 +1,3 @@
+# `go build .` at the package root drops a binary named director-slack here —
+# always use ./build.sh (which writes to bin/<os-arch>/) instead.
+/director-slack

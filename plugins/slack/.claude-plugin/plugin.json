@@ -1,0 +1,12 @@
+{
+  "name": "slack",
+  "displayName": "Slack",
+  "description": "Send and read Slack messages as yourself (no bot badge). Send DMs by name, channels by #name, group DMs, threads, reactions, file uploads, search, recent activity. OAuth user token, stored in macOS Keychain.",
+  "version": "1.0.0",
+  "author": {
+    "name": "director",
+    "email": "director@superchargeclaudecode.com"
+  },
+  "keywords": ["slack", "message", "channel", "dm", "thread", "react", "search", "upload"],
+  "skills": ["./skills/slack"]
+}
