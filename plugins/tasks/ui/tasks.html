@@ -8,15 +8,31 @@
     data-loop="<group>"         repeat element per item in group
     data-when="<expr>"          render only if expression is truthy
     data-action="<verb>:<args>" wire onclick/onchange
-                                verbs: patch, delete, add, open
+                                verbs: patch, delete, create, open
+    data-form                   creation-form boundary (collected by create)
+    data-field="<name>"         input value to send on create
 
   Groups derived in the runtime by `status`: in_progress | pending | completed.
 -->
 
-<div>
+<div class="space-y-5">
+
+  <!-- Always-visible create row. Sits at the top so users can keep
+       adding without scrolling past existing tasks. Enter on the
+       input also triggers create (handled in the runtime). -->
+  <div data-form class="flex items-center gap-2">
+    <input type="text"
+           data-field="subject"
+           placeholder="New task…"
+           class="flex-1 min-w-0 text-[13px] px-2.5 py-1.5 rounded-md border border-border/60 bg-background placeholder:text-muted-foreground/60 focus:outline-none focus:border-foreground/40 transition-colors" />
+    <button data-action="create"
+            title="Add task"
+            class="text-[18px] leading-none px-2 py-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">+</button>
+  </div>
+
   <section data-when="data.length == 0">
-    <p class="text-[12px] italic text-muted-foreground py-3">
-      no tasks yet — the orch creates these via TaskCreate / TodoWrite
+    <p class="text-[12px] italic text-muted-foreground">
+      no tasks yet — add one above, or let the agent fill these in via TaskCreate / TodoWrite
     </p>
   </section>
 

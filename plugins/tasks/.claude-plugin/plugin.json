@@ -2,7 +2,7 @@
   "name": "tasks",
   "displayName": "Tasks",
   "description": "Surfaces an orchestrator's TaskCreate/TodoWrite tasks as a checkable list in the Director UI. Reads claude-code's existing per-session task files; no separate storage. Toggle status, delete, view at a glance.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": {
     "name": "director",
     "email": "director@superchargeclaudecode.com"

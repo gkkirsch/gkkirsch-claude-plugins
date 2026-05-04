@@ -5,7 +5,7 @@
       "id": "tasks",
       "label": "Tasks",
       "icon": "ListTodo",
-      "agent_kinds": ["orchestrator", "worker"],
+      "agent_kinds": ["dispatcher", "orchestrator", "worker"],
       "data": {
         "kind": "file-per-item",
         "root": "claude_dir",
