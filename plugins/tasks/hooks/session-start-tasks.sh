@@ -1,50 +1,74 @@
 #!/bin/bash
 # SessionStart hook for the tasks plugin.
 #
-# The Tasks panel is the user's live status display. This hook makes
-# task-tracking mandatory rather than encouraged, and reminds the
-# agent that a periodic review schedule is checking on it.
+# The Tasks panel is how the orchestrator drives projects forward:
+# every piece of work is a task with an owner and a status. This hook
+# reframes the panel from "checklist nice-to-have" to "the project
+# board — drive everything through it."
 set -euo pipefail
 
-CONTEXT='## Tasks panel: your accountability surface
+CONTEXT='## Tasks panel: how you drive projects forward
 
-The user sees your TaskCreate / TodoWrite list as a live panel in
-Director. They see exactly what is pending, in_progress, and completed.
-Treat this as the source of truth for what work is happening.
+The Tasks panel is your project board. Every piece of work that is
+in flight or has not been done yet lives there, with an owner and a
+status. The user reads it as the canonical answer to "what is being
+worked on, by whom, and how is it going."
 
-## Mandatory task discipline
+This is not a side checklist. It is how you move work.
 
-- **Anything more than a single read/answer call MUST start with
-  TaskCreate(s).** Before doing the work, write the steps. The user
-  sees the plan as you build it; you keep yourself honest.
-- **Mark in_progress when you start.** TaskUpdate the moment you
-  begin executing on a task. Exactly one in_progress at a time.
-- **Mark completed when the work is on disk / sent / posted.** Not
-  when the response that mentions it is finished. The action must
-  actually have happened.
-- **Delete or downgrade tasks the user no longer wants.** If they
-  pivot, your task list pivots too. Stale tasks on the panel are
-  worse than no tasks.
-- **The user can tick / untick / delete tasks themselves.** Their
-  state is the current truth on the next read. If they untick
-  something to in_progress, that means you are not done with this.
+## The discipline
 
-## Periodic review
+**Anything more than a single read/answer call starts with TaskCreate.**
+Before the work, write the steps. The user sees the plan as you build
+it; you keep yourself honest about what you committed to.
 
-A scheduled task (Review tasks every 20 minutes) wakes you to
-audit your own list. When that fires:
+**Every task has an owner.** Use the description field to record who:
 
-- Anything in_progress without movement since last review → take
-  the next concrete action now, or downgrade to pending with a
-  one-line reason in the description so the user knows what is
-  blocking it.
-- Anything pending that is no longer relevant → delete.
-- Anything completed that is actually still pending → re-open.
-- Anything the user is waiting on that you finished → report it.
+- `owner: self` — you are doing this directly in this turn
+- `owner: <worker-id>` — you delegated it to a roster worker
+- `owner: user` — blocked on the user (input, decision, approval)
+- `owner: external` — blocked on something outside the fleet (CI run,
+  reviewer, third-party API, scheduled time, etc.)
 
-Skipping the review or going through it without acting is worse
-than not having the schedule at all. The point is to convert
-"I will get to it" into "I am doing it now or it is no longer mine."'
+When you delegate, the same task stays on YOUR list with `owner: <worker-id>`.
+The worker has its own task list for its own breakdown — do not mirror
+it. Your task says "what we are getting done"; the workers task list
+says "what I am doing right now."
+
+**Status reflects reality:**
+
+- `pending` — accepted, not started
+- `in_progress` — actively being worked on right now (by you or by
+  the named owner). Exactly one in_progress per owner at a time.
+- `completed` — the work is on disk / sent / posted / merged / shipped.
+  Not "I will get to it." Not "the response that mentions it is
+  finished." The actual artifact must exist.
+
+**The user can edit too.** Their tick / untick / delete is the truth
+on the next read. If they untick something to in_progress, it means
+"you are not done with this." If they delete a task, drop it from
+your plan.
+
+## Periodic review (the standup)
+
+A scheduled task ("Review tasks every 20 minutes") fires automatically.
+It is your standup with yourself. Every fire, walk the list:
+
+- in_progress with movement → keep going, no message needed
+- in_progress with no movement → take the next concrete action right
+  now, OR demote to pending with a one-line reason in the description
+  ("blocked: waiting on PR-merge CI") so the user knows what is in
+  the way
+- pending no longer needed → delete
+- completed but the user is waiting for the result → report it
+- delegated to a worker (`owner: <worker-id>`) → check `roster
+  describe <worker-id>` and `roster trace <worker-id> --tail 20`.
+  If the worker is stalled or off-track, ping them or take it back.
+
+The point of the cadence is to convert "I will get to it" into "I
+am doing it now, OR it is blocked on someone specific, OR it is no
+longer mine." Going through the review without acting on anything
+is worse than not having the review.'
 
 CONTEXT="${CONTEXT//\\/\\\\}"
 CONTEXT="${CONTEXT//\"/\\\"}"
