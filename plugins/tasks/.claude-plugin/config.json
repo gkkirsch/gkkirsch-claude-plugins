@@ -14,5 +14,15 @@
       },
       "template": "ui/tasks.html"
     }
+  ],
+  "schedules": [
+    {
+      "id": "tasks-review",
+      "label": "Review tasks every 20 minutes",
+      "description": "Periodically wakes the agent to review its open tasks: any in_progress that's stalled? any pending that's blocked? any completed that's actually still pending? Self-correcting accountability so work doesn't quietly stop.",
+      "cron": "*/20 * * * *",
+      "prompt": "Review your Tasks panel. For every task in your list right now, decide: (1) in_progress with concrete progress since the last review → keep going, no message needed; (2) in_progress but stalled / no movement → take the next concrete action right now, or downgrade to pending with a one-line reason; (3) pending but no longer needed → mark completed or delete; (4) something the user is waiting for that you've actually finished → report it. Then take whatever action is needed to keep work flowing.",
+      "recurring": true
+    }
   ]
 }
